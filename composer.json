@@ -1,0 +1,23 @@
+{
+    "name": "zeroline/mini-loom",
+    "description": "A Swift and Efficient PHP Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "zeroline\\MiniLoom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Frederik Nieß",
+            "email": "miniloom@zeroline.me"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "8.*",
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*"
+    }
+}
