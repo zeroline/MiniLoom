@@ -22,9 +22,23 @@ class ArrayReader
      * @param mixed $fallback
      * @return mixed
      */
-    public static function getConfig(array $config, string $key, mixed $fallback = null) : mixed
+    public static function get(array $config, string $key, mixed $fallback = null) : mixed
     {
         return static::parseArrayPath($key, $config) ?: (is_callable($fallback) ? call_user_func($fallback) : $fallback );
+    }
+
+    /**
+     * Wrapper for the get method. Used for backwards compatibility.
+     * 
+     * @obsolete
+     * @param array $config 
+     * @param string $key 
+     * @param mixed $fallback 
+     * @return mixed 
+     */
+    public static function getConfig(array $config, string $key, mixed $fallback = null) : mixed
+    {
+        return static::get($config, $key, $fallback);
     }
 
     /**
