@@ -5,7 +5,7 @@
  * @license MIT
  * @package MiniLoom
  * @subpackage Helper
- * 
+ *
  * The XMLConverter helps to convert an array or object to a XML string.
  */
 

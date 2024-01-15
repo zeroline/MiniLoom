@@ -5,7 +5,7 @@
  * @package MiniLoom
  * @subpackage Tests
  * @license MIT
- * 
+ *
  * Test case for XMLConverter
  */
 
@@ -16,15 +16,15 @@ use zeroline\MiniLoom\Helper\XMLConverter;
 
 final class XMLConverterTest extends TestCase
 {
-        public function testToXMLWithArray()
-        {
-                $data = [
-                        'name' => 'John Doe',
-                        'age' => 30,
-                        'email' => 'johndoe@example.com'
-                ];
+    public function testToXMLWithArray()
+    {
+            $data = [
+                    'name' => 'John Doe',
+                    'age' => 30,
+                    'email' => 'johndoe@example.com'
+            ];
 
-                $expectedXml = '<?xml version="1.0"?>
+            $expectedXml = '<?xml version="1.0"?>
                                 <root>
                                     <name>John Doe</name>
                                     <age>30</age>
@@ -32,18 +32,18 @@ final class XMLConverterTest extends TestCase
                                 </root>
                                 ';
 
-                $xml = XMLConverter::toXML($data);
-                $this->assertXmlStringEqualsXmlString($expectedXml, $xml);
-        }
+            $xml = XMLConverter::toXML($data);
+            $this->assertXmlStringEqualsXmlString($expectedXml, $xml);
+    }
 
-        public function testToXMLWithObject()
-        {
-                $data = new \stdClass();
-                $data->name = 'Jane Smith';
-                $data->age = 25;
-                $data->email = 'janesmith@example.com';
+    public function testToXMLWithObject()
+    {
+            $data = new \stdClass();
+            $data->name = 'Jane Smith';
+            $data->age = 25;
+            $data->email = 'janesmith@example.com';
 
-                $expectedXml = '<?xml version="1.0"?>
+            $expectedXml = '<?xml version="1.0"?>
                                 <root>
                                     <name>Jane Smith</name>
                                     <age>25</age>
@@ -51,24 +51,24 @@ final class XMLConverterTest extends TestCase
                                 </root>
                                 ';
 
-                $xml = XMLConverter::toXML($data);
-                $this->assertXmlStringEqualsXmlString($expectedXml, $xml);
-        }
+            $xml = XMLConverter::toXML($data);
+            $this->assertXmlStringEqualsXmlString($expectedXml, $xml);
+    }
 
-        public function testToXMLWithNestedData()
-        {
-                $data = [
-                        'name' => 'John Doe',
-                        'age' => 30,
-                        'email' => 'johndoe@example.com',
-                        'address' => [
-                                'street' => '123 Main St',
-                                'city' => 'New York',
-                                'country' => 'USA'
-                        ]
-                ];
+    public function testToXMLWithNestedData()
+    {
+            $data = [
+                    'name' => 'John Doe',
+                    'age' => 30,
+                    'email' => 'johndoe@example.com',
+                    'address' => [
+                            'street' => '123 Main St',
+                            'city' => 'New York',
+                            'country' => 'USA'
+                    ]
+            ];
 
-                $expectedXml = '<?xml version="1.0"?>
+            $expectedXml = '<?xml version="1.0"?>
                                 <root>
                                     <name>John Doe</name>
                                     <age>30</age>
@@ -81,7 +81,7 @@ final class XMLConverterTest extends TestCase
                                 </root>
                                 ';
 
-                $xml = XMLConverter::toXML($data);
-                $this->assertXmlStringEqualsXmlString($expectedXml, $xml);
-        }
+            $xml = XMLConverter::toXML($data);
+            $this->assertXmlStringEqualsXmlString($expectedXml, $xml);
+    }
 }

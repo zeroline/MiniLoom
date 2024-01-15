@@ -5,7 +5,7 @@
  * @package MiniLoom
  * @subpackage Tests
  * @license MIT
- * 
+ *
  * Test case for ArrayReader
  */
 
@@ -62,7 +62,7 @@ final class ArrayReaderTest extends TestCase
     {
         $this->assertSame(
             self::LEVEL2_VALUE,
-            ArrayReader::get(self::ARRAY, self::INVALID_PATH, function() {
+            ArrayReader::get(self::ARRAY, self::INVALID_PATH, function () {
                 return self::LEVEL2_VALUE;
             })
         );

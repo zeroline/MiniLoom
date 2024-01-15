@@ -5,7 +5,7 @@
  * @license MIT
  * @package MiniLoom
  * @subpackage Helper
- * 
+ *
  * The ArrayReader helps to retrieve values from an array by a given key. Therefore a deep array can be traversed by
  * using a dot notation. If the key does not exist, a fallback value is returned. If the fallback value is a callable,
  */
@@ -17,7 +17,7 @@ class ArrayReader
     /**
      * Returns the value of the given key in the given array. If the key does not exist, the fallback value is returned.
      * If the fallback value is a callable, it is called and the return value is returned.
-     * 
+     *
      * @param string $key
      * @param mixed $fallback
      * @return mixed
@@ -29,12 +29,12 @@ class ArrayReader
 
     /**
      * Wrapper for the get method. Used for backwards compatibility.
-     * 
+     *
      * @obsolete
-     * @param array $config 
-     * @param string $key 
-     * @param mixed $fallback 
-     * @return mixed 
+     * @param array $config
+     * @param string $key
+     * @param mixed $fallback
+     * @return mixed
      */
     public static function getConfig(array $config, string $key, mixed $fallback = null) : mixed
     {
