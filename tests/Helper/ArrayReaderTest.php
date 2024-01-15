@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @author Frederik Nieß <miniloom@zeroline.me>
+ * @package MiniLoom
+ * @subpackage Tests
+ * @license MIT
+ * 
+ * Test case for ArrayReader
+ */
+
 namespace zeroline\MiniLoom\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
