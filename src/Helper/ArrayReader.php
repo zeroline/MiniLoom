@@ -12,7 +12,7 @@
 
 namespace zeroline\MiniLoom\Helper;
 
-class ArrayReader
+final class ArrayReader
 {
     /**
      * Returns the value of the given key in the given array. If the key does not exist, the fallback value is returned.

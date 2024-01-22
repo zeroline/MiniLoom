@@ -11,7 +11,7 @@
 
 namespace zeroline\MiniLoom\Helper;
 
-class Renderer
+final class Renderer
 {
     /**
      *

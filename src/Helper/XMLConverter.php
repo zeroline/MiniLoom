@@ -11,7 +11,7 @@
 
 namespace zeroline\MiniLoom\Helper;
 
-class XMLConverter
+final class XMLConverter
 {
     /**
      *

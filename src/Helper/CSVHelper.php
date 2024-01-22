@@ -11,7 +11,7 @@
 
  namespace zeroline\MiniLoom\Helper;
 
-class CSVHelper
+final class CSVHelper
 {
     /**
      * Uses the given data to build a CSV string.
