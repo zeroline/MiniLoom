@@ -25,7 +25,7 @@
         "ext-pdo_mysql": "*"
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit tests",
+        "test": "./vendor/bin/phpunit tests --colors=auto --display-incomplete --display-skipped --display-deprecations --display-errors --display-notices --display-warning",
         "cs": "./vendor/bin/phpcs src tests",
         "cbf": "./vendor/bin/phpcbf src tests"
     }
