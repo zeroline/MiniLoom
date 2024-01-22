@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "zeroline\\MiniLoom\\": "src/"
+            "zeroline\\MiniLoom\\Tests\\": "tests/",
+            "zeroline\\MiniLoom\\": "src/"            
         }
     },
     "authors": [
