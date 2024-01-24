@@ -28,6 +28,10 @@ class BaseRepository
     protected $joins = array();
     protected ?Connection $currentConnection = null;
 
+    /**
+     * 
+     * @return null|Connection 
+     */
     protected function getConnection(): ?Connection
     {
         if(is_null($this->currentConnection)) {
@@ -36,23 +40,42 @@ class BaseRepository
         return $this->currentConnection;
     }
 
+    /**
+     * 
+     * @param string $connectionName 
+     * @return BaseRepository 
+     */
     public function setConnection(string $connectionName): BaseRepository
     {
         $this->currentConnection = ConnectionManager::getConnection($connectionName);
         return $this;
     }
 
+    /**
+     * 
+     * @param string $tableName 
+     * @return BaseRepository 
+     */
     public function setTable(string $tableName): BaseRepository
     {
         $this->table = $tableName;
         return $this;
     }
 
+    /**
+     * 
+     * @return string 
+     */
     public function getTableName(): string
     {
         return $this->table;
     }
 
+    /**
+     * 
+     * @param string $fieldName 
+     * @return BaseRepository 
+     */
     public function selectField(string $fieldName): BaseRepository
     {
         $this->selectFields[] = $fieldName;
