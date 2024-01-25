@@ -10,10 +10,9 @@
 
 namespace zeroline\MiniLoom\Data\Validation;
 
-use DeepCopy\Filter\Filter;
 use zeroline\MiniLoom\Data\Validation\Validator as Validator;
 use zeroline\MiniLoom\Data\Validation\ValidatorRule as ValidatorRule;
-use zeroline\MiniLoom\Data\Validation\FilterMode as FilterMode;
+use RuntimeException;
 
 trait ValidatorTrait
 {
@@ -66,7 +65,7 @@ trait ValidatorTrait
      *
      * @param string $scope
      * @return boolean
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function isValid(?string $scope = null) : bool
     {
@@ -96,7 +95,7 @@ trait ValidatorTrait
                         $arguments = array_merge(array($value), $arguments);
                         $result = call_user_func_array(array($this,$rule), $arguments);
                     } else {
-                        throw new \RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+                        throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
                     }
                 }
 

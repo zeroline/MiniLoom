@@ -96,7 +96,7 @@ class ModelRepository extends BaseRepository
      * Same as @see read or @see readModels but returns only one row/instance
      * @return mixed
      */
-    public function readOne() : ?object
+    public function readOne() : mixed
     {
         $result = null;
         $rows = array();

@@ -18,14 +18,14 @@ class BaseRepository
     const INTERNAL_FIELD_COUNT_RESULT = 'iCountResult';
     const INTERNAL_JOIN_PREFIX = 'jnd';
 
-    protected $limit = null;
-    protected $offset = null;
-    protected $order = array();
-    protected $where = array();
-    protected $placeholder = array();
-    protected $table = null;
-    protected $selectFields = array();
-    protected $joins = array();
+    protected ?int $limit = null;
+    protected ?int $offset = null;
+    protected array $order = array();
+    protected array $where = array();
+    protected array $placeholder = array();
+    protected ?string $table = null;
+    protected array $selectFields = array();
+    protected array $joins = array();
     protected ?Connection $currentConnection = null;
 
     /**
@@ -83,15 +83,15 @@ class BaseRepository
     }
 
     /************************************************************************/
-    /* CHAIN FUNCTIONS - WHERE*/
+    /* CHAIN FUNCTIONS - WHERE */
     /************************************************************************/
 
     /**
-     *
-     * @param string $fieldName
-     * @param mixed $value
-     * @param string $operator
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $fieldName 
+     * @param mixed $value 
+     * @param string $operator 
+     * @return BaseRepository 
      */
     public function whereRaw(string $fieldName, $value, string $operator): BaseRepository
     {
@@ -104,10 +104,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function where(string $name, $value): BaseRepository
     {
@@ -120,10 +120,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function whereNot(string $name, $value): BaseRepository
     {
@@ -136,10 +136,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function whereLike(string $name, $value): BaseRepository
     {
@@ -148,9 +148,9 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @return BaseRepository 
      */
     public function whereNull(string $name): BaseRepository
     {
@@ -159,9 +159,9 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @return BaseRepository 
      */
     public function whereNotNull(string $name): BaseRepository
     {
@@ -170,10 +170,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function whereGreaterThan(string $name, $value): BaseRepository
     {
@@ -182,10 +182,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function whereGreaterThanOrEqual(string $name, $value): BaseRepository
     {
@@ -194,10 +194,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function whereLowerThan(string $name, $value): BaseRepository
     {
@@ -206,10 +206,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param mixed $value 
+     * @return BaseRepository 
      */
     public function whereLowerThanOrEqual(string $name, $value): BaseRepository
     {
@@ -218,10 +218,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param array $values
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param array $values 
+     * @return BaseRepository 
      */
     public function whereIn(string $name, array $values): BaseRepository
     {
@@ -230,10 +230,10 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @param array $values
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param array $values 
+     * @return BaseRepository 
      */
     public function whereNotIn(string $name, array $values): BaseRepository
     {
@@ -241,12 +241,15 @@ class BaseRepository
         return $this;
     }
 
-    // ORDER
+    /************************************************************************/
+    /* CHAIN FUNCTIONS - ORDER */
+    /************************************************************************/
+
     /**
-     *
-     * @param string $name
-     * @param string $direction
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @param string $direction 
+     * @return BaseRepository 
      */
     public function orderBy(string $name, string $direction): BaseRepository
     {
@@ -258,9 +261,9 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @return BaseRepository 
      */
     public function orderByAsc(string $name): BaseRepository
     {
@@ -269,9 +272,9 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param string $name
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param string $name 
+     * @return BaseRepository 
      */
     public function orderByDesc(string $name): BaseRepository
     {
@@ -279,12 +282,14 @@ class BaseRepository
         return $this;
     }
 
-    // PAGING
+    /************************************************************************/
+    /* CHAIN FUNCTIONS - PAGING */
+    /************************************************************************/
 
     /**
-     *
-     * @param int $limit
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param int $limit 
+     * @return BaseRepository 
      */
     public function limit(int $limit): BaseRepository
     {
@@ -293,9 +298,9 @@ class BaseRepository
     }
 
     /**
-     *
-     * @param int $offset
-     * @return \PHPSimpleLib\Core\Data\BaseRepository
+     * 
+     * @param int $offset 
+     * @return BaseRepository 
      */
     public function offset(int $offset): BaseRepository
     {
@@ -406,6 +411,10 @@ class BaseRepository
         return $selectStr;
     }
 
+    /**
+     * Build join string
+     * @return string 
+     */
     protected function buildJoin(): string
     {
         $joinString = '';
@@ -440,6 +449,10 @@ class BaseRepository
         return $joinSelectFields;
     }
 
+    /**
+     * Check if joins are set
+     * @return bool 
+     */
     protected function hasJoins(): bool
     {
         return (count($this->joins) > 0);
@@ -641,10 +654,10 @@ class BaseRepository
     }
 
     /**
-     * Same as @see read or @see readModels but returns only one row/instance
+     * Same as @see read or @see readModels but returns only one row
      * @return mixed
      */
-    public function readOne()
+    public function readOne() : mixed
     {
         $result = null;
         $rows = array();
@@ -663,7 +676,7 @@ class BaseRepository
      * @param string $query
      * @return array
      */
-    public function readRaw($query): array
+    public function readRaw(string $query): array
     {
         $rows = $this->getConnection()->getRows($query, array());
         return $rows;
