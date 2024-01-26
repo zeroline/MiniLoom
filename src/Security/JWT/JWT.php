@@ -20,7 +20,7 @@ class JWT
     public const TYPE = "JWT";
 
     /**
-     * 
+     *
      * @var array<string, string>
      */
     private array $header = array();
@@ -62,9 +62,9 @@ class JWT
     }
 
     /**
-     * 
-     * @param DataContainer $payload 
-     * @return void 
+     *
+     * @param DataContainer $payload
+     * @return void
      */
     public function setPayload(DataContainer $payload): void
     {
@@ -72,8 +72,8 @@ class JWT
     }
 
     /**
-     * 
-     * @return DataContainer 
+     *
+     * @return DataContainer
      */
     public function getPayload() : DataContainer
     {

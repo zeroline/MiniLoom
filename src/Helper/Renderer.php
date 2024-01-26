@@ -16,7 +16,7 @@ final class Renderer
     /**
      *
      * @param string $filename
-     * @param array $data
+     * @param array<mixed> $data
      * @return string
      */
     public static function renderFile(string $filename, array $data = array()) : string
@@ -36,7 +36,7 @@ final class Renderer
     /**
      *
      * @param string $html
-     * @param array $data
+     * @param array<mixed> $data
      * @return string
      */
     public static function renderHtml(string $html, array $data = array()) : string
@@ -56,7 +56,7 @@ final class Renderer
      * Simple & quick text renderer.
      *
      * @param string $message
-     * @param array $context
+     * @param array<string, mixed> $context
      * @param string $prefix
      * @param string $suffix
      * @return string

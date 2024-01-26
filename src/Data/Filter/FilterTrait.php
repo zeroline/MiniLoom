@@ -5,7 +5,7 @@
  * @license MIT
  * @package MiniLoom
  * @subpackage Data
- * 
+ *
  * The Validator class provides a set of static methods to validate data.
  */
 
@@ -14,9 +14,10 @@ namespace zeroline\MiniLoom\Data\Filter;
 use zeroline\MiniLoom\Data\Filter\Filter as Filter;
 use zeroline\MiniLoom\Data\Filter\FilterMode as FilterMode;
 
-trait FilterTrait {
+trait FilterTrait
+{
     /**
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
     protected array $fieldsForFiltering = array();
 
@@ -26,8 +27,8 @@ trait FilterTrait {
     protected FilterMode $filterMode = FilterMode::FILTER_MODE_BOTH;
 
     /**
-     * @param FilterMode $filterMode 
-     * @return void 
+     * @param FilterMode $filterMode
+     * @return void
      */
     protected function setFilterMode(FilterMode $filterMode): void
     {
@@ -35,7 +36,7 @@ trait FilterTrait {
     }
 
     /**
-     * @return FilterMode 
+     * @return FilterMode
      */
     protected function getFilterMode(): FilterMode
     {

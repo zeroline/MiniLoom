@@ -18,7 +18,7 @@ trait SingletonTrait
 {
     /**
      * Store singleton instances
-     * @var array
+     * @var array<string, mixed>
      */
     public static $instances = array();
 

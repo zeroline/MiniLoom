@@ -107,7 +107,7 @@ final class JWTManager
             throw new \Exception('Invalid payload segment encoding');
         }
 
-        // cast header to DataContainer 
+        // cast header to DataContainer
         $header = new DataContainer((array)$header);
 
         // cast payload to DataContainer

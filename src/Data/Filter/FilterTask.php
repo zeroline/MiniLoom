@@ -10,9 +10,10 @@
 
 namespace zeroline\MiniLoom\Data\Filter;
 
-enum FilterTask : string {
+enum FilterTask : string
+{
     case FILTER_ENCODE_HTML = "filterEncodeHtml";
     case FILTER_STRIP_HTML = "filterStripHtml";
-    
+
     case FILTER_CUSTOM = "filterCustom";
 }

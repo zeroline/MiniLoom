@@ -20,7 +20,7 @@ class ModelRepository extends BaseRepository
      *
      * @param string $name
      */
-    public function setModelClassName(string $name)
+    public function setModelClassName(string $name) : void
     {
         $this->modelClassName = $name;
     }
@@ -42,7 +42,7 @@ class ModelRepository extends BaseRepository
     {
         return (isset($this->modelClassName) && !empty($this->modelClassName));
     }
-    
+
     /************************************************************************/
     /* PERFORMER */
     /************************************************************************/
@@ -50,7 +50,7 @@ class ModelRepository extends BaseRepository
     /**
      * Clears all conditions
      */
-    public function clearConditions()
+    public function clearConditions() : void
     {
         parent::clearConditions();
         $this->modelClassName = '';
@@ -59,7 +59,7 @@ class ModelRepository extends BaseRepository
     /**
      * Perfoms a select statement with the previous given parameters
      * Returns raw rows
-     * @return array
+     * @return array<mixed>
      */
     public function read(): array
     {
@@ -78,9 +78,9 @@ class ModelRepository extends BaseRepository
     /**
      * Same as @see read but returns model objects of the given class
      * @param string $modelClass
-     * @return array
+     * @return array<mixed>
      */
-    public function readModels($modelClass): array
+    public function readModels(string $modelClass): array
     {
         $query = $this->buildSelect();
         $rows = $this->getConnection()->getRows($query, $this->placeholder);
@@ -117,9 +117,9 @@ class ModelRepository extends BaseRepository
     /**
      * Performs a raw query and returns rows or instances
      * @param string $query
-     * @return array
+     * @return array<mixed>
      */
-    public function readRaw($query): array
+    public function readRaw(string $query): array
     {
         $rows = $this->getConnection()->getRows($query, array());
         if ($this->isModelClassNameSpecified()) {

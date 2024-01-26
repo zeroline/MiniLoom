@@ -27,7 +27,7 @@ class DataContainer implements JsonSerializable
      *
      * @param array<string, mixed>|object $data
      */
-    public function __construct( array|object $data = array())
+    public function __construct(array|object $data = array())
     {
         if (!is_array($data)) {
             $data = (array)$data;

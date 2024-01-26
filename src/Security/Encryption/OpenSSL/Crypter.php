@@ -25,6 +25,9 @@ namespace zeroline\MiniLoom\Security\Encryption\OpenSSL;
  * The decrypt function extracts the non secret parts from the encrypted string and performs decryption on
  * the cipher text.
  */
+
+ use Exception;
+
 final class Crypter
 {
     /**
@@ -63,7 +66,7 @@ final class Crypter
      */
     private static function calculateKeyLength(string $cipher = self::PREFERRED_CIPHER): int
     {
-        if(function_exists('openssl_cipher_key_length')) {
+        if (function_exists('openssl_cipher_key_length')) {
             return openssl_cipher_key_length($cipher);
         }
 
@@ -85,14 +88,20 @@ final class Crypter
      *
      * @param string $password
      * @param string $cipher
-     * @return array
+     * @return array<string>
+     * @throws Exception
      */
     private static function generateKeyAndSalt(string $password, string $cipher = self::PREFERRED_CIPHER): array
     {
         $salt = openssl_random_pseudo_bytes(self::PBKDF_SALT_BYTES);
         $keyLength = static::calculateKeyLength($cipher);
         $iterations = self::PBKDF_ITERATIONS;
-        return array(openssl_pbkdf2($password, $salt, $keyLength, $iterations), $salt);
+
+        $pbkdf2 = openssl_pbkdf2($password, $salt, $keyLength, $iterations);
+        if($pbkdf2 === false) {
+            throw new Exception('Could not generate key from password.');
+        }
+        return array($pbkdf2, $salt);
     }
 
     /**
@@ -190,7 +199,7 @@ final class Crypter
             throw new \Exception('Cipher "' . $cipher . '" is not supported.');
         }
 
-        $cipherElements = static::unpackCipherElementsFromString($cipherText); 
+        $cipherElements = static::unpackCipherElementsFromString($cipherText);
         $key = static::generateKeyWithExistingSalt($password, $cipherElements->keySalt, $cipher);
         $plainText = @openssl_decrypt($cipherElements->cipherText, $cipher, $key, 0, $cipherElements->iv, $cipherElements->tag);
         return $plainText;

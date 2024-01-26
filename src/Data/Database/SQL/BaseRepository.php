@@ -68,75 +68,75 @@ class BaseRepository
     const ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME = 'baseTableFieldName';
 
     /**
-     * 
+     *
      * @var null|int
      */
     protected ?int $limit = null;
 
     /**
-     * 
+     *
      * @var null|int
      */
     protected ?int $offset = null;
 
     /**
-     * 
+     *
      * @var array<(object{name: string, direction: string}&stdClass)>
      */
     protected array $order = array();
 
     /**
-     * 
+     *
      * @var array<(object{name: string, value: mixed, operator: string}&stdClass)>
      */
     protected array $where = array();
 
     /**
-     * 
+     *
      * @var array<string, mixed>
      */
     protected array $placeholder = array();
 
     /**
-     * 
+     *
      * @var string
      */
     protected string $table;
 
     /**
-     * 
+     *
      * @var array<string>
      */
     protected array $selectFields = array();
 
     /**
-     * 
+     *
      * @var array<int|string, array<string, string>|string>
      */
     protected array $joins = array();
 
     /**
-     * 
+     *
      * @var null|Connection
      */
     protected ?Connection $currentConnection = null;
 
     /**
-     * 
-     * @return null|Connection 
+     *
+     * @return null|Connection
      */
     protected function getConnection(): ?Connection
     {
-        if(is_null($this->currentConnection)) {
+        if (is_null($this->currentConnection)) {
             $this->currentConnection = ConnectionManager::getDefaultConnection();
         }
         return $this->currentConnection;
     }
 
     /**
-     * 
-     * @param string $connectionName 
-     * @return BaseRepository 
+     *
+     * @param string $connectionName
+     * @return BaseRepository
      */
     public function switchConnection(string $connectionName): BaseRepository
     {
@@ -144,15 +144,15 @@ class BaseRepository
         return $this;
     }
 
-    public function connect() : void 
+    public function connect() : void
     {
         $this->getConnection()?->connect();
     }
 
     /**
-     * 
-     * @param string $tableName 
-     * @return BaseRepository 
+     *
+     * @param string $tableName
+     * @return BaseRepository
      */
     public function setTable(string $tableName): BaseRepository
     {
@@ -161,8 +161,8 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @return null|string 
+     *
+     * @return null|string
      */
     public function getTableName(): ?string
     {
@@ -170,9 +170,9 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $fieldName 
-     * @return BaseRepository 
+     *
+     * @param string $fieldName
+     * @return BaseRepository
      */
     public function selectField(string $fieldName): BaseRepository
     {
@@ -185,11 +185,11 @@ class BaseRepository
     /************************************************************************/
 
     /**
-     * 
-     * @param string $fieldName 
-     * @param mixed $value 
-     * @param string $operator 
-     * @return BaseRepository 
+     *
+     * @param string $fieldName
+     * @param mixed $value
+     * @param string $operator
+     * @return BaseRepository
      */
     public function whereRaw(string $fieldName, $value, string $operator): BaseRepository
     {
@@ -202,10 +202,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function where(string $name, $value): BaseRepository
     {
@@ -218,10 +218,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function whereNot(string $name, $value): BaseRepository
     {
@@ -234,10 +234,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function whereLike(string $name, $value): BaseRepository
     {
@@ -246,9 +246,9 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @return BaseRepository
      */
     public function whereNull(string $name): BaseRepository
     {
@@ -257,9 +257,9 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @return BaseRepository
      */
     public function whereNotNull(string $name): BaseRepository
     {
@@ -268,10 +268,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function whereGreaterThan(string $name, $value): BaseRepository
     {
@@ -280,10 +280,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function whereGreaterThanOrEqual(string $name, $value): BaseRepository
     {
@@ -292,10 +292,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function whereLowerThan(string $name, $value): BaseRepository
     {
@@ -304,10 +304,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return BaseRepository
      */
     public function whereLowerThanOrEqual(string $name, $value): BaseRepository
     {
@@ -316,10 +316,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param array<mixed> $values 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param array<mixed> $values
+     * @return BaseRepository
      */
     public function whereIn(string $name, array $values): BaseRepository
     {
@@ -328,10 +328,10 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param array<mixed> $values 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param array<mixed> $values
+     * @return BaseRepository
      */
     public function whereNotIn(string $name, array $values): BaseRepository
     {
@@ -344,10 +344,10 @@ class BaseRepository
     /************************************************************************/
 
     /**
-     * 
-     * @param string $name 
-     * @param string $direction 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @param string $direction
+     * @return BaseRepository
      */
     public function orderBy(string $name, string $direction): BaseRepository
     {
@@ -359,9 +359,9 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @return BaseRepository
      */
     public function orderByAsc(string $name): BaseRepository
     {
@@ -370,9 +370,9 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param string $name 
-     * @return BaseRepository 
+     *
+     * @param string $name
+     * @return BaseRepository
      */
     public function orderByDesc(string $name): BaseRepository
     {
@@ -385,9 +385,9 @@ class BaseRepository
     /************************************************************************/
 
     /**
-     * 
-     * @param int $limit 
-     * @return BaseRepository 
+     *
+     * @param int $limit
+     * @return BaseRepository
      */
     public function limit(int $limit): BaseRepository
     {
@@ -396,9 +396,9 @@ class BaseRepository
     }
 
     /**
-     * 
-     * @param int $offset 
-     * @return BaseRepository 
+     *
+     * @param int $offset
+     * @return BaseRepository
      */
     public function offset(int $offset): BaseRepository
     {
@@ -498,7 +498,7 @@ class BaseRepository
 
     /**
      * Build join string
-     * @return string 
+     * @return string
      */
     protected function buildJoin(): string
     {
@@ -519,7 +519,7 @@ class BaseRepository
 
     /**
      *
-     * @return array
+     * @return array<string>
      */
     protected function buildGeneralSelectFields(): array
     {
@@ -536,7 +536,7 @@ class BaseRepository
 
     /**
      * Check if joins are set
-     * @return bool 
+     * @return bool
      */
     protected function hasJoins(): bool
     {
@@ -553,8 +553,8 @@ class BaseRepository
         if (count($this->selectFields)) {
             $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE, $this->selectFields).self::EMPTY_SPACE;
         } elseif ($this->hasJoins()) {
-            $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE,$this->buildGeneralSelectFields());
-        } else { 
+            $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE, $this->buildGeneralSelectFields());
+        } else {
             $selectStr .= self::KEYWORD_ASTERISK.self::EMPTY_SPACE;
         }
         $selectStr .= self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
@@ -576,7 +576,7 @@ class BaseRepository
 
     /**
      * Build full update query string
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return string
      */
     protected function buildUpdate(array $data = array()): string
@@ -666,7 +666,7 @@ class BaseRepository
 
         return $orderByStr;
     }
-    
+
     /************************************************************************/
     /* PERFORMER */
     /************************************************************************/
@@ -674,7 +674,7 @@ class BaseRepository
     /**
      * Clears all conditions
      */
-    public function clearConditions()
+    public function clearConditions() : void
     {
         $this->limit = null;
         $this->offset = null;
@@ -688,9 +688,9 @@ class BaseRepository
 
     /**
      * Performs an insert query
-     * @param array $data 
-     * @return string|bool 
-     * @throws PDOException 
+     * @param array<string, mixed> $data
+     * @return string|bool
+     * @throws PDOException
      */
     public function create(array $data = array()) : string|bool
     {
@@ -705,8 +705,8 @@ class BaseRepository
 
     /**
      * Performs a count query
-     * @return null|int 
-     * @throws PDOException 
+     * @return null|int
+     * @throws PDOException
      */
     public function count(): ?int
     {
@@ -723,7 +723,7 @@ class BaseRepository
     /**
      * Perfoms a select statement with the previous given parameters
      * Returns raw rows
-     * @return array
+     * @return array<mixed>
      */
     public function read(): array
     {
@@ -757,7 +757,7 @@ class BaseRepository
     /**
      * Performs a raw query and returns rows
      * @param string $query
-     * @return array
+     * @return array<mixed>
      */
     public function readRaw(string $query): array
     {
@@ -767,7 +767,7 @@ class BaseRepository
 
     /**
      * Performs an update query
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return bool
      */
     public function update(array $data = array()): bool

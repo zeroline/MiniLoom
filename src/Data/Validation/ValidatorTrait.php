@@ -17,24 +17,24 @@ use RuntimeException;
 trait ValidatorTrait
 {
     /**
-     * @var array
+     * @var array<string, array<string, array<mixed>>>
      */
     protected array $fieldsForValidation = array();
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $fieldsForValidationScopes = array();
 
     /**
-     * @var array
+     * @var array<array<mixed>>
      */
     protected array $fieldValidationErrors = array();
 
     /**
      * Sets the validation fields
      *
-     * @param array $fieldsForValidation
+     * @param array<string, array<string, array<mixed>>> $fieldsForValidation
      * @return void
      */
     public function setFieldsForValidation(array $fieldsForValidation): void
@@ -44,7 +44,7 @@ trait ValidatorTrait
 
     /**
      *
-     * @return array
+     * @return array<array<mixed>>
      */
     public function getErrors() : array
     {

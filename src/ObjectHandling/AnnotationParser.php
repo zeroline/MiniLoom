@@ -16,6 +16,8 @@ namespace zeroline\MiniLoom\ObjectHandling;
 use ReflectionException;
 use ReflectionObject;
 use ReflectionClass;
+use ReflectionProperty;
+
 use zeroline\MiniLoom\ObjectHandling\ObjectFactory as ObjectFactory;
 
 final class AnnotationParser
@@ -27,9 +29,9 @@ final class AnnotationParser
 
     /**
      * Parses the doc comments of a class or method.
-     * 
-     * @param string $comment 
-     * @return array 
+     *
+     * @param string $comment
+     * @return array<string, mixed>
      */
     private static function resolveParamterFromDocComment(string $comment) : array
     {
@@ -57,9 +59,9 @@ final class AnnotationParser
 
     /**
      * Checks if a parameter exists in a doc comment.
-     * @param string $name 
-     * @param string $comment 
-     * @return bool 
+     * @param string $name
+     * @param string $comment
+     * @return bool
      */
     private static function hasParameter(string $name, string $comment) : bool
     {
@@ -69,9 +71,9 @@ final class AnnotationParser
 
     /**
      * Resolves a parameter value from a doc comment.
-     * @param string $parameter 
-     * @param string $comment 
-     * @return null|string 
+     * @param string $parameter
+     * @param string $comment
+     * @return null|string
      */
     private static function resolveParamterValueFromDocComment(string $parameter, string $comment) : ?string
     {
@@ -83,8 +85,8 @@ final class AnnotationParser
 
     /**
      * Returns all properties of a class.
-     * @param ReflectionObject $ref 
-     * @return array 
+     * @param ReflectionObject $ref
+     * @return array<ReflectionProperty>
      */
     private static function getClassProperties(ReflectionObject $ref) : array
     {
@@ -109,9 +111,9 @@ final class AnnotationParser
 
     /**
      * Injects classes and components into an object.
-     * @param mixed $object 
-     * @return void 
-     * @throws ReflectionException 
+     * @param mixed $object
+     * @return void
+     * @throws ReflectionException
      */
     public static function injectClassesAndComponentsIntoObject(mixed $object) : void
     {
@@ -119,7 +121,7 @@ final class AnnotationParser
         $properties = static::getClassProperties($reflection);
         foreach ($properties as $property) {
             $property->setAccessible(true);
-            
+
             if ($property->isInitialized($object) && !is_null($property->getValue($object))) {
                 continue;
             }

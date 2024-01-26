@@ -18,6 +18,7 @@ final class ArrayReader
      * Returns the value of the given key in the given array. If the key does not exist, the fallback value is returned.
      * If the fallback value is a callable, it is called and the return value is returned.
      *
+     * @param array<string, mixed> $config
      * @param string $key
      * @param mixed $fallback
      * @return mixed
@@ -31,7 +32,7 @@ final class ArrayReader
      * Wrapper for the get method. Used for backwards compatibility.
      *
      * @obsolete
-     * @param array $config
+     * @param array<string, mixed> $config
      * @param string $key
      * @param mixed $fallback
      * @return mixed
@@ -46,7 +47,7 @@ final class ArrayReader
      * If the fallback value is a callable, it is called and the return value is returned.
      *
      * @param string $key
-     * @param array $array
+     * @param array<string, mixed> $array
      * @return mixed
      */
     private static function parseArrayPath(string $key, array $array, string $seperator = '.') : mixed

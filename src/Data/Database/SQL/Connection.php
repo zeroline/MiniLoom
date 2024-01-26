@@ -22,36 +22,36 @@ class Connection
     private const LIMIT_STYLE_LIMIT = "limit";
 
     /**
-     * 
+     *
      * @var null|PDOStatement
      */
     private ?PDOStatement $lastStatement = null;
 
     /**
-     * 
+     *
      * @var null|PDO
      */
     private ?PDO $connection = null;
 
     /**
-     * 
-     * @param DatabaseType $dbType 
-     * @param string $databaseName 
-     * @param null|string $host 
-     * @param null|int $port 
-     * @param null|string $username 
-     * @param null|string $password 
-     * @param null|array $options 
-     * @return void 
+     *
+     * @param DatabaseType $dbType
+     * @param string $databaseName
+     * @param null|string $host
+     * @param null|int $port
+     * @param null|string $username
+     * @param null|string $password
+     * @param null|array<mixed, mixed> $options
+     * @return void
      */
     public function __construct(protected DatabaseType $dbType, protected string $databaseName, protected ?string $host, protected ?int $port, protected ?string $username, protected ?string $password, protected ?array $options)
     {
     }
 
     /**
-     * 
-     * @return void 
-     * @throws PDOException 
+     *
+     * @return void
+     * @throws PDOException
      */
     public function connect() : void
     {
@@ -64,7 +64,7 @@ class Connection
                 break;
             default:
                 $connectionString = $this->dbType->name . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->databaseName . ';charset=utf8mb4';
-                if(is_null($this->options)) {
+                if (is_null($this->options)) {
                     $this->options = array(
                         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -79,12 +79,11 @@ class Connection
         } catch (Throwable $th) {
             throw $th;
         }
-        
     }
 
     /**
-     * 
-     * @return PDO 
+     *
+     * @return PDO
      */
     public function getConnection(): PDO
     {
@@ -111,8 +110,8 @@ class Connection
     }
 
     /**
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getLimitStyle(): string
     {
@@ -127,8 +126,8 @@ class Connection
     }
 
     /**
-     * 
-     * @return null|PDOStatement 
+     *
+     * @return null|PDOStatement
      */
     public function getLastStatement(): ?PDOStatement
     {
@@ -136,11 +135,11 @@ class Connection
     }
 
     /**
-     * 
-     * @param string $query 
-     * @param array $parameters 
-     * @return bool 
-     * @throws PDOException 
+     *
+     * @param string $query
+     * @param array<string, mixed> $parameters
+     * @return bool
+     * @throws PDOException
      */
     public function execute(string $query, array $parameters = array()): bool
     {
@@ -157,7 +156,7 @@ class Connection
                 $type = PDO::PARAM_STR;
             }
 
-            $statement->bindParam(is_int($key) ? ++$key : $key, $param, $type);
+            $statement->bindParam(/*is_int($key) ? ++$key :*/ $key, $param, $type);
         }
 
         $q = $statement->execute();
@@ -165,11 +164,11 @@ class Connection
     }
 
     /**
-     * 
-     * @param string $query 
-     * @param array $parameters 
-     * @return array 
-     * @throws PDOException 
+     *
+     * @param string $query
+     * @param array<string, mixed> $parameters
+     * @return array<mixed>
+     * @throws PDOException
      */
     public function getRows(string $query, array $parameters = array()): array
     {
@@ -184,11 +183,11 @@ class Connection
     }
 
     /**
-     * 
-     * @param string $query 
-     * @param array $parameters 
-     * @return PDOStatement 
-     * @throws PDOException 
+     *
+     * @param string $query
+     * @param array<string, mixed> $parameters
+     * @return PDOStatement
+     * @throws PDOException
      */
     public function getExecutedStatement(string $query, array $parameters = array()): PDOStatement
     {

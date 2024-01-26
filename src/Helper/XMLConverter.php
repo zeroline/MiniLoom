@@ -11,18 +11,21 @@
 
 namespace zeroline\MiniLoom\Helper;
 
+use SimpleXMLElement;
+
 final class XMLConverter
 {
     /**
      *
-     * @param array|object $data
-     * @param \SimpleXMLElement $parent
+     * @param array<string, mixed>|object $data
+     * @param SimpleXMLElement $parent
+     * @param string $rootElement
      * @return string
      */
-    public static function toXML($data, $parent = null, $rootElement = '<root/>')
+    public static function toXML(array|object $data, ?SimpleXMLElement $parent = null, string $rootElement = '<root/>')
     {
         if (is_null($parent)) {
-            $parent = new \SimpleXMLElement($rootElement);
+            $parent = new SimpleXMLElement($rootElement);
         }
 
         foreach ($data as $key => $value) {

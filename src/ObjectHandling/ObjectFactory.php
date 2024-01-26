@@ -23,13 +23,14 @@ class ObjectFactory
     /**
      * Store singleton instances
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected static $instances = array();
 
     /**
      * Creates a new instance of a class.
      * @param string $class
+     * @param array<mixed> $args
      * @param boolean $enableAnnotations
      * @return mixed
      */
@@ -47,6 +48,7 @@ class ObjectFactory
      * Creates a singleton instance of a class.
      * If the class does not use the SingletonTrait the instance is stored in the static $instances array.
      * @param string $class
+     * @param array<mixed> $args
      * @param boolean $enableAnnotations
      * @return mixed
      */

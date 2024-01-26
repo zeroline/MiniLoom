@@ -5,16 +5,17 @@
  * @license MIT
  * @package MiniLoom
  * @subpackage Data
- * 
+ *
  * The Validator class provides a set of static methods to validate data.
  */
 
 namespace zeroline\MiniLoom\Data\Filter;
 
-final class Filter {
+final class Filter
+{
     /*****************************************************/
     /** HTML STRING FILTER */
-    /*****************************************************/   
+    /*****************************************************/
 
     /**
      * Encodes the given (HTML) string using @see htmlspecialchars
@@ -31,7 +32,7 @@ final class Filter {
      * Encodes the given (HTML) string using @strip_tags
      *
      * @param string $value
-     * @param array $allowable_tags
+     * @param array<string> $allowable_tags
      * @return string
      */
     public static function filterStripHtml(string $value, array $allowable_tags = array()): string
@@ -41,7 +42,7 @@ final class Filter {
 
     /*****************************************************/
     /** CUSTOM FILTER */
-    /*****************************************************/  
+    /*****************************************************/
     public static function filterCustom(string $value, callable $callback): string
     {
         return $callback($value);

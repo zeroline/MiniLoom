@@ -19,10 +19,8 @@ class Mediator
     /**
      * Store all events with handlers
      *
-     * @var array
+     * @var array<string, array<callable>>
      */
-
-
     private array $events = array();
 
     /**

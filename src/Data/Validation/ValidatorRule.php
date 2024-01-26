@@ -10,7 +10,8 @@
 
 namespace zeroline\MiniLoom\Data\Validation;
 
-enum ValidatorRule : string {
+enum ValidatorRule : string
+{
     case REQUIRED = "checkRequired";
 
     case IS_EMAIL = "checkEmail";

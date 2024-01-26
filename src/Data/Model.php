@@ -5,7 +5,7 @@
  * @license MIT
  * @package MiniLoom
  * @subpackage Data
- * 
+ *
  * The Model class provides a simple way to store data.
  * It is different to the DataContainer class because it
  * provides a way to track changes to the data.
@@ -24,27 +24,27 @@ class Model implements JsonSerializable
 {
     /**
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $data = array();
 
     /**
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $dirtyFields = array();
 
     /**
      *
-     * @var array
+     * @var array<string>
      */
     protected array $serializableFields = array();
 
     /**
      *
-     * @param array $data
+     * @param array<string, mixed>|object $data
      */
-    public function __construct($data = array())
+    public function __construct(array|object $data = array())
     {
         if (!is_array($data)) {
             $data = (array)$data;
@@ -90,7 +90,7 @@ class Model implements JsonSerializable
 
     /**
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getDirtyFields(): array
     {
@@ -99,7 +99,7 @@ class Model implements JsonSerializable
 
     /**
      *
-     * @return array
+     * @return array<string>
      */
     public function getDirtyFieldNames(): array
     {
@@ -125,7 +125,7 @@ class Model implements JsonSerializable
 
     /**
      *
-     * @return array
+     * @return array<string>
      */
     public function getExistingFieldNames(): array
     {

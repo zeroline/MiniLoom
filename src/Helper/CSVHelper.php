@@ -27,14 +27,14 @@ final class CSVHelper
      * Today I would recommend to use UTF-8 instead. But this is the way I did it back then. In the good old days people tried to open the generated CSV files with Excel and Excel had problems with UTF-8. Today you would
      * use the data import functions of Excel and there you can specify the encoding. But back then people just 'double clicked' the CSV file and expected it to open in Excel.
      *
-     * @param array $columns
-     * @param array $data
-     * @param array $functions
-     * @param array $ignore
+     * @param array<string> $columns
+     * @param array<int, mixed> $data
+     * @param array<string, callable> $functions
+     * @param array<string> $ignore
      * @param string $capsule
      * @param string $separator
      * @param string $lineend
-     * @param array $extraFunctions
+     * @param array<string, callable> $extraFunctions
      * @return string
      */
     public static function build(array $columns, array $data, array $functions = array(), array $ignore = array(), string $capsule = '"', string $separator = ';', string $lineend = PHP_EOL, array $extraFunctions = array()) : string
@@ -113,15 +113,15 @@ final class CSVHelper
     /**
      * Uses the given data to build a CSV string and downloads it.
      *
-     * @param array $columns
-     * @param array $data
-     * @param array $functions
-     * @param array $ignore
+     * @param array<string> $columns
+     * @param array<int, mixed> $data
+     * @param array<string, callable> $functions
+     * @param array<string> $ignore
      * @param string $filename
      * @param string $capsule
      * @param string $separator
      * @param string $lineend
-     * @param array $extraFunctions
+     * @param array<string, callable> $extraFunctions
      * @return void
      */
     public static function download(array $columns, array $data, array $functions = array(), array $ignore = array(), string $filename = 'Export.csv', string $capsule = '"', string $separator = ';', string $lineend = PHP_EOL, array $extraFunctions = array()) : void
@@ -135,15 +135,15 @@ final class CSVHelper
     /**
      * Uses the given data to build a CSV string and saves it.
      *
-     * @param array $columns
-     * @param array $data
-     * @param array $functions
-     * @param array $ignore
+     * @param array<string> $columns
+     * @param array<int, mixed> $data
+     * @param array<string, callable> $functions
+     * @param array<string> $ignore
      * @param string $filename
      * @param string $capsule
      * @param string $separator
      * @param string $lineend
-     * @param array $extraFunctions
+     * @param array<string, callable> $extraFunctions
      * @return void
      */
     public static function save(array $columns, array $data, array $functions = array(), array $ignore = array(), string $filename = 'Export.csv', string $capsule = '"', string $separator = ';', string $lineend = PHP_EOL, array $extraFunctions = array()) : void

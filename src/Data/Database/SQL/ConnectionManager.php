@@ -17,11 +17,11 @@ class ConnectionManager
     private const DEFAULT_CONNECTION_NAME = 'default';
 
     /**
-     * 
+     *
      * @var array<Connection>
      */
     protected static array $connections = array();
-    
+
     public static function setDefaultConnection(Connection $connection): void
     {
         static::$connections[self::DEFAULT_CONNECTION_NAME] = $connection;
@@ -34,7 +34,7 @@ class ConnectionManager
 
     public static function addConnection(string $key, Connection $connection): void
     {
-        if($key == self::DEFAULT_CONNECTION_NAME) {
+        if ($key == self::DEFAULT_CONNECTION_NAME) {
             throw new \Exception('Connection key "' . $key . '" is not allowed.');
         }
         static::$connections[$key] = $connection;

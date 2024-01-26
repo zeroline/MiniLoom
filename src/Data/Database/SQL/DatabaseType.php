@@ -10,8 +10,8 @@
 
 namespace zeroline\MiniLoom\Data\Database\SQL;
 
- enum DatabaseType : string 
- {
+enum DatabaseType : string
+{
     case MYSQL = 'mysql';
     case SQLITE = 'sqlite';
     case SQLITE2 = 'sqlite2';
@@ -22,4 +22,4 @@ namespace zeroline\MiniLoom\Data\Database\SQL;
     case MSSQL = 'mssql';
     case SYBASE = 'sybase';
     case FIREBIRD = 'firebird';
- }
+}

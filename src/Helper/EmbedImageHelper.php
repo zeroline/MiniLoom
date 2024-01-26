@@ -11,6 +11,8 @@
 
 namespace zeroline\MiniLoom\Helper;
 
+use Exception;
+
 final class EmbedImageHelper
 {
     /**
@@ -19,7 +21,7 @@ final class EmbedImageHelper
      * @example list($base64content, $mimeType) = EmbedImageHelper::generateBase64ImageDataAndMimeFromFile($filename);
      * @param string $filename
      * @param null|string $mime
-     * @return array
+     * @return array<string>
      */
     public static function generateBase64ImageDataAndMimeFromFile(string $filename, ?string $mime = null) : array
     {
@@ -28,6 +30,9 @@ final class EmbedImageHelper
         if (is_null($mime)) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $mime = finfo_file($finfo, $filename);
+            if($mime === false) {
+                throw new Exception("Could not detect mime type of file: " . $filename);
+            }
             finfo_close($finfo);
         }
 

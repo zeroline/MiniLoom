@@ -28,7 +28,7 @@ class DatabaseAbstractionModel extends ValidationModel
     public const EVENT_DELETED = 'deleted';
 
     /**
-     * 
+     *
      * @var null|string
      */
     protected static ?string $connectionName = null;
@@ -46,13 +46,13 @@ class DatabaseAbstractionModel extends ValidationModel
     protected static string $idColumn = 'id';
 
     /**
-     * 
+     *
      * @var null|ModelRepository
      */
     protected static ?ModelRepository $repository = null;
 
     /**
-     * 
+     *
      * @var Mediator
      */
     protected Mediator $mediator;
@@ -60,27 +60,27 @@ class DatabaseAbstractionModel extends ValidationModel
     /**
      * Store field info for joining
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $fieldConnectStatements = array();
 
     /**
      * Handle joins
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected array $connectedData = array();
 
     /**
      *
-     * @var array
+     * @var array<string, callable>
      */
     protected array $useStdFields = array();
 
     /**
      * Stores single fetched models, that came over findOneById
      *
-     * @var array
+     * @var array<string, DatabaseAbstractionModel>
      */
     protected static array $singleModelCache = array();
 
@@ -139,9 +139,9 @@ class DatabaseAbstractionModel extends ValidationModel
 
     /**
      *
-     * @param array $data
+     * @param array<string, mixed>|object|null $data
      */
-    public function __construct($data = null)
+    public function __construct(array|object|null $data = null)
     {
         parent::__construct($data);
         $this->mediator = Mediator::getInstance();
@@ -173,7 +173,7 @@ class DatabaseAbstractionModel extends ValidationModel
      *
      * @return mixed
      */
-    public function getId()
+    public function getId() : mixed
     {
         return $this->{$this->getIdColumn()};
     }
@@ -193,7 +193,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param string $name
      * @param callable $function
      */
-    protected function addAutomaticField(string $name, callable $function)
+    protected function addAutomaticField(string $name, callable $function) : void
     {
         $this->useStdFields[$name] = $function;
     }
@@ -201,7 +201,7 @@ class DatabaseAbstractionModel extends ValidationModel
     /**
      *
      */
-    protected function handleAutomaticFieldsOnSave()
+    protected function handleAutomaticFieldsOnSave() : void
     {
         if ((count($this->useStdFields) > 0)) {
             foreach ($this->useStdFields as $fieldName => $callable) {
@@ -289,7 +289,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * connected field
      *
      * @param string $fieldName
-     * @return array
+     * @return array<string, mixed>
      */
     protected function handleSingleFieldConnectedStatement(string $fieldName): array
     {
@@ -302,7 +302,7 @@ class DatabaseAbstractionModel extends ValidationModel
             if ($connectType === self::CONNECT_TYPE_SIMPLE) {
                 $modelClass::repository()->where($foreignFieldName, $this->{$ownFieldName});
                 $this->connectedData[$fieldName] = $modelClass::repository()->read();
-            } else if ($connectType === self::CONNECT_TYPE_COMPLEX) {
+            } elseif ($connectType === self::CONNECT_TYPE_COMPLEX) {
                 $targetTableName = $modelClass::repository()->getTableName();
                 $connectionClass = $connectData['connectionClass'];
                 $connectionTableName = $connectionClass::repository()->getTableName();
@@ -332,7 +332,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * Return data from a connected field
      *
      * @param string $fieldName
-     * @return array
+     * @return array<string, mixed>
      */
     public function getConnectedData(string $fieldName): array
     {
@@ -340,9 +340,9 @@ class DatabaseAbstractionModel extends ValidationModel
     }
 
     /**
-     * 
-     * @return bool 
-     * @throws PDOException 
+     *
+     * @return bool
+     * @throws PDOException
      */
     public function save(): bool
     {
@@ -384,7 +384,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * Saving is only performed if the model is valid
      *
      *
-     * @return boolean
+     * @return bool
      */
     public function validateAndSave(): bool
     {
@@ -423,6 +423,7 @@ class DatabaseAbstractionModel extends ValidationModel
         return false;
     }
 
+    // TODO: check $id data type. 
     /**
      * Tries to select and return one item from the database, casting
      * it to the given model class.
@@ -459,11 +460,19 @@ class DatabaseAbstractionModel extends ValidationModel
         return null;
     }
 
+    /**
+     * 
+     * @return ModelRepository 
+     */
     public static function repository(): ModelRepository
     {
         return static::getRepository();
     }
 
+    /**
+     * 
+     * @return ModelRepository 
+     */
     protected static function getRepository(): ModelRepository
     {
         $c = get_called_class();
@@ -471,10 +480,10 @@ class DatabaseAbstractionModel extends ValidationModel
             $c::$repository = new ModelRepository();
             $c::$repository->setTable($c::$tableName);
             $c::$repository->setModelClassName($c);
-            if(!is_null(static::$connectionName)) {
+            if (!is_null(static::$connectionName)) {
                 $c::$repository->switchConnection(static::$connectionName);
             }
-            $c::$repository->connect();    
+            $c::$repository->connect();
         }
         return $c::$repository;
     }

@@ -35,11 +35,11 @@ final class SQLFileExecuter
             throw new Exception('SQL file "' . $sqlFilename . '" is not readable.');
         }
         $repository = new BaseRepository();
-        if(!is_null($connection)) {
+        if (!is_null($connection)) {
             $repository->switchConnection($connection);
         }
 
-        if($useTransaction) {
+        if ($useTransaction) {
             $repository->beginTransaction();
         }
 
@@ -57,17 +57,17 @@ final class SQLFileExecuter
             if ($endWith == ';') {
                 $result = $repository->executeRaw($query);
                 if ($result === false) {
-                    if($useTransaction) {
+                    if ($useTransaction) {
                         $repository->rollbackTransaction();
                     }
-                    
+
                     throw new Exception('Execution of SQL script file "' . $sqlFilename . '" aborted. Failure at script line "' . $query . '"');
                 }
                 $query = '';
             }
         }
 
-        if($useTransaction) {
+        if ($useTransaction) {
             if ($result === true) {
                 $repository->commitTransaction();
             } else {

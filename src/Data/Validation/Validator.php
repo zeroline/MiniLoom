@@ -5,7 +5,7 @@
  * @license MIT
  * @package MiniLoom
  * @subpackage Data
- * 
+ *
  * The Validator class provides a set of static methods to validate data.
  */
 
@@ -101,7 +101,7 @@ final class Validator
 
     public static function checkNumberMinValue(mixed $value, mixed $min): bool
     {
-        if(!is_numeric($value)) {
+        if (!is_numeric($value)) {
             return false;
         }
         return ($value >= $min);
@@ -109,7 +109,7 @@ final class Validator
 
     public static function checkNumberMaxValue(mixed $value, mixed $max): bool
     {
-        if(!is_numeric($value)) {
+        if (!is_numeric($value)) {
             return false;
         }
         return ($value <= $max);
@@ -117,7 +117,7 @@ final class Validator
 
     public static function checkNumberRange(mixed $value, mixed $min, mixed $max): bool
     {
-        if(!is_numeric($value)) {
+        if (!is_numeric($value)) {
             return false;
         }
         return ($value >= $min && $value <= $max);
@@ -224,11 +224,23 @@ final class Validator
     /** ARRAY & OBJECT CHECKS */
     /*****************************************************/
 
+    /**
+     * 
+     * @param mixed $value 
+     * @param array<mixed> $data 
+     * @return bool 
+     */
     public static function checkInArray(mixed $value, array $data): bool
     {
         return (bool) in_array($value, $data);
     }
 
+    /**
+     * 
+     * @param mixed $value 
+     * @param array<mixed> $data 
+     * @return bool 
+     */
     public static function checkNotInArray(mixed $value, array $data): bool
     {
         return (bool) !in_array($value, $data);
