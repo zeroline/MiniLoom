@@ -18,6 +18,55 @@ class BaseRepository
     const INTERNAL_FIELD_COUNT_RESULT = 'iCountResult';
     const INTERNAL_JOIN_PREFIX = 'jnd';
 
+    const EMPTY_STRING = '';
+    const EMPTY_SPACE = ' ';
+    const IMPLODE_SEPARATOR = ',';
+    const DOT = '.';
+    const COLON = ':';
+    const PARANTHESIS_OPEN = '(';
+    const PARANTHESIS_CLOSE = ')';
+
+    const KEYWORD_ASTERISK = '*';
+
+    const KEYWORD_SELECT = 'SELECT';
+    const KEYWORD_INSERT = 'INSERT';
+    const KEYWORD_DELETE = 'DELETE';
+    const KEYWORD_UPDATE = 'UPDATE';
+    const KEYWORD_FROM = 'FROM';
+    const KEYWORD_WHERE = 'WHERE';
+    const KEYWORD_ORDER_BY = 'ORDER BY';
+    const KEYWORD_LIMIT = 'LIMIT';
+    const KEYWORD_OFFSET = 'OFFSET';
+    const KEYWORD_IN = 'IN';
+    const KEYWORD_NOT_IN = 'NOT IN';
+    const KEYWORD_ASC = 'ASC';
+    const KEYWORD_DESC = 'DESC';
+    const KEYWORD_AND = 'AND';
+    const KEYWORD_OR = 'OR';
+    const KEYWORD_IS_NULL = 'IS NULL';
+    const KEYWORD_IS_NOT_NULL = 'IS NOT NULL';
+    const KEYWORD_LIKE = 'LIKE';
+    const KEYWORD_JOIN = 'JOIN';
+    const KEYWORD_ON = 'ON';
+    const KEYWORD_SET = 'SET';
+    const KEYWORD_VALUES = 'VALUES';
+    const KEYWORD_INTO = 'INTO';
+    const KEYWORD_OPERATOR_EQUAL = '=';
+    const KEYWORD_OPERATOR_NOT_EQUAL = '<>';
+    const KEYWORD_OPERATOR_GREATER_THAN = '>';
+    const KEYWORD_OPERATOR_GREATER_THAN_OR_EQUAL = '>=';
+    const KEYWORD_OPERATOR_LOWER_THAN = '<';
+    const KEYWORD_OPERATOR_LOWER_THAN_OR_EQUAL = '<=';
+
+    const ATTRIBUTE_KEY_NAME = 'name';
+    const ATTRIBUTE_KEY_VALUE = 'value';
+    const ATTRIBUTE_KEY_OPERATOR = 'operator';
+    const ATTRIBUTE_KEY_DIRECTION = 'direction';
+    const ATTRIBUTE_KEY_JOIN_TABLE_NAME = 'joinTableName';
+    const ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME = 'joinTableFieldName';
+    const ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME = 'baseTableFieldName';
+
+
     protected ?int $limit = null;
     protected ?int $offset = null;
     protected array $order = array();
@@ -96,9 +145,9 @@ class BaseRepository
     public function whereRaw(string $fieldName, $value, string $operator): BaseRepository
     {
         $this->where[] = (object) array(
-            'name' => $fieldName,
-            'value' => $value,
-            'operator' => $operator
+            self::ATTRIBUTE_KEY_NAME => $fieldName,
+            self::ATTRIBUTE_KEY_VALUE => $value,
+            self::ATTRIBUTE_KEY_OPERATOR => $operator
         );
         return $this;
     }
@@ -114,7 +163,7 @@ class BaseRepository
         if (is_null($value)) {
             $this->whereNull($name);
         } else {
-            $this->whereRaw($name, $value, '=');
+            $this->whereRaw($name, $value, self::KEYWORD_OPERATOR_EQUAL);
         }
         return $this;
     }
@@ -130,7 +179,7 @@ class BaseRepository
         if (is_null($value)) {
             $this->whereNotNull($name);
         } else {
-            $this->whereRaw($name, $value, '<>');
+            $this->whereRaw($name, $value, self::KEYWORD_OPERATOR_NOT_EQUAL);
         }
         return $this;
     }
@@ -143,7 +192,7 @@ class BaseRepository
      */
     public function whereLike(string $name, $value): BaseRepository
     {
-        $this->whereRaw($name, $value, 'LIKE');
+        $this->whereRaw($name, $value, self::KEYWORD_LIKE);
         return $this;
     }
 
@@ -154,7 +203,7 @@ class BaseRepository
      */
     public function whereNull(string $name): BaseRepository
     {
-        $this->whereRaw($name, null, 'IS NULL');
+        $this->whereRaw($name, null, self::KEYWORD_IS_NULL);
         return $this;
     }
 
@@ -165,7 +214,7 @@ class BaseRepository
      */
     public function whereNotNull(string $name): BaseRepository
     {
-        $this->whereRaw($name, null, 'IS NOT NULL');
+        $this->whereRaw($name, null, self::KEYWORD_IS_NOT_NULL);
         return $this;
     }
 
@@ -177,7 +226,7 @@ class BaseRepository
      */
     public function whereGreaterThan(string $name, $value): BaseRepository
     {
-        $this->whereRaw($name, $value, '>');
+        $this->whereRaw($name, $value, self::KEYWORD_OPERATOR_GREATER_THAN);
         return $this;
     }
 
@@ -189,7 +238,7 @@ class BaseRepository
      */
     public function whereGreaterThanOrEqual(string $name, $value): BaseRepository
     {
-        $this->whereRaw($name, $value, '>=');
+        $this->whereRaw($name, $value, self::KEYWORD_OPERATOR_GREATER_THAN_OR_EQUAL);
         return $this;
     }
 
@@ -201,7 +250,7 @@ class BaseRepository
      */
     public function whereLowerThan(string $name, $value): BaseRepository
     {
-        $this->whereRaw($name, $value, '<');
+        $this->whereRaw($name, $value, self::KEYWORD_OPERATOR_LOWER_THAN);
         return $this;
     }
 
@@ -213,7 +262,7 @@ class BaseRepository
      */
     public function whereLowerThanOrEqual(string $name, $value): BaseRepository
     {
-        $this->whereRaw($name, $value, '<=');
+        $this->whereRaw($name, $value, self::KEYWORD_OPERATOR_LOWER_THAN_OR_EQUAL);
         return $this;
     }
 
@@ -225,7 +274,7 @@ class BaseRepository
      */
     public function whereIn(string $name, array $values): BaseRepository
     {
-        $this->whereRaw($name, $values, 'IN');
+        $this->whereRaw($name, $values, self::KEYWORD_IN);
         return $this;
     }
 
@@ -237,7 +286,7 @@ class BaseRepository
      */
     public function whereNotIn(string $name, array $values): BaseRepository
     {
-        $this->whereRaw($name, $values, 'NOT IN');
+        $this->whereRaw($name, $values, self::KEYWORD_NOT_IN);
         return $this;
     }
 
@@ -254,8 +303,8 @@ class BaseRepository
     public function orderBy(string $name, string $direction): BaseRepository
     {
         $this->order[] = (object) array(
-            'name' => $name,
-            'direction' => $direction
+            self::ATTRIBUTE_KEY_NAME => $name,
+            self::ATTRIBUTE_KEY_DIRECTION => $direction
         );
         return $this;
     }
@@ -267,7 +316,7 @@ class BaseRepository
      */
     public function orderByAsc(string $name): BaseRepository
     {
-        $this->orderBy($name, 'ASC');
+        $this->orderBy($name, self::KEYWORD_ASC);
         return $this;
     }
 
@@ -278,7 +327,7 @@ class BaseRepository
      */
     public function orderByDesc(string $name): BaseRepository
     {
-        $this->orderBy($name, 'DESC');
+        $this->orderBy($name, self::KEYWORD_DESC);
         return $this;
     }
 
@@ -319,9 +368,9 @@ class BaseRepository
     public function join(string $joiningTableName, string $joiningTableFieldName, string $baseTableFieldName): BaseRepository
     {
         $this->joins[] = [
-            'joinTableName' => $joiningTableName,
-            'joinTableFieldName' => $joiningTableFieldName,
-            'baseTableFieldName' => $baseTableFieldName
+            self::ATTRIBUTE_KEY_JOIN_TABLE_NAME => $joiningTableName,
+            self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME => $joiningTableFieldName,
+            self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME => $baseTableFieldName
         ];
         return $this;
     }
@@ -362,7 +411,7 @@ class BaseRepository
      */
     protected function encapsulatePlaceholder(string $name, $value): string
     {
-        $newName = ':' . $name;
+        $newName = self::COLON . $name;
         if (array_key_exists($newName, $this->placeholder)) {
             return $this->encapsulate($name . mt_rand(), $value);
         } else {
@@ -378,7 +427,7 @@ class BaseRepository
      */
     protected function buildInsert(array $data = array()): string
     {
-        $insertStr = 'INSERT INTO ' . $this->encapsulate($this->table) . ' ';
+        $insertStr = self::KEYWORD_INSERT.self::EMPTY_SPACE.self::KEYWORD_INTO.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
         $fieldsArr = array();
         $valueArr = array();
         foreach ($data as $k => $v) {
@@ -386,8 +435,8 @@ class BaseRepository
             $valueArr[] = $this->encapsulatePlaceholder($k, $v);
         }
 
-        $insertStr .= '(' . implode(',', $fieldsArr) . ') ';
-        $insertStr .= 'VALUES (' . implode(',', $valueArr) . ') ';
+        $insertStr .= self::PARANTHESIS_OPEN . implode(self::IMPLODE_SEPARATOR, $fieldsArr) . self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
+        $insertStr .= self::KEYWORD_VALUES.self::EMPTY_SPACE.self::PARANTHESIS_OPEN.implode(self::IMPLODE_SEPARATOR, $valueArr).self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
         return $insertStr;
     }
 
@@ -397,15 +446,15 @@ class BaseRepository
      */
     protected function buildSelectCount(): string
     {
-        $selectStr = 'SELECT COUNT(*) AS ' . self::INTERNAL_FIELD_COUNT_RESULT . ' ';
-        $selectStr .= 'FROM ' . $this->encapsulate($this->table) . ' ';
-        $selectStr .= ' ' . $this->buildWhere();
-        $selectStr .= ' ' . $this->buildOrderBy();
+        $selectStr = 'SELECT COUNT(*) AS'.self::EMPTY_SPACE.self::INTERNAL_FIELD_COUNT_RESULT.self::EMPTY_SPACE;
+        $selectStr .= self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
+        $selectStr .= self::EMPTY_SPACE.$this->buildWhere();
+        $selectStr .= self::EMPTY_SPACE.$this->buildOrderBy();
         if (!is_null($this->limit)) {
-            $selectStr .= ' LIMIT ' . $this->limit;
+            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_LIMIT.self::EMPTY_SPACE.$this->limit;
         }
         if (!is_null($this->limit) && !is_null($this->offset)) {
-            $selectStr .= ' OFFSET ' . $this->limit;
+            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_OFFSET.self::EMPTY_SPACE.$this->limit;
         }
 
         return $selectStr;
@@ -417,15 +466,15 @@ class BaseRepository
      */
     protected function buildJoin(): string
     {
-        $joinString = '';
+        $joinString = self::EMPTY_STRING;
         if ($this->hasJoins()) {
             foreach ($this->joins as $joinIndex => $joinData) {
-                $joiningTableName = $joinData['joinTableName'];
-                $joiningTableFieldName = $joinData['joiningTableFieldName'];
-                $baseTableFieldName = $joinData['baseTableFieldName'];
+                $joiningTableName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_NAME];
+                $joiningTableFieldName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME];
+                $baseTableFieldName = $joinData[self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME];
                 $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
-                $joinString .= ' JOIN ' . $this->encapsulate($joiningTableName) . ' ' . $tablePrefix . ' ';
-                $joinString .= 'ON (' . $this->encapsulate($tablePrefix . '.') . $joiningTableFieldName . '=' . $baseTableFieldName . ')';
+                $joinString .= self::EMPTY_SPACE.self::KEYWORD_JOIN.self::EMPTY_SPACE.$this->encapsulate($joiningTableName).self::EMPTY_SPACE.$tablePrefix.self::EMPTY_SPACE;
+                $joinString .= self::KEYWORD_ON.self::EMPTY_SPACE.self::PARANTHESIS_OPEN.$this->encapsulate($tablePrefix . self::DOT).$joiningTableFieldName.self::KEYWORD_OPERATOR_EQUAL.$baseTableFieldName.self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
             }
         }
 
@@ -438,11 +487,11 @@ class BaseRepository
      */
     protected function buildGeneralSelectFields(): array
     {
-        $joinSelectFields = array(spl_object_hash($this) . '.*');
+        $joinSelectFields = array(spl_object_hash($this) . self::DOT.self::KEYWORD_ASTERISK);
         if ($this->hasJoins()) {
             foreach ($this->joins as $joinIndex => $joinData) {
                 $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
-                $joinSelectFields[] = $tablePrefix . '.*';
+                $joinSelectFields[] = $tablePrefix . self::DOT.self::KEYWORD_ASTERISK;
             }
         }
 
@@ -464,26 +513,26 @@ class BaseRepository
      */
     protected function buildSelect(): string
     {
-        $selectStr = 'SELECT ';
+        $selectStr = self::KEYWORD_SELECT.self::EMPTY_SPACE;
         if (count($this->selectFields)) {
-            $selectStr .= implode(', ', $this->selectFields) . ' ';
+            $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE, $this->selectFields).self::EMPTY_SPACE;
         } elseif ($this->hasJoins()) {
             $selectStr .= $this->buildGeneralSelectFields();
         } else { 
-            $selectStr .= '* ';
+            $selectStr .= self::KEYWORD_ASTERISK.self::EMPTY_SPACE;
         }
-        $selectStr .= 'FROM ' . $this->encapsulate($this->table) . ' ';
+        $selectStr .= self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
         // Join
-        $selectStr .= ' ' . $this->buildJoin();
+        $selectStr .= self::EMPTY_SPACE.$this->buildJoin();
         // Where
-        $selectStr .= ' ' . $this->buildWhere();
+        $selectStr .= self::EMPTY_SPACE.$this->buildWhere();
         // Order
-        $selectStr .= ' ' . $this->buildOrderBy();
+        $selectStr .= self::EMPTY_SPACE.$this->buildOrderBy();
         if (!is_null($this->limit)) {
-            $selectStr .= ' LIMIT ' . $this->limit;
+            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_LIMIT.self::EMPTY_SPACE.$this->limit;
         }
         if (!is_null($this->limit) && !is_null($this->offset)) {
-            $selectStr .= ' OFFSET ' . $this->offset;
+            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_OFFSET.self::EMPTY_SPACE.$this->offset;
         }
 
         return $selectStr;
@@ -496,13 +545,13 @@ class BaseRepository
      */
     protected function buildUpdate(array $data = array()): string
     {
-        $updateStr = 'UPDATE ' . $this->encapsulate($this->table) . ' SET ';
+        $updateStr = self::KEYWORD_UPDATE.self::EMPTY_SPACE.$this->encapsulate($this->table).self::KEYWORD_SET.self::EMPTY_SPACE;
         $updateArr = array();
         foreach ($data as $k => $v) {
-            $updateArr[] = $k . ' = ' . $this->encapsulatePlaceholder($k, $v);
+            $updateArr[] = $k.self::EMPTY_SPACE .self::KEYWORD_OPERATOR_EQUAL.self::EMPTY_SPACE.$this->encapsulatePlaceholder($k, $v);
         }
-        $updateStr .= implode(',', $updateArr) . ' ';
-        $updateStr .= $this->buildWhere() . ' ';
+        $updateStr .= implode(self::IMPLODE_SEPARATOR, $updateArr) . self::EMPTY_SPACE;
+        $updateStr .= $this->buildWhere() . self::EMPTY_SPACE;
         return $updateStr;
     }
 
@@ -512,8 +561,8 @@ class BaseRepository
      */
     protected function buildDelete(): string
     {
-        $deleteStr = 'DELETE FROM ' . $this->encapsulate($this->table) . ' ';
-        $deleteStr .= $this->buildWhere() . ' ';
+        $deleteStr = self::KEYWORD_DELETE.self::EMPTY_SPACE.self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
+        $deleteStr .= $this->buildWhere().self::EMPTY_SPACE;
         return $deleteStr;
     }
 
@@ -522,43 +571,41 @@ class BaseRepository
      * @param string $combineWith
      * @return string
      */
-    protected function buildWhere(string $combineWith = ' AND '): string
+    protected function buildWhere(string $combineWith = self::EMPTY_SPACE.self::KEYWORD_AND.self::EMPTY_SPACE): string
     {
-        $whereStr = 'WHERE ';
+        $whereStr = self::KEYWORD_WHERE.self::EMPTY_SPACE;
         $whereArr = array();
         foreach ($this->where as $where) {
             switch ($where->operator) {
-                case 'IN':
-                case 'NOT IN':
+                case self::KEYWORD_IN:
+                case self::KEYWORD_NOT_IN:
                     if (count($where->value) > 0) {
-                        $tmpStr = $this->encapsulate($where->name) . ' ' . $where->operator . ' (';
+                        $tmpStr = $this->encapsulate($where->name) . self::EMPTY_SPACE . $where->operator .self::EMPTY_SPACE.self::PARANTHESIS_OPEN;
                         $tmpArr = array();
                         for ($i = 0; $i < count($where->value); $i++) {
                             $v = $where->value[$i];
                             $p = $where->name . $i;
                             $tmpArr[] = $this->encapsulatePlaceholder($p, $v);
                         }
-                        $tmpStr .= implode(',', $tmpArr);
-                        $tmpStr .= ')';
+                        $tmpStr .= implode(self::IMPLODE_SEPARATOR, $tmpArr);
+                        $tmpStr .= self::PARANTHESIS_CLOSE;
                         $whereArr[] = $tmpStr;
                     }
 
                     break;
-                case 'IS NULL':
-                case 'IS NOT NULL':
-                    $whereArr[] = $this->encapsulate($where->name) . ' ' . $where->operator;
-
+                case self::KEYWORD_IS_NULL:
+                case self::KEYWORD_IS_NOT_NULL:
+                    $whereArr[] = $this->encapsulate($where->name) . self::EMPTY_SPACE . $where->operator;
                     break;
                 default:
-                    $whereArr[] = $this->encapsulate($where->name) . ' ' . $where->operator . ' ' . $this->encapsulatePlaceholder($where->name, $where->value);
-
+                    $whereArr[] = $this->encapsulate($where->name) . self::EMPTY_SPACE . $where->operator . self::EMPTY_SPACE . $this->encapsulatePlaceholder($where->name, $where->value);
                     break;
             }
         }
 
         $whereStr .= implode($combineWith, $whereArr);
-        if ($whereStr == 'WHERE ') {
-            return '';
+        if ($whereStr == self::KEYWORD_WHERE.self::EMPTY_SPACE) {
+            return self::EMPTY_STRING;
         }
 
         return $whereStr;
@@ -570,15 +617,15 @@ class BaseRepository
      */
     protected function buildOrderBy(): string
     {
-        $orderByStr = 'ORDER BY ';
+        $orderByStr = self::KEYWORD_ORDER_BY.self::EMPTY_SPACE;
         $orderByArr = array();
         foreach ($this->order as $order) {
-            $orderByArr[] = $order->name . ' ' . $order->direction;
+            $orderByArr[] = $order->name.self::EMPTY_SPACE.$order->direction;
         }
 
-        $orderByStr .= implode(',', $orderByArr);
-        if ($orderByStr == 'ORDER BY ') {
-            return '';
+        $orderByStr .= implode(self::IMPLODE_SEPARATOR, $orderByArr);
+        if ($orderByStr == self::KEYWORD_ORDER_BY.self::EMPTY_SPACE) {
+            return self::EMPTY_STRING;
         }
 
         return $orderByStr;
