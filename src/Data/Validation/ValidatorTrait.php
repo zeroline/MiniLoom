@@ -81,11 +81,11 @@ trait ValidatorTrait
             foreach ($rules as $rule => $arguments) {
                 $result = null;
                 if (is_string($rule)) {
-                    if (!isset($value) && $rule != strval(ValidatorRule::REQUIRED)) {
+                    if (!isset($value) && $rule != ValidatorRule::REQUIRED->name) {
                         continue;
                     }
 
-                    if ($rule == strval(ValidatorRule::CUSTOM) && is_callable($arguments)) {
+                    if ($rule == ValidatorRule::CUSTOM->name && is_callable($arguments)) {
                         $f = $arguments;
                         $result = $f($value, $this);
                     } elseif (method_exists(Validator::class, $rule)) {

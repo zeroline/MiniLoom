@@ -63,7 +63,7 @@ class Connection
                 $connectionString = 'sqlite:' . $this->databaseName;
                 break;
             default:
-                $connectionString = strval($this->dbType) . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->databaseName . ';charset=utf8mb4';
+                $connectionString = $this->dbType->name . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->databaseName . ';charset=utf8mb4';
                 if(is_null($this->options)) {
                     $this->options = array(
                         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',

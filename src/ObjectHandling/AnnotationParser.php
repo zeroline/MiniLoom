@@ -15,6 +15,7 @@ namespace zeroline\MiniLoom\ObjectHandling;
 
 use ReflectionException;
 use ReflectionObject;
+use ReflectionClass;
 use zeroline\MiniLoom\ObjectHandling\ObjectFactory as ObjectFactory;
 
 final class AnnotationParser
@@ -85,7 +86,7 @@ final class AnnotationParser
      * @param ReflectionObject $ref 
      * @return array 
      */
-    private static function getClassProperties(\ReflectionObject $ref) : array
+    private static function getClassProperties(ReflectionObject $ref) : array
     {
         $props = $ref->getProperties();
         $props_arr = array();
@@ -93,13 +94,16 @@ final class AnnotationParser
             $f = $prop->getName();
             $props_arr[] = $prop;
         }
+        // TODO: check if parent class has properties and merge them in this object
+        /*
         if (($parentClass = $ref->getParentClass())) {
-            $parent_props_arr = static::getClassProperties(new \ReflectionClass($parentClass->getName()));
+            $parent_props_arr = static::getClassProperties(new ReflectionClass($parentClass->getName()));
             // recursive call
             if (count($parent_props_arr) > 0) {
                 $props_arr = array_merge($parent_props_arr, $props_arr);
             }
         }
+        */
         return $props_arr;
     }
 
@@ -111,7 +115,7 @@ final class AnnotationParser
      */
     public static function injectClassesAndComponentsIntoObject(mixed $object) : void
     {
-        $reflection = new \ReflectionObject($object);
+        $reflection = new ReflectionObject($object);
         $properties = static::getClassProperties($reflection);
         foreach ($properties as $property) {
             $property->setAccessible(true);
