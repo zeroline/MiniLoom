@@ -16,7 +16,11 @@
 
 namespace zeroline\MiniLoom\Data;
 
-class Model implements \JsonSerializable
+use JsonSerializable;
+use AllowDynamicProperties;
+
+#[AllowDynamicProperties]
+class Model implements JsonSerializable
 {
     /**
      *
@@ -58,6 +62,7 @@ class Model implements \JsonSerializable
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
+        return null;
     }
 
     /**
@@ -139,7 +144,7 @@ class Model implements \JsonSerializable
 
     /**
      *
-     * @return array
+     * @return mixed
      */
     public function jsonSerialize() : mixed
     {

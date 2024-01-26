@@ -15,7 +15,12 @@ use zeroline\MiniLoom\Data\Database\SQL\Connection as Connection;
 class ConnectionManager
 {
     private const DEFAULT_CONNECTION_NAME = 'default';
-    private static $connections = array();
+
+    /**
+     * 
+     * @var array<Connection>
+     */
+    protected static array $connections = array();
     
     public static function setDefaultConnection(Connection $connection): void
     {

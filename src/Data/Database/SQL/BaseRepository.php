@@ -12,6 +12,7 @@ namespace zeroline\MiniLoom\Data\Database\SQL;
 
 use PDOException;
 use zeroline\MiniLoom\Data\Database\SQL\Connection as Connection;
+use stdClass;
 
 class BaseRepository
 {
@@ -66,15 +67,58 @@ class BaseRepository
     const ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME = 'joinTableFieldName';
     const ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME = 'baseTableFieldName';
 
-
+    /**
+     * 
+     * @var null|int
+     */
     protected ?int $limit = null;
+
+    /**
+     * 
+     * @var null|int
+     */
     protected ?int $offset = null;
+
+    /**
+     * 
+     * @var array<(object{name: string, direction: string}&stdClass)>
+     */
     protected array $order = array();
+
+    /**
+     * 
+     * @var array<(object{name: string, value: mixed, operator: string}&stdClass)>
+     */
     protected array $where = array();
+
+    /**
+     * 
+     * @var array<string, mixed>
+     */
     protected array $placeholder = array();
-    protected ?string $table = null;
+
+    /**
+     * 
+     * @var string
+     */
+    protected string $table;
+
+    /**
+     * 
+     * @var array<string>
+     */
     protected array $selectFields = array();
+
+    /**
+     * 
+     * @var array<int|string, array<string, string>|string>
+     */
     protected array $joins = array();
+
+    /**
+     * 
+     * @var null|Connection
+     */
     protected ?Connection $currentConnection = null;
 
     /**
@@ -113,9 +157,9 @@ class BaseRepository
 
     /**
      * 
-     * @return string 
+     * @return null|string 
      */
-    public function getTableName(): string
+    public function getTableName(): ?string
     {
         return $this->table;
     }
@@ -269,7 +313,7 @@ class BaseRepository
     /**
      * 
      * @param string $name 
-     * @param array $values 
+     * @param array<mixed> $values 
      * @return BaseRepository 
      */
     public function whereIn(string $name, array $values): BaseRepository
@@ -281,7 +325,7 @@ class BaseRepository
     /**
      * 
      * @param string $name 
-     * @param array $values 
+     * @param array<mixed> $values 
      * @return BaseRepository 
      */
     public function whereNotIn(string $name, array $values): BaseRepository
@@ -375,19 +419,6 @@ class BaseRepository
         return $this;
     }
 
-    /*
-    public function join(string $modelClass, string $joiningTableName, string $joiningTableFieldName, string $baseTableFieldName): BaseRepository
-    {
-        $this->joins[] = [
-            'modelClass' => $modelClass,
-            'joinTableName' => $joiningTableName,
-            'joinTableFieldName' => $joiningTableFieldName,
-            'baseTableFieldName' => $baseTableFieldName
-        ];
-        return $this;
-    }
-    */
-
     /************************************************************************/
     /* BUILDER */
     /************************************************************************/
@@ -399,7 +430,7 @@ class BaseRepository
      */
     protected function encapsulate(string $name): string
     {
-        return $this->getConnection()->getQuoteIdentifier() . $name . $this->getConnection()->getQuoteIdentifier();
+        return $this->getConnection()?->getQuoteIdentifier() . $name . $this->getConnection()?->getQuoteIdentifier();
     }
 
     /**
@@ -413,7 +444,7 @@ class BaseRepository
     {
         $newName = self::COLON . $name;
         if (array_key_exists($newName, $this->placeholder)) {
-            return $this->encapsulate($name . mt_rand(), $value);
+            return $this->encapsulate($name . mt_rand());
         } else {
             $this->placeholder[$newName] = $value;
             return $newName;
@@ -422,7 +453,7 @@ class BaseRepository
 
     /**
      * Build full insert query string
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return string
      */
     protected function buildInsert(array $data = array()): string

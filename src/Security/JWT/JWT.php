@@ -19,16 +19,20 @@ class JWT
     private const HEADER_ALGORITHM = "alg";
     public const TYPE = "JWT";
 
+    /**
+     * 
+     * @var array<string, string>
+     */
     private array $header = array();
-    private ?DataContainer $payload = null;
+    private DataContainer $payload;
 
     /**
      * Constructs a new object
      *
      * @param string $algorithm
-     * @param mixed $payload
+     * @param array<string, mixed>|object $payload
      */
-    public function __construct(string $algorithm, $payload)
+    public function __construct(string $algorithm, array|object $payload)
     {
         $this->header = array(
             'typ' => self::TYPE,
@@ -58,22 +62,20 @@ class JWT
     }
 
     /**
-     * Sets and overwrites the payload
-     *
-     * @param mixed $payload
-     * @return void
+     * 
+     * @param DataContainer $payload 
+     * @return void 
      */
-    public function setPayload($payload): void
+    public function setPayload(DataContainer $payload): void
     {
         $this->payload = $payload;
     }
 
     /**
-     * Returns the JWT payload object
-     *
-     * @return mixed
+     * 
+     * @return DataContainer 
      */
-    public function getPayload()
+    public function getPayload() : DataContainer
     {
         return $this->payload;
     }
@@ -96,7 +98,7 @@ class JWT
      */
     public function getNotBefore(): ?int
     {
-        return $this->getPayload()->nbf;
+        return intval($this->getPayload()->nbf);
     }
 
     /**

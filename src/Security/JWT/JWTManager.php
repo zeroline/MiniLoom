@@ -13,6 +13,7 @@ namespace zeroline\MiniLoom\Security\JWT;
 
 use zeroline\MiniLoom\Security\HMAC as HMAC;
 use zeroline\MiniLoom\Security\JWT\JWT as JWT;
+use zeroline\MiniLoom\Data\DataContainer;
 
 final class JWTManager
 {
@@ -106,6 +107,12 @@ final class JWTManager
             throw new \Exception('Invalid payload segment encoding');
         }
 
+        // cast header to DataContainer 
+        $header = new DataContainer((array)$header);
+
+        // cast payload to DataContainer
+        $payload = new DataContainer((array)$payload);
+
         if (empty($header->alg)) {
             throw new \Exception('Missing algorithm');
         }
@@ -131,7 +138,7 @@ final class JWTManager
             throw new \Exception('The given token is expired.');
         }
 
-        return static::createJWTWithPayload($payload, $header->alg);
+        return static::createJWTWithPayload($payload->getData(), $header->alg);
     }
 
     /**
@@ -156,11 +163,11 @@ final class JWTManager
     /**
      * Creates a new JWT
      *
-     * @param mixed $payload
+     * @param array<string, mixed>|object $payload
      * @param string $algorithm
      * @return JWT
      */
-    public static function createJWTWithPayload($payload, string $algorithm = HMAC::ALGORITHM_DEFAULT): JWT
+    public static function createJWTWithPayload(array|object $payload, string $algorithm = HMAC::ALGORITHM_DEFAULT): JWT
     {
         return new JWT($algorithm, $payload);
     }

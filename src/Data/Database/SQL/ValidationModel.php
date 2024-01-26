@@ -26,13 +26,4 @@ class ValidationModel extends Model
     {
         parent::__construct($data);
     }
-
-    public function jsonSerialize()
-    {
-        $data = parent::jsonSerialize();
-        
-        // Perform filter
-        $this->filter();
-        return $data;
-    }
 }

@@ -12,7 +12,9 @@
 namespace zeroline\MiniLoom\Data;
 
 use JsonSerializable;
+use AllowDynamicProperties;
 
+#[AllowDynamicProperties]
 class DataContainer implements JsonSerializable
 {
     /**
