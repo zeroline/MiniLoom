@@ -16,6 +16,7 @@ namespace zeroline\MiniLoom\ObjectHandling;
 
 use zeroline\MiniLoom\ObjectHandling\AnnotationParser as AnnotationParser;
 use zeroline\MiniLoom\ObjectHandling\SingletonTrait as SingletonTrait;
+use ReflectionClass;
 
 class ObjectFactory
 {
@@ -24,17 +25,17 @@ class ObjectFactory
      *
      * @var array
      */
-    private static $instances = array();
+    protected static $instances = array();
 
     /**
      * Creates a new instance of a class.
      * @param string $class
      * @param boolean $enableAnnotations
-     * @return $class
+     * @return mixed
      */
-    public static function create($class, array $args = array(), $enableAnnotations = true) : mixed
+    public static function create(string $class, array $args = array(), $enableAnnotations = true) : mixed
     {
-        $reflector = new \ReflectionClass($class);
+        $reflector = new ReflectionClass($class);
         $instance = $reflector->newInstanceArgs($args);
         if ($enableAnnotations) {
             AnnotationParser::injectClassesAndComponentsIntoObject($instance);
@@ -47,9 +48,9 @@ class ObjectFactory
      * If the class does not use the SingletonTrait the instance is stored in the static $instances array.
      * @param string $class
      * @param boolean $enableAnnotations
-     * @return $class
+     * @return mixed
      */
-    public static function singleton($class, array $args = array(), $enableAnnotations = true) : mixed
+    public static function singleton(string $class, array $args = array(), $enableAnnotations = true) : mixed
     {
         if (in_array(SingletonTrait::class, class_uses($class))) {
             return $class::getInstance(...$args);

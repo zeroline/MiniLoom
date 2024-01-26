@@ -36,7 +36,7 @@ final class SQLFileExecuter
         }
         $repository = new BaseRepository();
         if(!is_null($connection)) {
-            $repository->setConnection($connection);
+            $repository->switchConnection($connection);
         }
 
         if($useTransaction) {

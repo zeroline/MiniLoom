@@ -69,7 +69,7 @@ final class Crypter
 
         $keySize = self::DEFAULT_KEY_SIZE;
         if (preg_match(self::REGEX_AES_BIT_LENGTH, strtolower($cipher), $matches)) {
-            $keySize = $matches[1] / 8;
+            $keySize = intval($matches[1]) / 8;
         } else {
             $ivSize = openssl_cipher_iv_length($cipher);
             if ($ivSize > 0) {

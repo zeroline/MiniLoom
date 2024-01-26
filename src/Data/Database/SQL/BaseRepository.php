@@ -138,10 +138,15 @@ class BaseRepository
      * @param string $connectionName 
      * @return BaseRepository 
      */
-    public function setConnection(string $connectionName): BaseRepository
+    public function switchConnection(string $connectionName): BaseRepository
     {
         $this->currentConnection = ConnectionManager::getConnection($connectionName);
         return $this;
+    }
+
+    public function connect() : void 
+    {
+        $this->getConnection()?->connect();
     }
 
     /**
@@ -548,7 +553,7 @@ class BaseRepository
         if (count($this->selectFields)) {
             $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE, $this->selectFields).self::EMPTY_SPACE;
         } elseif ($this->hasJoins()) {
-            $selectStr .= $this->buildGeneralSelectFields();
+            $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE,$this->buildGeneralSelectFields());
         } else { 
             $selectStr .= self::KEYWORD_ASTERISK.self::EMPTY_SPACE;
         }

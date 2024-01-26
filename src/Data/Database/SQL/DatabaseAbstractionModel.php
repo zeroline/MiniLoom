@@ -10,6 +10,7 @@
 
 namespace zeroline\MiniLoom\Data\Database\SQL;
 
+use PDOException;
 use zeroline\MiniLoom\Data\Database\SQL\ValidationModel as ValidationModel;
 use zeroline\MiniLoom\Event\Mediator as Mediator;
 use zeroline\MiniLoom\Data\Database\SQL\ModelRepository as ModelRepository;
@@ -51,10 +52,10 @@ class DatabaseAbstractionModel extends ValidationModel
     protected static ?ModelRepository $repository = null;
 
     /**
-     *
-     * @var \PHPSimpleLib\Core\Event\Mediator
+     * 
+     * @var Mediator
      */
-    protected ?Mediator $mediator = null;
+    protected Mediator $mediator;
 
     /**
      * Store field info for joining
@@ -91,7 +92,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param Model $model
      * @return void
      */
-    private static function addToModelCache(string $class, int $id, Model $model): void
+    protected static function addToModelCache(string $class, int $id, Model $model): void
     {
         $key = $class . ':' . $id;
         static::$singleModelCache[$key] = $model;
@@ -104,7 +105,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param integer $id
      * @return Model|null
      */
-    private static function getModelFromCache(string $class, int $id): ?Model
+    protected static function getModelFromCache(string $class, int $id): ?Model
     {
         if (static::isModelInCache($class, $id)) {
             $key = $class . ':' . $id;
@@ -120,7 +121,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param integer $id
      * @return boolean
      */
-    private static function isModelInCache(string $class, int $id): bool
+    protected static function isModelInCache(string $class, int $id): bool
     {
         $key = $class . ':' . $id;
         return array_key_exists($key, static::$singleModelCache);
@@ -339,9 +340,9 @@ class DatabaseAbstractionModel extends ValidationModel
     }
 
     /**
-     * @param string $connectionName
-     *
-     * @return bool
+     * 
+     * @return bool 
+     * @throws PDOException 
      */
     public function save(): bool
     {
@@ -382,7 +383,6 @@ class DatabaseAbstractionModel extends ValidationModel
      * Tries to save the model after performing validation.
      * Saving is only performed if the model is valid
      *
-     * @param string $connectionName
      *
      * @return boolean
      */
@@ -404,7 +404,6 @@ class DatabaseAbstractionModel extends ValidationModel
     }
 
     /**
-     * @param string $connectionName
      *
      * @return bool
      */
@@ -444,7 +443,7 @@ class DatabaseAbstractionModel extends ValidationModel
             }
         }
 
-        $repo = $c::getSearchRepository();
+        $repo = $c::getRepository();
         $repo->clearConditions();
         $repo->where($c::$idColumn, $id);
         $repo->limit(1);
@@ -465,7 +464,7 @@ class DatabaseAbstractionModel extends ValidationModel
         return static::getRepository();
     }
 
-    private static function getRepository(): ModelRepository
+    protected static function getRepository(): ModelRepository
     {
         $c = get_called_class();
         if (!isset($c::$repository)) {

@@ -35,7 +35,14 @@ class Connection
 
     /**
      * 
-     * @param DBConnectionConfiguration $config 
+     * @param DatabaseType $dbType 
+     * @param string $databaseName 
+     * @param null|string $host 
+     * @param null|int $port 
+     * @param null|string $username 
+     * @param null|string $password 
+     * @param null|array $options 
+     * @return void 
      */
     public function __construct(protected DatabaseType $dbType, protected string $databaseName, protected ?string $host, protected ?int $port, protected ?string $username, protected ?string $password, protected ?array $options)
     {
@@ -56,7 +63,7 @@ class Connection
                 $connectionString = 'sqlite:' . $this->databaseName;
                 break;
             default:
-                $connectionString = $this->dbType . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->databaseName . ';charset=utf8mb4';
+                $connectionString = strval($this->dbType) . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->databaseName . ';charset=utf8mb4';
                 if(is_null($this->options)) {
                     $this->options = array(
                         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
