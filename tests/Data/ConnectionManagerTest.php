@@ -16,7 +16,7 @@ use zeroline\MiniLoom\Data\Database\SQL\Connection;
 use zeroline\MiniLoom\Data\Database\SQL\DatabaseType;
 use SQLite3;
 
-class ConnectionManagerTest extends TestCase 
+class ConnectionManagerTest extends TestCase
 {
     const DB_FILENAME = 'tests/assets/Data/db.sqlite';
     const CREATE_TABLE_01_SQL = 'CREATE TABLE IF NOT EXISTS `test_table_01` (
@@ -55,7 +55,7 @@ class ConnectionManagerTest extends TestCase
         $this->assertInstanceOf(Connection::class, ConnectionManager::getDefaultConnection());
     }
 
-    public function testDifferentConnection() 
+    public function testDifferentConnection()
     {
         $this->assertNull(ConnectionManager::getConnection('test'));
 

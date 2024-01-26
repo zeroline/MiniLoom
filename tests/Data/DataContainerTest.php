@@ -37,12 +37,14 @@ class DataContainerTest extends TestCase
         $this->assertFalse(isset($data->test2));
     }
 
-    public function testReturnCompleteData() {
+    public function testReturnCompleteData()
+    {
         $data = new DataContainer(['test' => 'test']);
         $this->assertEquals(['test' => 'test'], $data->getData());
     }
 
-    public function testJsonSerializeImplementation() {
+    public function testJsonSerializeImplementation()
+    {
         $data = new DataContainer(['test' => 'test']);
         $this->assertEquals('{"test":"test"}', json_encode($data));
     }

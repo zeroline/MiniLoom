@@ -16,7 +16,7 @@ use zeroline\MiniLoom\Data\Database\SQL\Connection;
 use zeroline\MiniLoom\Data\Database\SQL\DatabaseType;
 use PDO;
 
-class ConnectionTest extends TestCase 
+class ConnectionTest extends TestCase
 {
     const DB_FILENAME = 'tests/assets/Data/db.sqlite';
     const CREATE_TABLE_01_SQL = 'CREATE TABLE IF NOT EXISTS `test_table_01` (

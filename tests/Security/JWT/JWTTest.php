@@ -22,21 +22,21 @@ class JWTTest extends TestCase
     private const INVALID_KEY = 'keyInvalid';
 
 
-    public function testCreateJWTWithJWTManager() 
+    public function testCreateJWTWithJWTManager()
     {
         $jwt = JWTManager::createJWTWithPayload(['test' => 'test']);
         $this->assertInstanceOf(JWT::class, $jwt);
         $this->assertNotEmpty($jwt);
     }
 
-    public function testPayloadAccessToJWT() 
+    public function testPayloadAccessToJWT()
     {
         $jwt = JWTManager::createJWTWithPayload(['test' => 'test']);
         $this->assertEquals('test', $jwt->getPayload()->test);
         $this->assertEquals('test', $jwt->test);
     }
 
-    public function testSigningJWT() 
+    public function testSigningJWT()
     {
         $jwt = JWTManager::createJWTWithPayload(['test' => 'test']);
         $jwtString = JWTManager::stringFromJWT($jwt, self::VALID_KEY);
@@ -59,7 +59,7 @@ class JWTTest extends TestCase
         $jwtFromStringWithValidKey = JWTManager::jwtFromString($jwtString, self::VALID_KEY);
     }
 
-    public function testValidNotBefore() 
+    public function testValidNotBefore()
     {
         $jwt = JWTManager::createJWTWithPayload(['test' => 'test']);
         $jwt->setNotBefore(time() - 1000);
@@ -69,7 +69,7 @@ class JWTTest extends TestCase
         $this->assertEquals('test', $jwtFromStringWithValidKey->getPayload()->test);
     }
 
-    public function testValidIssuedAt() 
+    public function testValidIssuedAt()
     {
         $jwt = JWTManager::createJWTWithPayload(['test' => 'test']);
         $jwt->setIssuedAt(time() - 1000);
@@ -79,7 +79,7 @@ class JWTTest extends TestCase
         $this->assertEquals('test', $jwtFromStringWithValidKey->getPayload()->test);
     }
 
-    public function testInvalidIssuedAt() 
+    public function testInvalidIssuedAt()
     {
         $jwt = JWTManager::createJWTWithPayload(['test' => 'test']);
         $jwt->setIssuedAt(time() + 1000);
@@ -114,5 +114,4 @@ class JWTTest extends TestCase
         $this->expectException(Exception::class);
         $jwtFromStringWithValidKey = JWTManager::jwtFromString('invalid', self::VALID_KEY);
     }
-
 }

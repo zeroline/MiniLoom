@@ -27,14 +27,14 @@ class HMACTest extends TestCase
         $this->assertFalse(HMAC::isAlgorithmSupported('sha513')); // does not exist
     }
 
-    public function testSigningWithDefaultAlgorithm() 
+    public function testSigningWithDefaultAlgorithm()
     {
         $signedMessage = HMAC::sign(self::MESSAGE, self::KEY);
         $this->assertNotEmpty($signedMessage);
         $this->assertNotEquals(self::MESSAGE, $signedMessage);
     }
 
-    public function testSigningWithAlternativeAlgorithm() 
+    public function testSigningWithAlternativeAlgorithm()
     {
         $signedMessage = HMAC::sign(self::MESSAGE, self::KEY, self::ALTERNATIVE_ALGORITHM);
         $this->assertNotEmpty($signedMessage);

@@ -18,7 +18,7 @@ use zeroline\MiniLoom\Data\Database\SQL\SQLFileExecuter;
 use zeroline\MiniLoom\Data\Database\SQL\ConnectionManager;
 use PDO;
 
-class SQLFileExecuterTest extends TestCase 
+class SQLFileExecuterTest extends TestCase
 {
     const DB_FILENAME = 'tests/assets/Data/db.sqlite';
     const MIGRATION_FILENAME = 'tests/assets/Data/testSqlFile.sql';
@@ -34,7 +34,7 @@ class SQLFileExecuterTest extends TestCase
         unlink(self::DB_FILENAME);
     }
 
-    public function testFileExecution() 
+    public function testFileExecution()
     {
         $this->assertInstanceOf(SQLite3::class, static::$db);
         $connection = new Connection(DatabaseType::SQLITE3, self::DB_FILENAME, null, null, null, null, null);
@@ -47,7 +47,7 @@ class SQLFileExecuterTest extends TestCase
         $this->assertInstanceOf(Connection::class, ConnectionManager::getDefaultConnection());
 
         $executionResult = SQLFileExecuter::loadAndExecute(self::MIGRATION_FILENAME, true);
-        
-        $this->assertTrue($executionResult);        
+
+        $this->assertTrue($executionResult);
     }
 }

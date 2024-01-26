@@ -13,12 +13,14 @@ namespace zeroline\MiniLoom\Tests\ObjectHandling;
 
 use zeroline\MiniLoom\ObjectHandling\SingletonTrait;
 
-class TestClassWithSingletonTrait {
+class TestClassWithSingletonTrait
+{
     use SingletonTrait;
-    
+
     public string $test;
-    
-    public function __construct(string $args) {
+
+    public function __construct(string $args)
+    {
         $this->test = $args;
     }
 }

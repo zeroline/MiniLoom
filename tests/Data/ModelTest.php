@@ -14,7 +14,7 @@ namespace zeroline\MiniLoom\Tests\Data;
 use PHPUnit\Framework\TestCase;
 use zeroline\MiniLoom\Data\Model as Model;
 
-class ModelTest extends TestCase 
+class ModelTest extends TestCase
 {
     public function testModelConstructor()
     {
@@ -35,12 +35,14 @@ class ModelTest extends TestCase
         $this->assertFalse(isset($model->test2));
     }
 
-    public function testJsonSerializeImplementation() {
+    public function testJsonSerializeImplementation()
+    {
         $model = new Model(['test' => 'test']);
         $this->assertEquals('{"test":"test"}', json_encode($model));
     }
 
-    public function testDirtyFields() {
+    public function testDirtyFields()
+    {
         $model = new Model(['test' => 'test']);
         $this->assertEquals([], $model->getDirtyFields());
 

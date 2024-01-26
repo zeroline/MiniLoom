@@ -14,8 +14,9 @@ namespace zeroline\MiniLoom\Tests\ObjectHandling;
 class TestClass
 {
     public string $test;
-    
-    public function __construct(string $test = '') {
+
+    public function __construct(string $test = '')
+    {
         $this->test = $test;
     }
 }

@@ -74,5 +74,4 @@ class OpenSSLCipherTest extends TestCase
         $this->assertFalse($decryptedMessage);
         $this->assertNotEquals(self::MESSAGE, $decryptedMessage);
     }
-    
 }
