@@ -46,7 +46,7 @@ class Model implements JsonSerializable
      */
     public function __construct($data = array())
     {
-        if (!is_array($data) && is_object($data)) {
+        if (!is_array($data)) {
             $data = (array)$data;
         }
         $this->data = $data;

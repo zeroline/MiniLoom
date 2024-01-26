@@ -62,7 +62,6 @@ final class SQLFileExecuter
                     }
                     
                     throw new Exception('Execution of SQL script file "' . $sqlFilename . '" aborted. Failure at script line "' . $query . '"');
-                    break;
                 }
                 $query = '';
             }

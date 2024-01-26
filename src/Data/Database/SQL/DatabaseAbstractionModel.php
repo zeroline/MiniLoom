@@ -302,7 +302,7 @@ class DatabaseAbstractionModel extends ValidationModel
             if ($connectType === self::CONNECT_TYPE_SIMPLE) {
                 $modelClass::repository()->where($foreignFieldName, $this->{$ownFieldName});
                 $this->connectedData[$fieldName] = $modelClass::repository()->read();
-            } else if (self::CONNECT_TYPE_COMPLEX) {
+            } else if ($connectType === self::CONNECT_TYPE_COMPLEX) {
                 $targetTableName = $modelClass::repository()->getTableName();
                 $connectionClass = $connectData['connectionClass'];
                 $connectionTableName = $connectionClass::repository()->getTableName();
