@@ -11,6 +11,7 @@
 namespace zeroline\MiniLoom\Data\Database\SQL;
 
 use zeroline\MiniLoom\Data\Database\SQL\BaseRepository as BaseRepository;
+use Exception;
 
 final class SQLFileExecuter
 {
@@ -24,14 +25,14 @@ final class SQLFileExecuter
      * @param string $sqlFilename
      * @param string $connection
      *
-     * @throws \Exception on script exec error
+     * @throws Exception on script exec error
      *
      * @return bool
      */
     public static function loadAndExecute(string $sqlFilename, bool $useTransaction = false, ?string $connection = null) : bool
     {
         if (!is_readable($sqlFilename)) {
-            throw new \Exception('SQL file "' . $sqlFilename . '" is not readable.');
+            throw new Exception('SQL file "' . $sqlFilename . '" is not readable.');
         }
         $repository = new BaseRepository();
         if(!is_null($connection)) {
@@ -60,7 +61,7 @@ final class SQLFileExecuter
                         $repository->rollbackTransaction();
                     }
                     
-                    throw new \Exception('Execution of SQL script file "' . $sqlFilename . '" aborted. Failure at script line "' . $query . '"');
+                    throw new Exception('Execution of SQL script file "' . $sqlFilename . '" aborted. Failure at script line "' . $query . '"');
                     break;
                 }
                 $query = '';
