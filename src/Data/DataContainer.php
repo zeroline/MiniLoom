@@ -11,19 +11,21 @@
 
 namespace zeroline\MiniLoom\Data;
 
-class DataContainer implements \JsonSerializable
+use JsonSerializable;
+
+class DataContainer implements JsonSerializable
 {
     /**
      *
-     * @var array
+     * @var array<string, mixed>
      */
     private array $data = array();
 
     /**
      *
-     * @param array|object $data
+     * @param array<string, mixed>|object $data
      */
-    public function __construct($data = array())
+    public function __construct( array|object $data = array())
     {
         if (!is_array($data)) {
             $data = (array)$data;
@@ -33,7 +35,7 @@ class DataContainer implements \JsonSerializable
 
     /**
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getData() : array
     {
