@@ -89,10 +89,10 @@ class DatabaseAbstractionModel extends ValidationModel
      *
      * @param string $class
      * @param integer $id
-     * @param Model $model
+     * @param DatabaseAbstractionModel $model
      * @return void
      */
-    protected static function addToModelCache(string $class, int $id, Model $model): void
+    protected static function addToModelCache(string $class, int $id, DatabaseAbstractionModel $model): void
     {
         $key = $class . ':' . $id;
         static::$singleModelCache[$key] = $model;
@@ -103,9 +103,9 @@ class DatabaseAbstractionModel extends ValidationModel
      *
      * @param string $class
      * @param integer $id
-     * @return Model|null
+     * @return DatabaseAbstractionModel|null
      */
-    protected static function getModelFromCache(string $class, int $id): ?Model
+    protected static function getModelFromCache(string $class, int $id): ?DatabaseAbstractionModel
     {
         if (static::isModelInCache($class, $id)) {
             $key = $class . ':' . $id;
