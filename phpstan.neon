@@ -2,6 +2,6 @@ parameters:
     universalObjectCratesClasses:
         - zeroline\MiniLoom\Data\DataContainer
         - zeroline\MiniLoom\Data\Model
-    level: 5
+    level: 6
     paths:
         - src
