@@ -54,7 +54,7 @@ final class CSVHelper
                     continue;
                 }
 
-                if (is_object($value)) {
+                if (is_array($value)) {
                     foreach ($value as $subKey => $subValue) {
                         if (in_array($key . $deepDataIndicator . $subKey, $columns)) {
                             continue;
@@ -85,10 +85,10 @@ final class CSVHelper
                 }
                 if (array_key_exists($column, $functions)) {
                     $row[] = $capsule . $functions[$column]($event->{$column}) . $capsule;
-                } elseif (array_key_exists($column, $extraFunctions)) {
+                } /*elseif (array_key_exists($column, $extraFunctions)) {
                     $funcData = $extraFunctions[$column];
                     $row[] = $funcData[1]($event->{$funcData[0]});
-                } else {
+                }*/ else {
                     if (strpos($column, $deepDataIndicator) !== false) {
                                 list($firstKey, $secondKey) = explode($deepDataIndicator, $column);
                         if (isset($event->{$firstKey}->{$secondKey})) {

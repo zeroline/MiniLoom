@@ -248,7 +248,7 @@ final class Validator
 
     public static function checkCount(mixed $value, int $count): bool
     {
-        if (is_array($value) || is_object($value)) {
+        if (is_array($value)) {
             return (bool) (count($value) == $count);
         }
         return false;
@@ -256,7 +256,7 @@ final class Validator
 
     public static function checkMinCount(mixed $value, int $minCount): bool
     {
-        if (is_array($value) || is_object($value)) {
+        if (is_array($value)) {
             return (bool) (count($value) >= $minCount);
         }
         return false;
@@ -264,7 +264,7 @@ final class Validator
 
     public static function checkMaxCount(mixed $value, int $maxCount): bool
     {
-        if (is_array($value) || is_object($value)) {
+        if (is_array($value)) {
             return (bool) (count($value) <= $maxCount);
         }
         return false;
@@ -272,7 +272,7 @@ final class Validator
 
     public static function checkCountRange(mixed $value, int $minCount, int $maxCount): bool
     {
-        if (is_array($value) || is_object($value)) {
+        if (is_array($value)) {
             return (bool) (count($value) >= $minCount && count($value) <= $maxCount);
         }
         return false;

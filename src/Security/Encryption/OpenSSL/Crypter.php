@@ -27,6 +27,7 @@ namespace zeroline\MiniLoom\Security\Encryption\OpenSSL;
  */
 
  use Exception;
+ use stdClass;
 
 final class Crypter
 {
@@ -67,7 +68,11 @@ final class Crypter
     private static function calculateKeyLength(string $cipher = self::PREFERRED_CIPHER): int
     {
         if (function_exists('openssl_cipher_key_length')) {
-            return openssl_cipher_key_length($cipher);
+            $result = openssl_cipher_key_length($cipher);
+            if ($result === false) {
+                throw new Exception('Could not calculate key length for cipher "' . $cipher . '".');
+            }
+            return $result;
         }
 
         $keySize = self::DEFAULT_KEY_SIZE;
@@ -118,7 +123,11 @@ final class Crypter
     {
         $keyLength = static::calculateKeyLength($cipher);
         $iterations = self::PBKDF_ITERATIONS;
-        return openssl_pbkdf2($password, $salt, $keyLength, $iterations);
+        $result = openssl_pbkdf2($password, $salt, $keyLength, $iterations);
+        if($result === false) {
+            throw new Exception('Could not generate key from password.');
+        }
+        return $result;
     }
 
     /**
@@ -140,12 +149,12 @@ final class Crypter
      * UnConcat the ciphered elements
      *
      * @param string $text
-     * @return Object
+     * @return stdClass
      */
-    private static function unpackCipherElementsFromString(string $text): object
+    private static function unpackCipherElementsFromString(string $text): stdClass
     {
         list($cipherText, $iv, $keySalt, $tag) = explode(self::PACKING_DELIMITER, $text);
-        $obj = new \stdClass();
+        $obj = new stdClass();
         $obj->cipherText = base64_decode($cipherText);
         $obj->iv = base64_decode($iv);
         $obj->keySalt = base64_decode($keySalt);
@@ -169,13 +178,20 @@ final class Crypter
     public static function encrypt(string $plainText, string $password, string $cipher = self::PREFERRED_CIPHER): string
     {
         if (!in_array($cipher, openssl_get_cipher_methods())) {
-            throw new \Exception('Cipher "' . $cipher . '" is not supported.');
+            throw new Exception('Cipher "' . $cipher . '" is not supported.');
         }
 
         $ivlen = openssl_cipher_iv_length($cipher);
+        if(!$ivlen) {
+            throw new Exception('Could not get IV length for cipher "' . $cipher . '".');
+        }
+
         $iv = openssl_random_pseudo_bytes($ivlen);
         list($key, $keySalt) = static::generateKeyAndSalt($password, $cipher);
         $cipherText = openssl_encrypt($plainText, $cipher, $key, 0, $iv, $tag);
+        if($cipherText === false) {
+            throw new Exception('Could not encrypt text.');
+        }
         return static::packCipherElementsToString($cipherText, $iv, $keySalt, $tag);
     }
 

@@ -90,10 +90,20 @@ trait ValidatorTrait
                         $result = $f($value, $this);
                     } elseif (method_exists(Validator::class, $rule)) {
                         $arguments = array_merge(array($value), $arguments);
-                        $result = forward_static_call_array(array(Validator::class,$rule), $arguments);
+                        $callable = array(Validator::class, $rule);
+                        if(is_callable($callable)) {
+                            $result = forward_static_call_array($callable, $arguments);
+                        } else {
+                            throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+                        }
                     } elseif (method_exists($this, $rule)) {
                         $arguments = array_merge(array($value), $arguments);
-                        $result = call_user_func_array(array($this,$rule), $arguments);
+                        $callable = array($this, $rule);
+                        if(is_callable($callable)) {
+                            $result = call_user_func_array($callable, $arguments);
+                        } else {
+                            throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+                        }
                     } else {
                         throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
                     }

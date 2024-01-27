@@ -13,6 +13,7 @@ namespace zeroline\MiniLoom\Data\Filter;
 
 use zeroline\MiniLoom\Data\Filter\Filter as Filter;
 use zeroline\MiniLoom\Data\Filter\FilterMode as FilterMode;
+use RuntimeException;
 
 trait FilterTrait
 {
@@ -58,7 +59,12 @@ trait FilterTrait
             foreach ($rules as $rule => $arguments) {
                 if (method_exists(Filter::class, $rule)) {
                     $arguments = array_merge(array($value), $arguments);
-                    $this->{$name} = forward_static_call_array(array(Filter::class,$rule), $arguments);
+                    $callable = array(Filter::class,$rule);
+                    if(is_callable($callable)) {
+                        $this->{$name} = forward_static_call_array($callable, $arguments);
+                    } else {
+                        throw new RuntimeException('Filter method not callable');
+                    }
                 }
             }
         }

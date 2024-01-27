@@ -46,6 +46,9 @@ final class SQLFileExecuter
         $result = null;
         $query = '';
         $fileLines = file($sqlFilename);
+        if($fileLines === false) {
+            throw new Exception('SQL file "' . $sqlFilename . '" could not be read.');
+        }
         foreach ($fileLines as $line) {
             $startWith = substr(trim($line), 0, 2);
             $endWith = substr(trim($line), -1, 1);

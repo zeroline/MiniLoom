@@ -30,7 +30,9 @@ final class Renderer
         extract($data);
         require $filename;
         $result = ob_get_clean();
-        return $result;
+        if($result !== false)
+            return $result;
+        return '';
     }
 
     /**
@@ -49,7 +51,10 @@ final class Renderer
 
         extract($data);
         eval('?> ' . $html . ' ');
-        return ob_get_clean();
+        $result = ob_get_clean();
+        if($result !== false)
+            return $result;
+        return '';
     }
 
     /**

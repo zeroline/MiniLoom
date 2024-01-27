@@ -17,6 +17,7 @@ namespace zeroline\MiniLoom\ObjectHandling;
 use zeroline\MiniLoom\ObjectHandling\AnnotationParser as AnnotationParser;
 use zeroline\MiniLoom\ObjectHandling\SingletonTrait as SingletonTrait;
 use ReflectionClass;
+use Exception;
 
 class ObjectFactory
 {
@@ -36,6 +37,9 @@ class ObjectFactory
      */
     public static function create(string $class, array $args = array(), $enableAnnotations = true) : mixed
     {
+        if(!class_exists($class)) {
+            throw new Exception("Class does not exist: " . $class);
+        }
         $reflector = new ReflectionClass($class);
         $instance = $reflector->newInstanceArgs($args);
         if ($enableAnnotations) {
@@ -54,6 +58,9 @@ class ObjectFactory
      */
     public static function singleton(string $class, array $args = array(), $enableAnnotations = true) : mixed
     {
+        if(!class_exists($class)) {
+            throw new Exception("Class does not exist: " . $class);
+        }
         if (in_array(SingletonTrait::class, class_uses($class))) {
             return $class::getInstance(...$args);
         } elseif (!array_key_exists($class, static::$instances)) {

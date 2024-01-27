@@ -12,6 +12,8 @@
 
 namespace zeroline\MiniLoom\Helper;
 
+use InvalidArgumentException;
+
 final class ArrayReader
 {
     /**
@@ -50,16 +52,19 @@ final class ArrayReader
      * @param array<string, mixed> $array
      * @return mixed
      */
-    private static function parseArrayPath(string $key, array $array, string $seperator = '.') : mixed
+    private static function parseArrayPath(string $key, array $array, string $separator = '.') : mixed
     {
-        $parts = explode($seperator, $key);
+        if(empty($separator)) {
+            throw new InvalidArgumentException('The separator must not be empty');
+        }
+        $parts = explode($separator, $key);
         if (sizeof($parts) === 1) {
             if (array_key_exists($parts[0], $array)) {
                 return $array[$parts[0]];
             }
         } else {
             if (array_key_exists($parts[0], $array)) {
-                return static::parseArrayPath(implode($seperator, array_slice($parts, 1)), $array[$parts[0]]);
+                return static::parseArrayPath(implode($separator, array_slice($parts, 1)), $array[$parts[0]]);
             }
         }
         return null;

@@ -31,7 +31,7 @@ final class AnnotationParser
      * Parses the doc comments of a class or method.
      *
      * @param string $comment
-     * @return array<string, mixed>
+     * @return array<int|string, array<int, bool|string>|string|true|null>
      */
     private static function resolveParamterFromDocComment(string $comment) : array
     {
@@ -73,9 +73,9 @@ final class AnnotationParser
      * Resolves a parameter value from a doc comment.
      * @param string $parameter
      * @param string $comment
-     * @return null|string
+     * @return mixed
      */
-    private static function resolveParamterValueFromDocComment(string $parameter, string $comment) : ?string
+    private static function resolveParamterValueFromDocComment(string $parameter, string $comment) : mixed
     {
         if (static::hasParameter($parameter, $comment)) {
             return static::resolveParamterFromDocComment($comment)[$parameter];
@@ -127,6 +127,10 @@ final class AnnotationParser
             }
 
             $comment = $property->getDocComment();
+            if($comment === false) {
+                continue;
+            }
+            
             $options = array();
             if (static::hasParameter(self::INJECTION_PARAMETER_OPTIONS, $comment)) {
                 $optionString = static::resolveParamterValueFromDocComment(self::INJECTION_PARAMETER_OPTIONS, $comment);

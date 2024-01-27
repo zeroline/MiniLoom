@@ -505,12 +505,14 @@ class BaseRepository
         $joinString = self::EMPTY_STRING;
         if ($this->hasJoins()) {
             foreach ($this->joins as $joinIndex => $joinData) {
-                $joiningTableName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_NAME];
-                $joiningTableFieldName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME];
-                $baseTableFieldName = $joinData[self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME];
-                $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
-                $joinString .= self::EMPTY_SPACE.self::KEYWORD_JOIN.self::EMPTY_SPACE.$this->encapsulate($joiningTableName).self::EMPTY_SPACE.$tablePrefix.self::EMPTY_SPACE;
-                $joinString .= self::KEYWORD_ON.self::EMPTY_SPACE.self::PARANTHESIS_OPEN.$this->encapsulate($tablePrefix . self::DOT).$joiningTableFieldName.self::KEYWORD_OPERATOR_EQUAL.$baseTableFieldName.self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
+                if(is_array($joinData) && array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_NAME, $joinData) && array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME, $joinData) && array_key_exists(self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME, $joinData)) {
+                    $joiningTableName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_NAME];
+                    $joiningTableFieldName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME];
+                    $baseTableFieldName = $joinData[self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME];
+                    $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
+                    $joinString .= self::EMPTY_SPACE.self::KEYWORD_JOIN.self::EMPTY_SPACE.$this->encapsulate($joiningTableName).self::EMPTY_SPACE.$tablePrefix.self::EMPTY_SPACE;
+                    $joinString .= self::KEYWORD_ON.self::EMPTY_SPACE.self::PARANTHESIS_OPEN.$this->encapsulate($tablePrefix . self::DOT).$joiningTableFieldName.self::KEYWORD_OPERATOR_EQUAL.$baseTableFieldName.self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
+                }                
             }
         }
 
