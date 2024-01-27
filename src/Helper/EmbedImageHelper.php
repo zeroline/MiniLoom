@@ -26,18 +26,18 @@ final class EmbedImageHelper
     public static function generateBase64ImageDataAndMimeFromFile(string $filename, ?string $mime = null) : array
     {
         $contents = file_get_contents($filename);
-        if($contents === false) {
+        if ($contents === false) {
             throw new Exception("Could not read file: " . $filename);
         }
 
         $base64 = base64_encode($contents);
         if (is_null($mime)) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            if($finfo === false) {
+            if ($finfo === false) {
                 throw new Exception("Could not open finfo resource");
             }
             $mime = finfo_file($finfo, $filename);
-            if($mime === false) {
+            if ($mime === false) {
                 throw new Exception("Could not detect mime type of file: " . $filename);
             }
             finfo_close($finfo);

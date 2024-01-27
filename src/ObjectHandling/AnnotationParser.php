@@ -127,10 +127,10 @@ final class AnnotationParser
             }
 
             $comment = $property->getDocComment();
-            if($comment === false) {
+            if ($comment === false) {
                 continue;
             }
-            
+
             $options = array();
             if (static::hasParameter(self::INJECTION_PARAMETER_OPTIONS, $comment)) {
                 $optionString = static::resolveParamterValueFromDocComment(self::INJECTION_PARAMETER_OPTIONS, $comment);

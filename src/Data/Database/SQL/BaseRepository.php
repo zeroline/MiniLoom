@@ -132,7 +132,7 @@ class BaseRepository
             $this->currentConnection = ConnectionManager::getDefaultConnection();
         }
 
-        if(is_null($this->currentConnection)) {
+        if (is_null($this->currentConnection)) {
             throw new RuntimeException('No connection available.');
         }
 
@@ -420,8 +420,11 @@ class BaseRepository
      * @param string $baseTableFieldName
      * @return BaseRepository
      */
-    public function join(string $joiningTableName, string $joiningTableFieldName, string $baseTableFieldName): BaseRepository
-    {
+    public function join(
+        string $joiningTableName,
+        string $joiningTableFieldName,
+        string $baseTableFieldName
+    ): BaseRepository {
         $this->joins[] = [
             self::ATTRIBUTE_KEY_JOIN_TABLE_NAME => $joiningTableName,
             self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME => $joiningTableFieldName,
@@ -441,7 +444,8 @@ class BaseRepository
      */
     protected function encapsulate(string $name): string
     {
-        return $this->getConnection()->getQuoteIdentifier() . $name . $this->getConnection()->getQuoteIdentifier();
+        $quteIdentifier = $this->getConnection()->getQuoteIdentifier();
+        return $quteIdentifier.$name.$quteIdentifier;
     }
 
     /**
@@ -469,7 +473,14 @@ class BaseRepository
      */
     protected function buildInsert(array $data = array()): string
     {
-        $insertStr = self::KEYWORD_INSERT.self::EMPTY_SPACE.self::KEYWORD_INTO.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
+        $insertStr =
+            self::KEYWORD_INSERT.
+            self::EMPTY_SPACE.
+            self::KEYWORD_INTO.
+            self::EMPTY_SPACE.
+            $this->encapsulate($this->table).
+            self::EMPTY_SPACE;
+
         $fieldsArr = array();
         $valueArr = array();
         foreach ($data as $k => $v) {
@@ -477,8 +488,20 @@ class BaseRepository
             $valueArr[] = $this->encapsulatePlaceholder($k, $v);
         }
 
-        $insertStr .= self::PARANTHESIS_OPEN . implode(self::IMPLODE_SEPARATOR, $fieldsArr) . self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
-        $insertStr .= self::KEYWORD_VALUES.self::EMPTY_SPACE.self::PARANTHESIS_OPEN.implode(self::IMPLODE_SEPARATOR, $valueArr).self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
+        $insertStr .=
+            self::PARANTHESIS_OPEN.
+            implode(self::IMPLODE_SEPARATOR, $fieldsArr).
+            self::PARANTHESIS_CLOSE.
+            self::EMPTY_SPACE;
+
+        $insertStr .=
+            self::KEYWORD_VALUES.
+            self::EMPTY_SPACE.
+            self::PARANTHESIS_OPEN.
+            implode(self::IMPLODE_SEPARATOR, $valueArr).
+            self::PARANTHESIS_CLOSE.
+            self::EMPTY_SPACE;
+
         return $insertStr;
     }
 
@@ -511,14 +534,35 @@ class BaseRepository
         $joinString = self::EMPTY_STRING;
         if ($this->hasJoins()) {
             foreach ($this->joins as $joinIndex => $joinData) {
-                if(is_array($joinData) && array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_NAME, $joinData) && array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME, $joinData) && array_key_exists(self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME, $joinData)) {
+                if (
+                    is_array($joinData) &&
+                    array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_NAME, $joinData) &&
+                    array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME, $joinData) &&
+                    array_key_exists(self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME, $joinData)) {
                     $joiningTableName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_NAME];
                     $joiningTableFieldName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME];
                     $baseTableFieldName = $joinData[self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME];
                     $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
-                    $joinString .= self::EMPTY_SPACE.self::KEYWORD_JOIN.self::EMPTY_SPACE.$this->encapsulate($joiningTableName).self::EMPTY_SPACE.$tablePrefix.self::EMPTY_SPACE;
-                    $joinString .= self::KEYWORD_ON.self::EMPTY_SPACE.self::PARANTHESIS_OPEN.$this->encapsulate($tablePrefix . self::DOT).$joiningTableFieldName.self::KEYWORD_OPERATOR_EQUAL.$baseTableFieldName.self::PARANTHESIS_CLOSE.self::EMPTY_SPACE;
-                }                
+                    $joinString .=
+                        self::EMPTY_SPACE.
+                        self::KEYWORD_JOIN.
+                        self::EMPTY_SPACE.
+                        $this->encapsulate($joiningTableName).
+                        self::EMPTY_SPACE.
+                        $tablePrefix.
+                        self::EMPTY_SPACE;
+
+                    $joinString .=
+                        self::KEYWORD_ON.
+                        self::EMPTY_SPACE.
+                        self::PARANTHESIS_OPEN.
+                        $this->encapsulate($tablePrefix . self::DOT).
+                        $joiningTableFieldName.
+                        self::KEYWORD_OPERATOR_EQUAL.
+                        $baseTableFieldName.
+                        self::PARANTHESIS_CLOSE.
+                        self::EMPTY_SPACE;
+                }
             }
         }
 
@@ -605,8 +649,18 @@ class BaseRepository
      */
     protected function buildDelete(): string
     {
-        $deleteStr = self::KEYWORD_DELETE.self::EMPTY_SPACE.self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
-        $deleteStr .= $this->buildWhere().self::EMPTY_SPACE;
+        $deleteStr =
+            self::KEYWORD_DELETE.
+            self::EMPTY_SPACE.
+            self::KEYWORD_FROM.
+            self::EMPTY_SPACE.
+            $this->encapsulate($this->table).
+            self::EMPTY_SPACE;
+
+        $deleteStr .=
+            $this->buildWhere().
+            self::EMPTY_SPACE;
+
         return $deleteStr;
     }
 
@@ -624,7 +678,13 @@ class BaseRepository
                 case self::KEYWORD_IN:
                 case self::KEYWORD_NOT_IN:
                     if (count($where->value) > 0) {
-                        $tmpStr = $this->encapsulate($where->name) . self::EMPTY_SPACE . $where->operator .self::EMPTY_SPACE.self::PARANTHESIS_OPEN;
+                        $tmpStr =
+                            $this->encapsulate($where->name).
+                            self::EMPTY_SPACE.
+                            $where->operator.
+                            self::EMPTY_SPACE.
+                            self::PARANTHESIS_OPEN;
+
                         $tmpArr = array();
                         for ($i = 0; $i < count($where->value); $i++) {
                             $v = $where->value[$i];
@@ -639,10 +699,20 @@ class BaseRepository
                     break;
                 case self::KEYWORD_IS_NULL:
                 case self::KEYWORD_IS_NOT_NULL:
-                    $whereArr[] = $this->encapsulate($where->name) . self::EMPTY_SPACE . $where->operator;
+                    $whereArr[] =
+                        $this->encapsulate($where->name).
+                        self::EMPTY_SPACE.
+                        $where->operator;
+
                     break;
                 default:
-                    $whereArr[] = $this->encapsulate($where->name) . self::EMPTY_SPACE . $where->operator . self::EMPTY_SPACE . $this->encapsulatePlaceholder($where->name, $where->value);
+                    $whereArr[] =
+                        $this->encapsulate($where->name).
+                        self::EMPTY_SPACE.
+                        $where->operator.
+                        self::EMPTY_SPACE.
+                        $this->encapsulatePlaceholder($where->name, $where->value);
+
                     break;
             }
         }
@@ -706,7 +776,7 @@ class BaseRepository
         $result = false;
         if ($this->getConnection()->execute($query, $this->placeholder)) {
             $result = $this->getConnection()->getConnection()?->lastInsertId();
-            if(is_null($result)) {
+            if (is_null($result)) {
                 return false;
             }
         }

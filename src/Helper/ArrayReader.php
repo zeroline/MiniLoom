@@ -54,7 +54,7 @@ final class ArrayReader
      */
     private static function parseArrayPath(string $key, array $array, string $separator = '.') : mixed
     {
-        if(empty($separator)) {
+        if (empty($separator)) {
             throw new InvalidArgumentException('The separator must not be empty');
         }
         $parts = explode($separator, $key);

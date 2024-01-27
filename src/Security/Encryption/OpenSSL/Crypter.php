@@ -103,7 +103,7 @@ final class Crypter
         $iterations = self::PBKDF_ITERATIONS;
 
         $pbkdf2 = openssl_pbkdf2($password, $salt, $keyLength, $iterations);
-        if($pbkdf2 === false) {
+        if ($pbkdf2 === false) {
             throw new Exception('Could not generate key from password.');
         }
         return array($pbkdf2, $salt);
@@ -124,7 +124,7 @@ final class Crypter
         $keyLength = static::calculateKeyLength($cipher);
         $iterations = self::PBKDF_ITERATIONS;
         $result = openssl_pbkdf2($password, $salt, $keyLength, $iterations);
-        if($result === false) {
+        if ($result === false) {
             throw new Exception('Could not generate key from password.');
         }
         return $result;
@@ -182,14 +182,14 @@ final class Crypter
         }
 
         $ivlen = openssl_cipher_iv_length($cipher);
-        if(!$ivlen) {
+        if (!$ivlen) {
             throw new Exception('Could not get IV length for cipher "' . $cipher . '".');
         }
 
         $iv = openssl_random_pseudo_bytes($ivlen);
         list($key, $keySalt) = static::generateKeyAndSalt($password, $cipher);
         $cipherText = openssl_encrypt($plainText, $cipher, $key, 0, $iv, $tag);
-        if($cipherText === false) {
+        if ($cipherText === false) {
             throw new Exception('Could not encrypt text.');
         }
         return static::packCipherElementsToString($cipherText, $iv, $keySalt, $tag);

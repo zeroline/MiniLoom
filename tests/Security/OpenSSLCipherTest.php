@@ -16,7 +16,12 @@ use zeroline\MiniLoom\Security\Encryption\OpenSSL\Crypter as Crypter;
 
 class OpenSSLCipherTest extends TestCase
 {
-    private const MESSAGE = 'MiniLoom says: Hello World! Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
+    private const MESSAGE =
+        'MiniLoom says: Hello World! Lorem ipsum dolor sit amet,'.
+        'consetetur sadipscing elitr, sed diam nonumy eirmod tempor'.
+        'invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua '.
+        'At vero eos et accusam et justo duo dolores et ea rebum. Stet clita '.
+        'kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
     private const KEY = '1234567890';
     private const INVALID_KEY = '0123456789';
 

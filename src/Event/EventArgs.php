@@ -13,15 +13,15 @@ namespace zeroline\MiniLoom\Event;
 class EventArgs
 {
     /**
-     * 
+     *
      * @var array<mixed>
      */
     private array $arguments = array();
 
     /**
-     * 
-     * @param array<mixed> $arguments 
-     * @return void 
+     *
+     * @param array<mixed> $arguments
+     * @return void
      */
     public function __construct(array $arguments = array())
     {
@@ -29,8 +29,8 @@ class EventArgs
     }
 
     /**
-     * 
-     * @return array<mixed> 
+     *
+     * @return array<mixed>
      */
     public function getArguments(): array
     {
@@ -38,8 +38,8 @@ class EventArgs
     }
 
     /**
-     * 
-     * @return EventArgs 
+     *
+     * @return EventArgs
      */
     public static function empty(): EventArgs
     {

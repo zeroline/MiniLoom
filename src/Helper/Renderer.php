@@ -30,8 +30,9 @@ final class Renderer
         extract($data);
         require $filename;
         $result = ob_get_clean();
-        if($result !== false)
+        if ($result !== false) {
             return $result;
+        }
         return '';
     }
 
@@ -52,8 +53,9 @@ final class Renderer
         extract($data);
         eval('?> ' . $html . ' ');
         $result = ob_get_clean();
-        if($result !== false)
+        if ($result !== false) {
             return $result;
+        }
         return '';
     }
 

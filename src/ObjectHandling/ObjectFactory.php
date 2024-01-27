@@ -37,7 +37,7 @@ class ObjectFactory
      */
     public static function create(string $class, array $args = array(), $enableAnnotations = true) : mixed
     {
-        if(!class_exists($class)) {
+        if (!class_exists($class)) {
             throw new Exception("Class does not exist: " . $class);
         }
         $reflector = new ReflectionClass($class);
@@ -58,7 +58,7 @@ class ObjectFactory
      */
     public static function singleton(string $class, array $args = array(), $enableAnnotations = true) : mixed
     {
-        if(!class_exists($class)) {
+        if (!class_exists($class)) {
             throw new Exception("Class does not exist: " . $class);
         }
         if (in_array(SingletonTrait::class, class_uses($class))) {

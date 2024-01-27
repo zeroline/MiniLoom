@@ -25,10 +25,10 @@ final class TempFileHelper
     public static function write(string $data, string $prefix = '') : ?string
     {
         $temp_file = tempnam(sys_get_temp_dir(), $prefix);
-        if($temp_file === false) {
+        if ($temp_file === false) {
             throw new Exception('Could not create temporary file');
         }
-            
+
         if (file_put_contents($temp_file, $data)) {
             return $temp_file;
         }

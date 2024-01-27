@@ -146,7 +146,9 @@ class DatabaseAbstractionModel extends ValidationModel
     {
         parent::__construct($data);
         $this->mediator = Mediator::getInstance();
-        if ($this->getFilterMode() === FilterMode::FILTER_MODE_AFTER_AFTER_FETCH || $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH) {
+        if (
+            $this->getFilterMode() === FilterMode::FILTER_MODE_AFTER_AFTER_FETCH ||
+            $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH) {
             $this->filter();
         }
     }
@@ -157,7 +159,10 @@ class DatabaseAbstractionModel extends ValidationModel
      */
     public function isNew(): bool
     {
-        return (bool) (!isset($this->{$this->getIdColumn()}) || empty($this->{$this->getIdColumn()}));
+        return (bool) (
+            !isset($this->{$this->getIdColumn()}) ||
+            empty($this->{$this->getIdColumn()})
+        );
     }
 
     /**
@@ -224,8 +229,12 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param string $ownFieldName
      * @return void
      */
-    protected function addSimpleConnectedField(string $fieldName, string $modelClass, string $foreignFieldName, string $ownFieldName): void
-    {
+    protected function addSimpleConnectedField(
+        string $fieldName,
+        string $modelClass,
+        string $foreignFieldName,
+        string $ownFieldName
+    ): void {
         $this->fieldConnectStatements[$fieldName] = [
             'modelClass' => $modelClass,
             'connectType' => self::CONNECT_TYPE_SIMPLE,
@@ -258,8 +267,15 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param string $rightIdColumn
      * @return void
      */
-    protected function addComplexConnectedField(string $fieldName, string $modelClass, string $connectionClass, string $foreignFieldName, string $leftIdColumn, string $rightIdColumn, string $ownFieldName): void
-    {
+    protected function addComplexConnectedField(
+        string $fieldName,
+        string $modelClass,
+        string $connectionClass,
+        string $foreignFieldName,
+        string $leftIdColumn,
+        string $rightIdColumn,
+        string $ownFieldName
+    ): void {
         $this->fieldConnectStatements[$fieldName] = [
             'modelClass' => $modelClass,
             'connectType' => self::CONNECT_TYPE_COMPLEX,
@@ -289,6 +305,20 @@ class DatabaseAbstractionModel extends ValidationModel
      * Perform the selections a defined in for one
      * connected field
      *
+     * SELECT role.*
+     * FROM role
+     * JOIN user_role
+     *  ON user_role.roleid = role.id
+     * WHERE user_role.userid = 2
+     *
+     * OR
+     *
+     * SELECT [targetTableName].*
+     * FROM [targetTableName]
+     * JOIN [connectionTableName]
+     *  ON [connectionTableName].[rightIdColumn] = [targetTableName].[foreignFieldName]
+     * WHERE [connectionTableName].[leftIdColumn] = [this].[ownFieldName]
+     *
      * @param string $fieldName
      * @return array<string, mixed>
      */
@@ -309,9 +339,29 @@ class DatabaseAbstractionModel extends ValidationModel
                 $connectionTableName = $connectionClass::repository()->getTableName();
                 $rightIdColumn = $connectData['rightIdColumn'];
                 $leftIdColumn = $connectData['leftIdColumn'];
-                $this->connectedData[$fieldName] = $modelClass::repository()->readRaw('SELECT ' . $targetTableName . '.* FROM ' . $targetTableName . ' JOIN ' . $connectionTableName . ' ON ' . $connectionTableName . '.' . $rightIdColumn . '=' . $targetTableName . '.' . $foreignFieldName . ' WHERE ' . $connectionTableName . '.' . $leftIdColumn . '=' . $this->{$ownFieldName});
-            // SELECT role.* FROM role JOIN user_role ON user_role.roleid = role.id WHERE user_role.userid = 2
-                // SELECT [targetTableName].* FROM [targetTableName] JOIN [connectionTableName] ON [connectionTableName].[rightIdColumn] = [targetTableName].[foreignFieldName] WHERE [connectionTableName].[leftIdColumn] = [this].[ownFieldName]
+                $this->connectedData[$fieldName] =
+                    $modelClass::repository()->readRaw(
+                        'SELECT '.
+                        $targetTableName.
+                        '.* FROM '.
+                        $targetTableName.
+                        ' JOIN ' .
+                        $connectionTableName.
+                        ' ON '.
+                        $connectionTableName.
+                        '.'.
+                        $rightIdColumn.
+                        '='.
+                        $targetTableName.
+                        '.'.
+                        $foreignFieldName.
+                        ' WHERE ' .
+                        $connectionTableName.
+                        '.'.
+                        $leftIdColumn.
+                        '='.
+                        $this->{$ownFieldName}
+                    );
             }
         }
 
@@ -351,7 +401,10 @@ class DatabaseAbstractionModel extends ValidationModel
         $repository->clearConditions();
 
         $this->handleAutomaticFieldsOnSave();
-        if ($this->getFilterMode() === FilterMode::FILTER_MODE_BEFORE_SAVE || $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH) {
+        if (
+            $this->getFilterMode() === FilterMode::FILTER_MODE_BEFORE_SAVE ||
+            $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH
+            ) {
             $this->filter();
         }
 
@@ -360,7 +413,10 @@ class DatabaseAbstractionModel extends ValidationModel
             if ($newID !== false) {
                 $this->{$this->idColumn} = $newID;
                 $this->clearDirtyFields();
-                $this->mediator->trigger(static::getEventName(self::EVENT_CREATED), new EventArgs(array('model' => $this)));
+                $this->mediator->trigger(
+                    static::getEventName(self::EVENT_CREATED),
+                    new EventArgs(array('model' => $this))
+                );
                 return true;
             }
         } else {
@@ -371,7 +427,12 @@ class DatabaseAbstractionModel extends ValidationModel
             $repository->where($this->idColumn, $this->getId());
             $result = $repository->update($this->getDirtyFields());
             if ($result) {
-                $this->mediator->trigger(static::getEventName(self::EVENT_CHANGED), new EventArgs(array('model' => $this, 'dirtyFields' => array_reverse(array_reverse($this->dirtyFields)))));
+                $this->mediator->trigger(
+                    static::getEventName(self::EVENT_CHANGED),
+                    new EventArgs(array(
+                        'model' => $this,
+                        'dirtyFields' => array_reverse(array_reverse($this->dirtyFields))))
+                );
                 $this->clearDirtyFields();
                 return true;
             }
@@ -416,7 +477,10 @@ class DatabaseAbstractionModel extends ValidationModel
             $repository->where($this->idColumn, $this->getId());
             $clonedModel = clone $this;
             if ($deleteResult = $repository->delete()) {
-                $this->mediator->trigger(static::getEventName(self::EVENT_DELETED), new EventArgs(array('model' => $clonedModel)));
+                $this->mediator->trigger(
+                    static::getEventName(self::EVENT_DELETED),
+                    new EventArgs(array('model' => $clonedModel))
+                );
                 return $deleteResult;
             }
         }
@@ -424,7 +488,7 @@ class DatabaseAbstractionModel extends ValidationModel
         return false;
     }
 
-    // TODO: check $id data type. 
+    // TODO: check $id data type.
     /**
      * Tries to select and return one item from the database, casting
      * it to the given model class.
@@ -462,8 +526,8 @@ class DatabaseAbstractionModel extends ValidationModel
     }
 
     /**
-     * 
-     * @return ModelRepository 
+     *
+     * @return ModelRepository
      */
     public static function repository(): ModelRepository
     {
@@ -471,15 +535,15 @@ class DatabaseAbstractionModel extends ValidationModel
     }
 
     /**
-     * 
-     * @return ModelRepository 
+     *
+     * @return ModelRepository
      */
     protected static function getRepository(): ModelRepository
     {
         $c = get_called_class();
         if (!isset($c::$repository)) {
             $c::$repository = new ModelRepository();
-            if(is_null($c::$repository)) {
+            if (is_null($c::$repository)) {
                 throw new RuntimeException('Could not create repository for model ' . $c);
             }
             $c::$repository->setTable($c::$tableName);

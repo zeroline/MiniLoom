@@ -19,13 +19,17 @@ final class CSVHelper
      * Via the functions array you can provide functions to format the data. Use the column name as the key and the function as the value.
      * The ignore array can be used to ignore columns.
      * Change the capsule, separator and lineend to your needs.
-     * The extraFunctions array can be used to provide functions that need more than one column. Use the column name as the key and an array with the column name and the function as the value.
+     * The extraFunctions array can be used to provide functions that need more than one column. Use the column name as
+     * the key and an array with the column name and the function as the value.
      *
      * If no data is given an empty CSV string will be returned.
      *
-     * You may notice the chr(255) . chr(254) . mb_convert_encoding($csv_content, "UCS-2LE", "auto") part. This is needed to make sure that the CSV file is encoded in UTF-16LE. This is needed for Excel to open the file correctly.
-     * Today I would recommend to use UTF-8 instead. But this is the way I did it back then. In the good old days people tried to open the generated CSV files with Excel and Excel had problems with UTF-8. Today you would
-     * use the data import functions of Excel and there you can specify the encoding. But back then people just 'double clicked' the CSV file and expected it to open in Excel.
+     * You may notice the chr(255) . chr(254) . mb_convert_encoding($csv_content, "UCS-2LE", "auto") part.
+     * This is needed to make sure that the CSV file is encoded in UTF-16LE. This is needed for Excel to open the file correctly.
+     * Today I would recommend to use UTF-8 instead. But this is the way I did it back then.
+     * In the good old days people tried to open the generated CSV files with Excel and Excel had problems with UTF-8.
+     * Today you would use the data import functions of Excel and there you can specify the encoding.
+     * But back then people just 'double clicked' the CSV file and expected it to open in Excel.
      *
      * @param array<string> $columns
      * @param array<int, mixed> $data
@@ -37,8 +41,16 @@ final class CSVHelper
      * @param array<string, callable> $extraFunctions
      * @return string
      */
-    public static function build(array $columns, array $data, array $functions = array(), array $ignore = array(), string $capsule = '"', string $separator = ';', string $lineend = PHP_EOL, array $extraFunctions = array()) : string
-    {
+    public static function build(
+        array $columns,
+        array $data,
+        array $functions = array(),
+        array $ignore = array(),
+        string $capsule = '"',
+        string $separator = ';',
+        string $lineend = PHP_EOL,
+        array $extraFunctions = array()
+    ) : string {
         $csv_content = "";
         $deepDataIndicator = '.';
         if (count($data) == 0) {
@@ -85,10 +97,7 @@ final class CSVHelper
                 }
                 if (array_key_exists($column, $functions)) {
                     $row[] = $capsule . $functions[$column]($event->{$column}) . $capsule;
-                } /*elseif (array_key_exists($column, $extraFunctions)) {
-                    $funcData = $extraFunctions[$column];
-                    $row[] = $funcData[1]($event->{$funcData[0]});
-                }*/ else {
+                } else {
                     if (strpos($column, $deepDataIndicator) !== false) {
                                 list($firstKey, $secondKey) = explode($deepDataIndicator, $column);
                         if (isset($event->{$firstKey}->{$secondKey})) {
@@ -124,8 +133,17 @@ final class CSVHelper
      * @param array<string, callable> $extraFunctions
      * @return void
      */
-    public static function download(array $columns, array $data, array $functions = array(), array $ignore = array(), string $filename = 'Export.csv', string $capsule = '"', string $separator = ';', string $lineend = PHP_EOL, array $extraFunctions = array()) : void
-    {
+    public static function download(
+        array $columns,
+        array $data,
+        array $functions = array(),
+        array $ignore = array(),
+        string $filename = 'Export.csv',
+        string $capsule = '"',
+        string $separator = ';',
+        string $lineend = PHP_EOL,
+        array $extraFunctions = array()
+    ) : void {
         header('Content-Type: text/x-csv');
         header("Content-Disposition: attachment; filename=\"" . $filename . "\";");
         echo static::build($columns, $data, $functions, $ignore, $capsule, $separator, $lineend, $extraFunctions);
@@ -146,8 +164,17 @@ final class CSVHelper
      * @param array<string, callable> $extraFunctions
      * @return void
      */
-    public static function save(array $columns, array $data, array $functions = array(), array $ignore = array(), string $filename = 'Export.csv', string $capsule = '"', string $separator = ';', string $lineend = PHP_EOL, array $extraFunctions = array()) : void
-    {
+    public static function save(
+        array $columns,
+        array $data,
+        array $functions = array(),
+        array $ignore = array(),
+        string $filename = 'Export.csv',
+        string $capsule = '"',
+        string $separator = ';',
+        string $lineend = PHP_EOL,
+        array $extraFunctions = array()
+    ) : void {
         file_put_contents($filename, static::build($columns, $data, $functions, $ignore, $capsule, $separator, $lineend, $extraFunctions));
     }
 }

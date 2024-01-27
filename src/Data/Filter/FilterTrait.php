@@ -60,7 +60,7 @@ trait FilterTrait
                 if (method_exists(Filter::class, $rule)) {
                     $arguments = array_merge(array($value), $arguments);
                     $callable = array(Filter::class,$rule);
-                    if(is_callable($callable)) {
+                    if (is_callable($callable)) {
                         $this->{$name} = forward_static_call_array($callable, $arguments);
                     } else {
                         throw new RuntimeException('Filter method not callable');

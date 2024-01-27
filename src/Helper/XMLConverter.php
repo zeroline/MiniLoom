@@ -22,7 +22,7 @@ final class XMLConverter
      * @param SimpleXMLElement $parent
      * @param string $rootElement
      * @return string
-     * 
+     *
      * @throws Exception
      */
     public static function toXML(array|object $data, ?SimpleXMLElement $parent = null, string $rootElement = '<root/>') : string
@@ -31,8 +31,9 @@ final class XMLConverter
             $parent = new SimpleXMLElement($rootElement);
         }
 
-        if(!is_array($data))
+        if (!is_array($data)) {
             $data = (array) $data;
+        }
 
         foreach ($data as $key => $value) {
             if (is_array($value) || is_object($value)) {
@@ -43,9 +44,10 @@ final class XMLConverter
         }
 
         $result = $parent->asXML();
-        if($result !== false)
+        if ($result !== false) {
             return $result;
-        else 
+        } else {
             throw new Exception('Could not convert to XML');
+        }
     }
 }

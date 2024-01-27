@@ -45,8 +45,15 @@ class Connection
      * @param null|array<mixed, mixed> $options
      * @return void
      */
-    public function __construct(protected DatabaseType $dbType, protected string $databaseName, protected ?string $host, protected ?int $port, protected ?string $username, protected ?string $password, protected ?array $options)
-    {
+    public function __construct(
+        protected DatabaseType $dbType,
+        protected string $databaseName,
+        protected ?string $host,
+        protected ?int $port,
+        protected ?string $username,
+        protected ?string $password,
+        protected ?array $options
+    ) {
     }
 
     /**
@@ -64,7 +71,15 @@ class Connection
                 $connectionString = 'sqlite:' . $this->databaseName;
                 break;
             default:
-                $connectionString = $this->dbType->name . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->databaseName . ';charset=utf8mb4';
+                $connectionString =
+                    $this->dbType->name.
+                    ':host='.
+                    $this->host.
+                    ';port='.
+                    $this->port.
+                    ';dbname='.
+                    $this->databaseName.
+                    ';charset=utf8mb4';
                 if (is_null($this->options)) {
                     $this->options = array(
                         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
@@ -94,7 +109,7 @@ class Connection
     public function getQuoteIdentifier(): string
     {
         $connection = $this->getConnection();
-        if(is_null($connection)) {
+        if (is_null($connection)) {
             throw new RuntimeException('No connection available.');
         }
         switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
@@ -121,7 +136,7 @@ class Connection
     public function getLimitStyle(): string
     {
         $connection = $this->getConnection();
-        if(is_null($connection)) {
+        if (is_null($connection)) {
             throw new RuntimeException('No connection available.');
         }
         switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
@@ -153,7 +168,7 @@ class Connection
     public function execute(string $query, array $parameters = array()): bool
     {
         $connection = $this->getConnection();
-        if(is_null($connection)) {
+        if (is_null($connection)) {
             throw new RuntimeException('No connection available.');
         }
         $statement = $connection->prepare($query);
@@ -187,7 +202,7 @@ class Connection
     {
         $this->execute($query, $parameters);
         $statement = $this->getLastStatement();
-        if(is_null($statement)) {
+        if (is_null($statement)) {
             throw new RuntimeException('No statement available.');
         }
         $rows = array();
