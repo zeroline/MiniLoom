@@ -15,6 +15,7 @@ use PDOException;
 use PDOStatement;
 use Throwable;
 use zeroline\MiniLoom\Data\Database\SQL\DatabaseType as DatabaseType;
+use RuntimeException;
 
 class Connection
 {
@@ -83,16 +84,20 @@ class Connection
 
     /**
      *
-     * @return PDO
+     * @return ?PDO
      */
-    public function getConnection(): PDO
+    public function getConnection(): ?PDO
     {
         return $this->connection;
     }
 
     public function getQuoteIdentifier(): string
     {
-        switch ($this->getConnection()->getAttribute(PDO::ATTR_DRIVER_NAME)) {
+        $connection = $this->getConnection();
+        if(is_null($connection)) {
+            throw new RuntimeException('No connection available.');
+        }
+        switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
             case DatabaseType::PGSQL:
             case DatabaseType::SQLSRV:
             case DatabaseType::DBLIB:
@@ -115,7 +120,11 @@ class Connection
      */
     public function getLimitStyle(): string
     {
-        switch ($this->getConnection()->getAttribute(PDO::ATTR_DRIVER_NAME)) {
+        $connection = $this->getConnection();
+        if(is_null($connection)) {
+            throw new RuntimeException('No connection available.');
+        }
+        switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
             case DatabaseType::SQLSRV:
             case DatabaseType::DBLIB:
             case DatabaseType::MSSQL:
@@ -143,7 +152,11 @@ class Connection
      */
     public function execute(string $query, array $parameters = array()): bool
     {
-        $statement = $this->getConnection()->prepare($query);
+        $connection = $this->getConnection();
+        if(is_null($connection)) {
+            throw new RuntimeException('No connection available.');
+        }
+        $statement = $connection->prepare($query);
         $this->lastStatement = $statement;
         foreach ($parameters as $key => &$param) {
             if (is_null($param)) {
@@ -174,6 +187,9 @@ class Connection
     {
         $this->execute($query, $parameters);
         $statement = $this->getLastStatement();
+        if(is_null($statement)) {
+            throw new RuntimeException('No statement available.');
+        }
         $rows = array();
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
             $rows[] = $row;
@@ -186,10 +202,10 @@ class Connection
      *
      * @param string $query
      * @param array<string, mixed> $parameters
-     * @return PDOStatement
+     * @return ?PDOStatement
      * @throws PDOException
      */
-    public function getExecutedStatement(string $query, array $parameters = array()): PDOStatement
+    public function getExecutedStatement(string $query, array $parameters = array()): ?PDOStatement
     {
         $this->execute($query, $parameters);
         return $this->getLastStatement();

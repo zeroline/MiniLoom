@@ -64,9 +64,9 @@ final class Renderer
      * @param array<string, mixed> $context
      * @param string $prefix
      * @param string $suffix
-     * @return string
+     * @return ?string
      */
-    public static function interpolate(string $message, array $context = array(), $prefix = '\{\{\s*', $suffix = '\s*\}\}'): string
+    public static function interpolate(string $message, array $context = array(), $prefix = '\{\{\s*', $suffix = '\s*\}\}'): ?string
     {
         // build a replacement array with braces around the context keys
         $replace = array();

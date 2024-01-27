@@ -22,7 +22,11 @@ class ValidationModel extends Model
     const VALIDATION_SCOPE_CREATE = 'create';
     const VALIDATION_SCOPE_UPDATE = 'update';
 
-    public function __construct($data = null)
+    /**
+     *
+     * @param array<string, mixed>|object $data
+     */
+    public function __construct(array|object $data = array())
     {
         parent::__construct($data);
     }

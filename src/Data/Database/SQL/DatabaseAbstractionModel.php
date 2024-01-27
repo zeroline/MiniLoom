@@ -17,6 +17,7 @@ use zeroline\MiniLoom\Data\Database\SQL\ModelRepository as ModelRepository;
 use zeroline\MiniLoom\Data\Model as Model;
 use zeroline\MiniLoom\Data\Filter\FilterMode as FilterMode;
 use zeroline\MiniLoom\Event\EventArgs as EventArgs;
+use RuntimeException;
 
 class DatabaseAbstractionModel extends ValidationModel
 {
@@ -139,9 +140,9 @@ class DatabaseAbstractionModel extends ValidationModel
 
     /**
      *
-     * @param array<string, mixed>|object|null $data
+     * @param array<string, mixed>|object $data
      */
-    public function __construct(array|object|null $data = null)
+    public function __construct(array|object $data = array())
     {
         parent::__construct($data);
         $this->mediator = Mediator::getInstance();
@@ -478,6 +479,9 @@ class DatabaseAbstractionModel extends ValidationModel
         $c = get_called_class();
         if (!isset($c::$repository)) {
             $c::$repository = new ModelRepository();
+            if(is_null($c::$repository)) {
+                throw new RuntimeException('Could not create repository for model ' . $c);
+            }
             $c::$repository->setTable($c::$tableName);
             $c::$repository->setModelClassName($c);
             if (!is_null(static::$connectionName)) {

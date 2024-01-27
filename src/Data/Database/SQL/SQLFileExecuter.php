@@ -43,7 +43,7 @@ final class SQLFileExecuter
             $repository->beginTransaction();
         }
 
-        $result = null;
+        $result = false;
         $query = '';
         $fileLines = file($sqlFilename);
         if($fileLines === false) {

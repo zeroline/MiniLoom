@@ -13,6 +13,7 @@ namespace zeroline\MiniLoom\Data\Database\SQL;
 use PDOException;
 use zeroline\MiniLoom\Data\Database\SQL\Connection as Connection;
 use stdClass;
+use RuntimeException;
 
 class BaseRepository
 {
@@ -123,13 +124,18 @@ class BaseRepository
 
     /**
      *
-     * @return null|Connection
+     * @return Connection
      */
-    protected function getConnection(): ?Connection
+    protected function getConnection(): Connection
     {
         if (is_null($this->currentConnection)) {
             $this->currentConnection = ConnectionManager::getDefaultConnection();
         }
+
+        if(is_null($this->currentConnection)) {
+            throw new RuntimeException('No connection available.');
+        }
+
         return $this->currentConnection;
     }
 
@@ -146,7 +152,7 @@ class BaseRepository
 
     public function connect() : void
     {
-        $this->getConnection()?->connect();
+        $this->getConnection()->connect();
     }
 
     /**
@@ -435,7 +441,7 @@ class BaseRepository
      */
     protected function encapsulate(string $name): string
     {
-        return $this->getConnection()?->getQuoteIdentifier() . $name . $this->getConnection()?->getQuoteIdentifier();
+        return $this->getConnection()->getQuoteIdentifier() . $name . $this->getConnection()->getQuoteIdentifier();
     }
 
     /**
@@ -699,7 +705,10 @@ class BaseRepository
         $query = $this->buildInsert($data);
         $result = false;
         if ($this->getConnection()->execute($query, $this->placeholder)) {
-            $result = $this->getConnection()->getConnection()->lastInsertId();
+            $result = $this->getConnection()->getConnection()?->lastInsertId();
+            if(is_null($result)) {
+                return false;
+            }
         }
         $this->clearConditions();
         return $result;
@@ -814,7 +823,7 @@ class BaseRepository
      */
     public function beginTransaction(): bool
     {
-        return $this->getConnection()->getConnection()->beginTransaction();
+        return $this->getConnection()->getConnection()?->beginTransaction() ?? false;
     }
 
     /**
@@ -824,7 +833,7 @@ class BaseRepository
      */
     public function commitTransaction(): bool
     {
-        return $this->getConnection()->getConnection()->commit();
+        return $this->getConnection()->getConnection()?->commit() ?? false;
     }
 
     /**
@@ -834,6 +843,6 @@ class BaseRepository
      */
     public function rollbackTransaction(): bool
     {
-        return $this->getConnection()->getConnection()->rollBack();
+        return $this->getConnection()->getConnection()?->rollBack() ?? false;
     }
 }

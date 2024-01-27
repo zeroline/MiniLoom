@@ -11,6 +11,7 @@
 namespace zeroline\MiniLoom\Data\Database\SQL;
 
 use zeroline\MiniLoom\Data\Database\SQL\BaseRepository as BaseRepository;
+use RuntimeException;
 
 class ModelRepository extends BaseRepository
 {
