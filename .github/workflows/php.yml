@@ -1,4 +1,4 @@
-name: PHP complete build, validate and test
+name: Testing
 
 on: workflow_dispatch
   # For now we do not want an automatic workflow
@@ -38,3 +38,8 @@ jobs:
 
     - name: Run PHPStan
       run: composer run-script stan
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

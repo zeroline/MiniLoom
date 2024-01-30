@@ -1,4 +1,4 @@
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/) ![Build and test workflow](https://github.com/zeroline/MiniLoom/actions/workflows/php.yml/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=zeroline_MiniLoom&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=zeroline_MiniLoom)
 
 # MiniLoom: A Swift and Efficient PHP Library
 
