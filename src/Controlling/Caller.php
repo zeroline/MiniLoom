@@ -29,7 +29,13 @@ final class Caller
         // Check if class is Controller
         if (is_subclass_of($fullClassName, Controller::class)) {
             try {
-                return ObjectFactory::singleton($fullClassName)->$method(...$arguments);
+                $instance = ObjectFactory::singleton($fullClassName);
+                $callable = array($instance, $method);
+                if (is_callable($callable)) {
+                    return call_user_func_array($callable, $arguments);
+                } else {
+                    throw new RuntimeException("Method is not callable: " . $method . " in class: " . $fullClassName . " with arguments: " . json_encode($arguments));
+                }
             } catch (Throwable $e) {
                 throw new RuntimeException("Error while calling method: " . $method . " in class: " . $fullClassName . " with arguments: " . json_encode($arguments) . " Error: " . $e->getMessage());
             }

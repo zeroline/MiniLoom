@@ -113,6 +113,9 @@ class Controller
     public function __call(string $name, array $arguments) : mixed
     {
         $callable = array($this, $name);
+        if (!method_exists($this, $name)) {
+            throw new Exception("Method not found: " . $name, 500);
+        }
         if (is_callable($callable)) {
             $this->methodToCall = $name;
             foreach ($this->getMiddlewares() as $middlewareClass => $config) {
@@ -130,8 +133,7 @@ class Controller
                 }
             }
             return call_user_func_array($callable, $arguments);
-        } else {
-            throw new Exception("Method not found: " . $name, 500);
         }
+        return null;
     }
 }
