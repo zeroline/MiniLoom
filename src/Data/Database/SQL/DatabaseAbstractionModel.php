@@ -14,7 +14,6 @@ use PDOException;
 use zeroline\MiniLoom\Data\Database\SQL\ValidationModel as ValidationModel;
 use zeroline\MiniLoom\Event\Mediator as Mediator;
 use zeroline\MiniLoom\Data\Database\SQL\ModelRepository as ModelRepository;
-use zeroline\MiniLoom\Data\Model as Model;
 use zeroline\MiniLoom\Data\Filter\FilterMode as FilterMode;
 use zeroline\MiniLoom\Event\EventArgs as EventArgs;
 use RuntimeException;
