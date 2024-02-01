@@ -11,7 +11,7 @@
 namespace zeroline\MiniLoom\Controlling;
 
 use zeroline\MiniLoom\ObjectHandling\ObjectFactory as ObjectFactory;
-use zeroline\MiniLoom\Controlling\Controller as Controller;
+use zeroline\MiniLoom\Controlling\BaseController as BaseController;
 use RuntimeException;
 use Throwable;
 
@@ -26,8 +26,8 @@ final class Caller
      */
     public static function call(string $fullClassName, string $method, array $arguments = array()) : mixed
     {
-        // Check if class is Controller
-        if (is_subclass_of($fullClassName, Controller::class)) {
+        // Check if class is BaseController
+        if (is_subclass_of($fullClassName, BaseController::class)) {
             try {
                 $instance = ObjectFactory::singleton($fullClassName);
                 $callable = array($instance, $method);
@@ -40,7 +40,7 @@ final class Caller
                 throw new RuntimeException("Error while calling method: " . $method . " in class: " . $fullClassName . " with arguments: " . json_encode($arguments) . " Error: " . $e->getMessage());
             }
         } else {
-            throw new RuntimeException("Class is not a Controller: " . $fullClassName);
+            throw new RuntimeException("Class is not a BaseController: " . $fullClassName);
         }
     }
 }
