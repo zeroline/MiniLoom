@@ -139,7 +139,7 @@ class Router
                 case self::ERROR_OUTPUT_SUPRESS:
                     break;
                 case self::ERROR_OUTPUT_SIMPLE:
-                    $outputData = 
+                    $outputData =
                         "\033[31mAn error occured:\033[0m".PHP_EOL.
                         $this->drawLine().
                         $t->getMessage().PHP_EOL.
@@ -147,19 +147,19 @@ class Router
                         "";
                     break;
                 case self::ERROR_OUTPUT_VERBOSE:
-                    $outputData = 
+                    $outputData =
                         "\033[31mAn error occured:\033[0m".PHP_EOL.
                         $this->drawLine().
                         $t->getMessage().PHP_EOL.
                         $this->drawLine().
                         "";
-                    $outputData .= 
+                    $outputData .=
                         $t->getTraceAsString().PHP_EOL.
                         $this->drawLine();
                     break;
             }
 
-            if(!empty($outputData)) {
+            if (!empty($outputData)) {
                 echo $outputData . PHP_EOL;
                 flush();
             }
