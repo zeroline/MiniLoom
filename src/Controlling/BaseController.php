@@ -16,7 +16,7 @@ use zeroline\MiniLoom\Event\Mediator as Mediator;
 use Exception;
 use ReflectionException;
 
-class Controller
+class BaseController
 {
     use SingletonTrait;
 
