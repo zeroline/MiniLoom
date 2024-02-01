@@ -10,7 +10,7 @@
 
 namespace zeroline\MiniLoom\Controlling;
 
-use zeroline\MiniLoom\Controlling\Controller as Controller;
+use zeroline\MiniLoom\Controlling\BaseController as BaseController;
 
 abstract class Middleware
 {
@@ -28,9 +28,9 @@ abstract class Middleware
 
     /**
      *
-     * @var Controller
+     * @var BaseController
      */
-    private Controller $controller;
+    private BaseController $controller;
 
     /**
      *
@@ -51,9 +51,9 @@ abstract class Middleware
 
     /**
      *
-     * @param Controller $controller
+     * @param BaseController $controller
      */
-    public function setController(Controller $controller) : void
+    public function setController(BaseController $controller) : void
     {
         $this->controller = $controller;
     }
@@ -99,9 +99,9 @@ abstract class Middleware
 
     /**
      *
-     * @return Controller
+     * @return BaseController
      */
-    protected function getController() : Controller
+    protected function getController() : BaseController
     {
         return $this->controller;
     }
