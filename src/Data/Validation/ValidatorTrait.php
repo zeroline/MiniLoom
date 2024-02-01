@@ -80,12 +80,12 @@ trait ValidatorTrait
             $value = (isset($this->{$name}) ? $this->{$name} : null);
             foreach ($rules as $rule => $arguments) {
                 $result = null;
-                if (is_string($rule)) {
-                    if (!isset($value) && $rule != ValidatorRule::REQUIRED->name) {
+                if ($rule) {
+                    if (!isset($value) && $rule != ValidatorRule::REQUIRED) {
                         continue;
                     }
 
-                    if ($rule == ValidatorRule::CUSTOM->name && is_callable($arguments)) {
+                    if ($rule == ValidatorRule::CUSTOM && is_callable($arguments)) {
                         $f = $arguments;
                         $result = $f($value, $this);
                     } elseif (method_exists(Validator::class, $rule)) {

@@ -10,61 +10,61 @@
 
 namespace zeroline\MiniLoom\Data\Validation;
 
-enum ValidatorRule : string
+class ValidatorRule
 {
-    case REQUIRED = "checkRequired";
+    public const REQUIRED = "checkRequired";
 
-    case IS_EMAIL = "checkEmail";
-    case IS_URL = "checkUrl";
-    case IS_NUMBER = "checkNumber";
-    case IS_INT = "checkInt";
-    case IS_FLOAT = "checkFloat";
-    case IS_BOOL = "checkBool";
-    case IS_STRING = "checkString";
-    case IS_DATE = "checkDate";
-    case IS_ARRAY = "checkArray";
-    case IS_OBJECT = "checkObject";
-    case IS_OBJECT_OR_ARRAY = "checkObjectOrArray";
+    public const IS_EMAIL = "checkEmail";
+    public const IS_URL = "checkUrl";
+    public const IS_NUMBER = "checkNumber";
+    public const IS_INT = "checkInt";
+    public const IS_FLOAT = "checkFloat";
+    public const IS_BOOL = "checkBool";
+    public const IS_STRING = "checkString";
+    public const IS_DATE = "checkDate";
+    public const IS_ARRAY = "checkArray";
+    public const IS_OBJECT = "checkObject";
+    public const IS_OBJECT_OR_ARRAY = "checkObjectOrArray";
 
-    case NUM_MIN = "checkNumberMinValue";
-    case NUM_MAX = "checkNumberMaxValue";
-    case NUM_RANGE = "checkNumberRange";
+    public const NUM_MIN = "checkNumberMinValue";
+    public const NUM_MAX = "checkNumberMaxValue";
+    public const NUM_RANGE = "checkNumberRange";
 
-    case INT_MIN = "checkIntMinValue";
-    case INT_MAX = "checkIntMaxValue";
-    case INT_RANGE = "checkIntRange";
+    public const INT_MIN = "checkIntMinValue";
+    public const INT_MAX = "checkIntMaxValue";
+    public const INT_RANGE = "checkIntRange";
 
-    case FLOAT_MIN = "checkFloatMinValue";
-    case FLOAT_MAX = "checkFloatMaxValue";
-    case FLOAT_RANGE = "checkFloatRange";
+    public const FLOAT_MIN = "checkFloatMinValue";
+    public const FLOAT_MAX = "checkFloatMaxValue";
+    public const FLOAT_RANGE = "checkFloatRange";
 
-    case STR_MIN = "checkStrMinLength";
-    case STR_MAX = "checkStrMaxLength";
-    case STR_RANGE = "checkStrLengthRange";
-    case STR_BEGINS_WITH = "checkStrBeginsWith";
-    case STR_ENDS_WITH = "checkStrEndsWith";
-    case STR_CONTAINS = "checkStrContains";
+    public const STR_MIN = "checkStrMinLength";
+    public const STR_MAX = "checkStrMaxLength";
+    public const STR_RANGE = "checkStrLengthRange";
+    public const STR_BEGINS_WITH = "checkStrBeginsWith";
+    public const STR_ENDS_WITH = "checkStrEndsWith";
+    public const STR_CONTAINS = "checkStrContains";
 
-    case IN_ARRAY = "checkInArray";
-    case NOT_IN_ARRAY = "checkNotInArray";
-    case HAS_COUNT = "checkCount";
-    case HAS_COUNT_MIN = "checkMinCount";
-    case HAS_COUNT_MAX = "checkMaxCount";
-    case HAS_COUNT_RANGE = "checkCountRange";
+    public const IN_ARRAY = "checkInArray";
+    public const NOT_IN_ARRAY = "checkNotInArray";
+    public const HAS_COUNT = "checkCount";
+    public const HAS_COUNT_MIN = "checkMinCount";
+    public const HAS_COUNT_MAX = "checkMaxCount";
+    public const HAS_COUNT_RANGE = "checkCountRange";
 
-    case DATE_IS_BEFORE = "checkDateIsBefore";
-    case DATE_IS_AFTER = "checkDateIsAfter";
-    case DATE_IS_BETWEEN = "checkDateIsBetween";
+    public const DATE_IS_BEFORE = "checkDateIsBefore";
+    public const DATE_IS_AFTER = "checkDateIsAfter";
+    public const DATE_IS_BETWEEN = "checkDateIsBetween";
 
-    case IS_VALID_BIC = "checkBIC";
-    case IS_VALID_IBAN = "checkIBAN";
+    public const IS_VALID_BIC = "checkBIC";
+    public const IS_VALID_IBAN = "checkIBAN";
 
-    case IS_VALID_BASE64 = "checkBase64";
-    case IS_VALID_JSON = "checkJson";
+    public const IS_VALID_BASE64 = "checkBase64";
+    public const IS_VALID_JSON = "checkJson";
 
-    case IS_EQUAL = "checkEqual";
-    case IS_NOT_EQUAL = "checkNotEqual";
-    case IS_REGEX = "checkRegex";
+    public const IS_EQUAL = "checkEqual";
+    public const IS_NOT_EQUAL = "checkNotEqual";
+    public const IS_REGEX = "checkRegex";
 
-    case CUSTOM = "checkCustom";
+    public const CUSTOM = "checkCustom";
 }
