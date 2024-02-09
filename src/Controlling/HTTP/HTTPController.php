@@ -20,6 +20,12 @@ use zeroline\MiniLoom\Helper\XMLConverter;
 class Controller extends BaseController
 {
     /**
+     *
+     * @var bool
+     */
+    protected bool $enableResponseWithMetaData = false;
+
+    /**
      * @var string
      */
     protected string $responseFormat = PredefinedContentTypeHeaders::JSON;
@@ -145,17 +151,22 @@ class Controller extends BaseController
      */
     protected function response(mixed $data, bool $success, string $message, int $code): string
     {
-        $dateTime = new DateTime();
-        $response = array(
-            'meta' => array(
-                'success' => (bool)$success,
-                'error' => (bool)!$success,
-                'message' => $message,
-                'statusCode' => $code,
-                'timestamp' => $dateTime->format('Y-m-d H:i:s.u')
-            ),
-            'data' => $data
-        );
+        $response = null;
+        if ($this->enableResponseWithMetaData === false) {
+            $dateTime = new DateTime();
+            $response = array(
+                'meta' => array(
+                    'success' => (bool)$success,
+                    'error' => (bool)!$success,
+                    'message' => $message,
+                    'statusCode' => $code,
+                    'timestamp' => $dateTime->format('Y-m-d H:i:s.u')
+                ),
+                'data' => $data
+            );
+        } else {
+            $response = $data;
+        }
 
         http_response_code($code);
 
