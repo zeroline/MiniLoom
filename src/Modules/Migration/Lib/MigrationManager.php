@@ -110,7 +110,7 @@ final class MigrationManager
 
         try {
             $migrationFile = realpath(__DIR__.DIRECTORY_SEPARATOR.self::INIT_SQL_MIGRATION_FILE_NAME);
-            if($migrationFile === false) {
+            if ($migrationFile === false) {
                 throw new Exception("Migration file not found.");
             }
             SQLFileExecuter::loadAndExecute($migrationFile);

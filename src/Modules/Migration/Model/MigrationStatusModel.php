@@ -18,7 +18,7 @@ class MigrationStatusModel extends DatabaseAbstractionModel
     public const TABLE_NAME = "migrationstatus";
 
     /**
-     * 
+     *
      * @var string
      */
     protected static string $tableName = self::TABLE_NAME;
