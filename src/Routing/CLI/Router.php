@@ -54,7 +54,7 @@ class Router
      */
     protected function parseInput() : ParsedCommand
     {
-        $command = null;
+        $command = '';
         $arguments = array();
 
         $argv = isset($GLOBALS['argv']) ? $GLOBALS['argv'] : array();
