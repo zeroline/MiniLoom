@@ -53,6 +53,12 @@ class DatabaseAbstractionModel extends ValidationModel
 
     /**
      *
+     * @var array<string, ModelRepository>
+     */
+    protected static array $repositories = array();
+
+    /**
+     *
      * @var Mediator
      */
     protected Mediator $mediator;
@@ -410,7 +416,7 @@ class DatabaseAbstractionModel extends ValidationModel
         if ($this->isNew()) {
             $newID = $repository->create($this->data);
             if ($newID !== false) {
-                $this->{$this->idColumn} = $newID;
+                $this->{$this->getIdColumn()} = $newID;
                 $this->clearDirtyFields();
                 $this->mediator->trigger(
                     static::getEventName(self::EVENT_CREATED),
@@ -423,7 +429,7 @@ class DatabaseAbstractionModel extends ValidationModel
                 return true;
                 // nothing to change
             }
-            $repository->where($this->idColumn, $this->getId());
+            $repository->where($this->getIdColumn(), $this->getId());
             $result = $repository->update($this->getDirtyFields());
             if ($result) {
                 $this->mediator->trigger(
@@ -473,7 +479,7 @@ class DatabaseAbstractionModel extends ValidationModel
         $repository = static::repository();
         $repository->clearConditions();
         if (!$this->isNew()) {
-            $repository->where($this->idColumn, $this->getId());
+            $repository->where($this->getIdColumn(), $this->getId());
             $clonedModel = clone $this;
             if ($deleteResult = $repository->delete()) {
                 $this->mediator->trigger(
@@ -530,7 +536,18 @@ class DatabaseAbstractionModel extends ValidationModel
      */
     public static function repository(): ModelRepository
     {
-        return static::getRepository();
+        $c = get_called_class();
+        if(!array_key_exists($c, $c::$repositories)) {
+            $repository = new ModelRepository();
+            $repository->setTable($c::$tableName);
+            $repository->setModelClassName($c);
+            if (!is_null($c::$connectionName)) {
+                $c::$repository->switchConnection($c::$connectionName);
+            }
+            $repository->connect();
+            $c::$repositories[$c] = $repository;
+        }
+        return $c::$repositories[$c];
     }
 
     /**
@@ -540,18 +557,6 @@ class DatabaseAbstractionModel extends ValidationModel
     protected static function getRepository(): ModelRepository
     {
         $c = get_called_class();
-        if (!isset($c::$repository)) {
-            $c::$repository = new ModelRepository();
-            if (is_null($c::$repository)) {
-                throw new RuntimeException('Could not create repository for model ' . $c);
-            }
-            $c::$repository->setTable($c::$tableName);
-            $c::$repository->setModelClassName($c);
-            if (!is_null(static::$connectionName)) {
-                $c::$repository->switchConnection(static::$connectionName);
-            }
-            $c::$repository->connect();
-        }
-        return $c::$repository;
+        return $c::repository();
     }
 }
