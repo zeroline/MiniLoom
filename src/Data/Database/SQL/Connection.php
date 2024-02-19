@@ -111,18 +111,19 @@ class Connection
         if (is_null($connection)) {
             throw new RuntimeException('No connection available.');
         }
+
         switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
-            case DatabaseType::PGSQL:
-            case DatabaseType::SQLSRV:
-            case DatabaseType::DBLIB:
-            case DatabaseType::MSSQL:
-            case DatabaseType::SYBASE:
-            case DatabaseType::FIREBIRD:
+            case DatabaseType::PGSQL->value:
+            case DatabaseType::SQLSRV->value:
+            case DatabaseType::DBLIB->value:
+            case DatabaseType::MSSQL->value:
+            case DatabaseType::SYBASE->value:
+            case DatabaseType::FIREBIRD->value:
                 return '"';
-            case DatabaseType::MYSQL:
-            case DatabaseType::SQLITE:
-            case DatabaseType::SQLITE2:
-            case DatabaseType::SQLITE3:
+            case DatabaseType::MYSQL->value:
+            case DatabaseType::SQLITE->value:
+            case DatabaseType::SQLITE2->value:
+            case DatabaseType::SQLITE3->value:
             default:
                 return '`';
         }
@@ -139,9 +140,9 @@ class Connection
             throw new RuntimeException('No connection available.');
         }
         switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
-            case DatabaseType::SQLSRV:
-            case DatabaseType::DBLIB:
-            case DatabaseType::MSSQL:
+            case DatabaseType::SQLSRV->value:
+            case DatabaseType::DBLIB->value:
+            case DatabaseType::MSSQL->value:
                 return self::LIMIT_STYLE_TOP_N;
             default:
                 return self::LIMIT_STYLE_LIMIT;
