@@ -64,7 +64,7 @@ final class MigrationManager
             $result[$moduleName] = array();
             foreach ($migrationFiles as $migrationFile) {
                 if (!self::hasFileBeenMigrated($moduleName, basename($migrationFile))) {
-                    $result[$moduleName][] = basename($migrationFile);
+                    $result[$moduleName][] = $migrationFile;
                 }
             }
         }
