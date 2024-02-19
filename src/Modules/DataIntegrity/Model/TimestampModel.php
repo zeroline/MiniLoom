@@ -14,7 +14,8 @@ use ReflectionException;
 use RuntimeException;
 use zeroline\MiniLoom\Data\Database\SQL\DatabaseAbstractionModel;
 
-class TimestampModel extends DatabaseAbstractionModel {
+class TimestampModel extends DatabaseAbstractionModel
+{
     /**
      * The date time format
      * @var string

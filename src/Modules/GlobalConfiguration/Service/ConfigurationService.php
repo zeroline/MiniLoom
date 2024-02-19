@@ -351,7 +351,7 @@ class ConfigurationService
             if (!self::createSector($sectorIdentifier, $schema)) {
                 throw new Exception('Sector does not exist and cannot be created');
             }
-        }       
+        }
 
         $sector = self::getSectorByIdentifier($sectorIdentifier);
 
