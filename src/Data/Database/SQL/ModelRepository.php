@@ -49,15 +49,6 @@ class ModelRepository extends BaseRepository
     /************************************************************************/
 
     /**
-     * Clears all conditions
-     */
-    public function clearConditions() : void
-    {
-        parent::clearConditions();
-        $this->modelClassName = '';
-    }
-
-    /**
      * Perfoms a select statement with the previous given parameters
      * Returns raw rows
      * @return array<mixed>
@@ -102,6 +93,7 @@ class ModelRepository extends BaseRepository
         $result = null;
         $rows = array();
         $this->limit(1);
+
         if ($this->isModelClassNameSpecified()) {
             $rows = $this->readModels($this->getModelClassName());
         } else {
