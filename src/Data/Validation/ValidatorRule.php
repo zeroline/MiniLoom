@@ -38,8 +38,8 @@ class ValidatorRule
     public const FLOAT_MAX = "checkFloatMaxValue";
     public const FLOAT_RANGE = "checkFloatRange";
 
-    public const STR_MIN = "checkStrMinLength";
-    public const STR_MAX = "checkStrMaxLength";
+    public const STR_MIN = "checkMinStrLength";
+    public const STR_MAX = "checkMaxStrLength";
     public const STR_RANGE = "checkStrLengthRange";
     public const STR_BEGINS_WITH = "checkStrBeginsWith";
     public const STR_ENDS_WITH = "checkStrEndsWith";
