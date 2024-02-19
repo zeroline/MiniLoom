@@ -164,7 +164,7 @@ class Router
                 flush();
             }
 
-            if(is_callable($onErrorCallback)) {
+            if (is_callable($onErrorCallback)) {
                 call_user_func($onErrorCallback, $t);
             }
         }
