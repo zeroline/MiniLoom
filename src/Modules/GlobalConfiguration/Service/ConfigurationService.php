@@ -96,7 +96,7 @@ class ConfigurationService
      *
      * @param string $identifier
      * @param string|null $schema
-     * @return void
+     * @return boolean
      */
     public static function createSector(string $identifier, ?string $schema = null) : bool
     {
@@ -162,13 +162,15 @@ class ConfigurationService
 
         if ($model) {
             $sector = $section->getSector();
-            if (!is_null($sector->getSchema()) && !empty($sector->getSchema())) {
-                if (self::validateSectionIdentifierAgainstSchema($sector, $identifier, $content)) {
+            if($sector) {
+                if (!is_null($sector->getSchema()) && !empty($sector->getSchema())) {
+                    if (self::validateSectionIdentifierAgainstSchema($sector, $identifier)) {
+                        return $model->save();
+                    }
+                } else {
                     return $model->save();
                 }
-            } else {
-                return $model->save();
-            }
+            }            
         }
 
         return false;
@@ -203,6 +205,8 @@ class ConfigurationService
      * @param string|null $content
      * @return boolean
      */
+    // TODO: Implement validation
+    /*
     private static function validateFieldAgainstSchema(SectionModel $section, string $identifier, ?string $content): bool
     {
         $sector = $section->getSector();
@@ -228,12 +232,12 @@ class ConfigurationService
             return true; // True because no schema is present
         }
     }
-
+    */
     /**
      * Returns all config for a given sector
      *
      * @param string $sectorIdentifier
-     * @return array
+     * @return array<mixed>
      */
     public static function getSectorConfig(string $sectorIdentifier): array
     {
@@ -265,10 +269,14 @@ class ConfigurationService
     {
         if (self::sectorExists($sectorIdentifier)) {
             $sector = self::getSectorByIdentifier($sectorIdentifier);
-            if (self::sectionExists($sector, $sectionIdentifier)) {
-                $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
-                if (self::sectionFieldExists($section, $fieldIdentifier)) {
-                    return self::getFieldByIdentifier($section, $fieldIdentifier);
+            if($sector) {
+                if (self::sectionExists($sector, $sectionIdentifier)) {
+                    $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
+                    if($section) {
+                        if (self::sectionFieldExists($section, $fieldIdentifier)) {
+                            return self::getFieldByIdentifier($section, $fieldIdentifier);
+                        }
+                    }
                 }
             }
         }
@@ -280,33 +288,27 @@ class ConfigurationService
      * Values are stored as string. Further usage or casting has
      * to be done after getting the string value.
      *
-     * If no specific field is provided, an array with all fields
-     * found in the given section is returned
-     *
      * @param string $sectorIdentifier
      * @param string $sectionIdentifier
-     * @param string|null $fieldIdentifier
-     * @param mixed $fallback
-     * @return array|string|mixed|null
+     * @param string $fieldIdentifier
+     * @param string|null $fallback
+     * @return string|null
      */
-    public static function getConfig(string $sectorIdentifier, string $sectionIdentifier, ?string $fieldIdentifier = null, $fallback = null)
+    public static function getConfig(string $sectorIdentifier, string $sectionIdentifier, string $fieldIdentifier, ?string $fallback = null) : ?string
     {
         if (self::sectorExists($sectorIdentifier)) {
             $sector = self::getSectorByIdentifier($sectorIdentifier);
-            if (self::sectionExists($sector, $sectionIdentifier)) {
-                $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
-                if (!is_null($fieldIdentifier)) {
-                    if (self::sectionFieldExists($section, $fieldIdentifier)) {
-                        $field = self::getFieldByIdentifier($section, $fieldIdentifier);
-                        return $field->getContent();
+            if($sector) {
+                if (self::sectionExists($sector, $sectionIdentifier)) {
+                    $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
+                    if ($section) {
+                        if (self::sectionFieldExists($section, $fieldIdentifier)) {
+                            $field = self::getFieldByIdentifier($section, $fieldIdentifier);
+                            if($field) {
+                                return $field->getContent();
+                            }
+                        }
                     }
-                } else {
-                    $fields = $section->getFields();
-                    $returnArray = array();
-                    foreach ($fields as $field) {
-                        $returnArray[$field->getIdentifier()] = $field->getContent();
-                    }
-                    return $returnArray;
                 }
             }
         }
@@ -355,19 +357,21 @@ class ConfigurationService
 
         $sector = self::getSectorByIdentifier($sectorIdentifier);
 
-        if (!self::sectionExists($sector, $sectionIdentifier)) {
-            if (self::validateSectionIdentifierAgainstSchema($sector, $sectionIdentifier)) {
-                if (!self::createSection($sector, $sectionIdentifier)) {
-                    throw new Exception('Section does not exist and cannot be created');
+        if($sector) {
+            if (!self::sectionExists($sector, $sectionIdentifier)) {
+                if (self::validateSectionIdentifierAgainstSchema($sector, $sectionIdentifier)) {
+                    if (!self::createSection($sector, $sectionIdentifier)) {
+                        throw new Exception('Section does not exist and cannot be created');
+                    }
                 }
             }
-        }
-
-        $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
-
-        if (self::createOrUpdateField($section, $fieldIdentifier, $content, $typeInformation)) {
-            return true;
-        }
+            $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
+            if($section) {
+                if (self::createOrUpdateField($section, $fieldIdentifier, $content, $typeInformation)) {
+                    return true;
+                }
+            }     
+        }           
 
         return false;
     }

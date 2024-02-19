@@ -537,12 +537,12 @@ class DatabaseAbstractionModel extends ValidationModel
     public static function repository(): ModelRepository
     {
         $c = get_called_class();
-        if(!array_key_exists($c, $c::$repositories)) {
+        if (!array_key_exists($c, $c::$repositories)) {
             $repository = new ModelRepository();
             $repository->setTable($c::$tableName);
             $repository->setModelClassName($c);
             if (!is_null($c::$connectionName)) {
-                $c::$repository->switchConnection($c::$connectionName);
+                $c::$repository?->switchConnection($c::$connectionName);
             }
             $repository->connect();
             $c::$repositories[$c] = $repository;

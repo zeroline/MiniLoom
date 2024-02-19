@@ -57,7 +57,7 @@ class Module implements IModule
     public function getMigrations(): array
     {
         return array(
-            realpath(__DIR__.DIRECTORY_SEPARATOR.'Migrations'.DIRECTORY_SEPARATOR.'20180613152200.sql')
+            __DIR__.DIRECTORY_SEPARATOR.'Migrations'.DIRECTORY_SEPARATOR.'20180613152200.sql'
         );
     }
 }
