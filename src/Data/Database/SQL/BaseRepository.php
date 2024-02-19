@@ -759,7 +759,6 @@ class BaseRepository
         $this->order = array();
         $this->placeholder = array();
         $this->selectFields = array();
-        //$this->table = '';
         $this->where = array();
         $this->joins = array();
     }
