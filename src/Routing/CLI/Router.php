@@ -119,7 +119,7 @@ class Router
      * @throws Exception
      * @throws RuntimeException
      */
-    public function processInput(int $errorOutputLevel = self::ERROR_OUTPUT_VERBOSE) : void
+    public function processInput(int $errorOutputLevel = self::ERROR_OUTPUT_VERBOSE, ?callable $onErrorCallback = null) : void
     {
         try {
             $inputCommand = $this->parseInput();
@@ -162,6 +162,10 @@ class Router
             if (!empty($outputData)) {
                 echo $outputData . PHP_EOL;
                 flush();
+            }
+
+            if(is_callable($onErrorCallback)) {
+                call_user_func($onErrorCallback, $t);
             }
         }
     }
