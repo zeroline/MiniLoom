@@ -12,35 +12,17 @@ namespace zeroline\MiniLoom\Modules\DataIntegrity\Model;
 
 use ReflectionException;
 use RuntimeException;
-use zeroline\MiniLoom\Data\Database\SQL\DatabaseAbstractionModel;
+use zeroline\MiniLoom\Modules\DataIntegrity\Model\TimestampModel;
 use zeroline\MiniLoom\Modules\DataIntegrity\Lib\EntryState;
 use zeroline\MiniLoom\Data\Validation\ValidatorRule;
 
-class DataIntegrityModel extends DatabaseAbstractionModel
+class DataIntegrityModel extends TimestampModel
 {
-    /**
-     * The date time format
-     * @var string
-     */
-    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-
     /**
      * The active state
      * @var string
      */
     public const FIELD_ACTIVE_STATE = 'activeState';
-
-    /**
-     * The created field
-     * @var string
-     */
-    public const FIELD_CREATED = 'created';
-
-    /**
-     * The updated field
-     * @var string
-     */
-    public const FIELD_UPDATED = 'updated';
 
     /**
     *
@@ -58,15 +40,6 @@ class DataIntegrityModel extends DatabaseAbstractionModel
                 array(EntryState::ACTIVE, EntryState::DELETED, EntryState::INACITVE, EntryState::REQUEST_FOR_PERM_DELETION)
             ),
         );
-
-        $this->addAutomaticField(self::FIELD_UPDATED, function ($model) {
-            $model->updated = date(self::DATE_TIME_FORMAT);
-        });
-        $this->addAutomaticField(self::FIELD_CREATED, function ($model) {
-            if ($model->isNew()) {
-                $model->created = date(self::DATE_TIME_FORMAT);
-            }
-        });
 
         parent::__construct($data);
     }
