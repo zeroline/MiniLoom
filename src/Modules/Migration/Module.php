@@ -11,7 +11,6 @@
 namespace zeroline\MiniLoom\Modules\Migration;
 
 use zeroline\MiniLoom\Moduling\IModule;
-use zeroline\MiniLoom\Routing\HTTP\RegisteredRoute;
 use zeroline\MiniLoom\Routing\CLI\RegisteredCommand;
 use zeroline\MiniLoom\Modules\Migration\Commands\MigrationCommandController;
 
@@ -45,6 +44,9 @@ class Module implements IModule
         return array(
             new RegisteredCommand('migration.status', MigrationCommandController::class, 'status'),
             new RegisteredCommand('migration.init', MigrationCommandController::class, 'init'),
+            new RegisteredCommand('migration.migrateSingle', MigrationCommandController::class, 'migrateSingle'),
+            new RegisteredCommand('migration.migrateAll', MigrationCommandController::class, 'migrateAll'),
+            new RegisteredCommand('migration.list', MigrationCommandController::class, 'list'),
         );
     }
 
