@@ -162,7 +162,7 @@ class ConfigurationService
 
         if ($model) {
             $sector = $section->getSector();
-            if($sector) {
+            if ($sector) {
                 if (!is_null($sector->getSchema()) && !empty($sector->getSchema())) {
                     if (self::validateSectionIdentifierAgainstSchema($sector, $identifier)) {
                         return $model->save();
@@ -170,7 +170,7 @@ class ConfigurationService
                 } else {
                     return $model->save();
                 }
-            }            
+            }
         }
 
         return false;
@@ -269,10 +269,10 @@ class ConfigurationService
     {
         if (self::sectorExists($sectorIdentifier)) {
             $sector = self::getSectorByIdentifier($sectorIdentifier);
-            if($sector) {
+            if ($sector) {
                 if (self::sectionExists($sector, $sectionIdentifier)) {
                     $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
-                    if($section) {
+                    if ($section) {
                         if (self::sectionFieldExists($section, $fieldIdentifier)) {
                             return self::getFieldByIdentifier($section, $fieldIdentifier);
                         }
@@ -298,13 +298,13 @@ class ConfigurationService
     {
         if (self::sectorExists($sectorIdentifier)) {
             $sector = self::getSectorByIdentifier($sectorIdentifier);
-            if($sector) {
+            if ($sector) {
                 if (self::sectionExists($sector, $sectionIdentifier)) {
                     $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
                     if ($section) {
                         if (self::sectionFieldExists($section, $fieldIdentifier)) {
                             $field = self::getFieldByIdentifier($section, $fieldIdentifier);
-                            if($field) {
+                            if ($field) {
                                 return $field->getContent();
                             }
                         }
@@ -357,7 +357,7 @@ class ConfigurationService
 
         $sector = self::getSectorByIdentifier($sectorIdentifier);
 
-        if($sector) {
+        if ($sector) {
             if (!self::sectionExists($sector, $sectionIdentifier)) {
                 if (self::validateSectionIdentifierAgainstSchema($sector, $sectionIdentifier)) {
                     if (!self::createSection($sector, $sectionIdentifier)) {
@@ -366,12 +366,12 @@ class ConfigurationService
                 }
             }
             $section = self::getSectionByIdentifier($sector, $sectionIdentifier);
-            if($section) {
+            if ($section) {
                 if (self::createOrUpdateField($section, $fieldIdentifier, $content, $typeInformation)) {
                     return true;
                 }
-            }     
-        }           
+            }
+        }
 
         return false;
     }

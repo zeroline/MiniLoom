@@ -22,23 +22,23 @@ use zeroline\MiniLoom\Modules\GlobalConfiguration\Model\SectionFieldModel;
 class SectionModel extends TimestampModel
 {
     /**
-     * 
+     *
      * @var string
      */
     protected static string $tableName = "section";
 
     /**
-     * 
+     *
      * @var string
      */
     protected static string $idColumn = "id";
 
     /**
-     * 
-     * @param array<string, mixed>|object $data 
-     * @return void 
-     * @throws ReflectionException 
-     * @throws RuntimeException 
+     *
+     * @param array<string, mixed>|object $data
+     * @return void
+     * @throws ReflectionException
+     * @throws RuntimeException
      */
     public function __construct(array|object $data = array())
     {
@@ -60,8 +60,8 @@ class SectionModel extends TimestampModel
     );
 
     /**
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function getSectorId(): int
     {
@@ -69,9 +69,9 @@ class SectionModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param int $sectorId 
-     * @return void 
+     *
+     * @param int $sectorId
+     * @return void
      */
     public function setSectorId(int $sectorId): void
     {
@@ -79,8 +79,8 @@ class SectionModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getIdentifier(): string
     {
@@ -88,9 +88,9 @@ class SectionModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param string $identifier 
-     * @return void 
+     *
+     * @param string $identifier
+     * @return void
      */
     public function setIdentifier(string $identifier): void
     {
@@ -98,23 +98,23 @@ class SectionModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return null|SectorModel 
+     *
+     * @return null|SectorModel
      */
     public function getSector(): ?SectorModel
     {
         $result = SectorModel::findOneById($this->getSectorId());
-        if($result instanceof SectorModel) {
+        if ($result instanceof SectorModel) {
             return $result;
         }
         return null;
     }
 
     /**
-     * 
+     *
      * @return array<SectionFieldModel>
-     * @throws RuntimeException 
-     * @throws PDOException 
+     * @throws RuntimeException
+     * @throws PDOException
      */
     public function getFields(): array
     {

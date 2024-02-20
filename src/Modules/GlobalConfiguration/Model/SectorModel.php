@@ -21,23 +21,23 @@ use zeroline\MiniLoom\Modules\GlobalConfiguration\Model\SectionModel;
 class SectorModel extends TimestampModel
 {
     /**
-     * 
+     *
      * @var string
      */
     protected static string $tableName = "sector";
 
     /**
-     * 
+     *
      * @var string
      */
     protected static string $idColumn = "id";
 
     /**
-     * 
-     * @param array<string, mixed>|object $data 
-     * @return void 
-     * @throws ReflectionException 
-     * @throws RuntimeException 
+     *
+     * @param array<string, mixed>|object $data
+     * @return void
+     * @throws ReflectionException
+     * @throws RuntimeException
      */
     public function __construct(array|object $data = array())
     {
@@ -55,8 +55,8 @@ class SectorModel extends TimestampModel
     );
 
     /**
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function getSectorSchemaId(): int
     {
@@ -64,9 +64,9 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param int $sectorId 
-     * @return void 
+     *
+     * @param int $sectorId
+     * @return void
      */
     public function setSectorSchemaId(int $sectorId): void
     {
@@ -74,8 +74,8 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getIdentifier(): string
     {
@@ -83,9 +83,9 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param string $identifier 
-     * @return void 
+     *
+     * @param string $identifier
+     * @return void
      */
     public function setIdentifier(string $identifier): void
     {
@@ -93,8 +93,8 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return null|string 
+     *
+     * @return null|string
      */
     public function getSchema(): ?string
     {
@@ -102,9 +102,9 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param null|string $schema 
-     * @return void 
+     *
+     * @param null|string $schema
+     * @return void
      */
     public function setSchema(?string $schema): void
     {
@@ -112,7 +112,7 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
+     *
      * @return array<mixed>
      */
     public function getSchemaArray(): array
@@ -121,10 +121,10 @@ class SectorModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return array<SectionModel> 
-     * @throws RuntimeException 
-     * @throws PDOException 
+     *
+     * @return array<SectionModel>
+     * @throws RuntimeException
+     * @throws PDOException
      */
     public function getSections(): array
     {

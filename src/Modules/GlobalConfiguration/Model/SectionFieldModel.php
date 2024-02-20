@@ -20,23 +20,23 @@ use zeroline\MiniLoom\Modules\GlobalConfiguration\Model\SectionModel;
 class SectionFieldModel extends TimestampModel
 {
     /**
-     * 
+     *
      * @var string
      */
     protected static string $tableName = "sectionfield";
 
     /**
-     * 
+     *
      * @var string
      */
     protected static string $idColumn = "id";
 
     /**
-     * 
-     * @param array<string, mixed>|object $data 
-     * @return void 
-     * @throws ReflectionException 
-     * @throws RuntimeException 
+     *
+     * @param array<string, mixed>|object $data
+     * @return void
+     * @throws ReflectionException
+     * @throws RuntimeException
      */
     public function __construct(array|object $data = array())
     {
@@ -63,8 +63,8 @@ class SectionFieldModel extends TimestampModel
     protected array $fieldsForValidationScopes = array();
 
     /**
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function getSectionId(): int
     {
@@ -72,9 +72,9 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param int $sectionid 
-     * @return void 
+     *
+     * @param int $sectionid
+     * @return void
      */
     public function setSectionId(int $sectionid): void
     {
@@ -82,8 +82,8 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getIdentifier(): string
     {
@@ -91,9 +91,9 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param string $identifier 
-     * @return void 
+     *
+     * @param string $identifier
+     * @return void
      */
     public function setIdentifier(string $identifier): void
     {
@@ -101,22 +101,21 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return null|SectionModel 
+     *
+     * @return null|SectionModel
      */
     public function getSection(): ?SectionModel
     {
         $sectionModel = SectionModel::findOneById($this->getSectionId());
-        if($sectionModel instanceof SectionModel)
-        {
+        if ($sectionModel instanceof SectionModel) {
             return $sectionModel;
         }
         return null;
     }
 
     /**
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getContent(): string
     {
@@ -124,9 +123,9 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param null|string $content 
-     * @return void 
+     *
+     * @param null|string $content
+     * @return void
      */
     public function setContent(?string $content): void
     {
@@ -134,8 +133,8 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getTypeInformation(): string
     {
@@ -143,9 +142,9 @@ class SectionFieldModel extends TimestampModel
     }
 
     /**
-     * 
-     * @param null|string $typeInformation 
-     * @return void 
+     *
+     * @param null|string $typeInformation
+     * @return void
      */
     public function setTypeInformation(?string $typeInformation): void
     {
