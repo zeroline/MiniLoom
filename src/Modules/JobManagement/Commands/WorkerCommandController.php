@@ -31,43 +31,43 @@ class WorkerCommandController extends Controller
     private const SLEEP_SECONDS_ON_ZERO_RESULTS = 60;
 
     /**
-     * 
+     *
      * @var array<JobForProcessingModel>
      */
     private array $currentJobList = array();
 
     /**
-     * 
+     *
      * @var int
      */
     private int $currentJobIndex = -1;
 
     /**
-     * 
+     *
      * @var int
      */
     private int $currentJobListCount = 0;
 
     /**
-     * 
+     *
      * @var int
      */
     private int $currentJobTypeId;
 
     /**
-     * 
+     *
      * @var JobTypeModel
      */
     private JobTypeModel $currentJobType;
 
     /**
-     * 
+     *
      * @var mixed
      */
     private $currentLimit = null;
 
     /**
-     * 
+     *
      * @var bool
      */
     private bool $loopShouldRun = true;
@@ -133,7 +133,7 @@ class WorkerCommandController extends Controller
                 $this->currentJobIndex = $i;
                 try {
                     $currentJob = $this->currentJobList[$this->currentJobIndex]->getJob();
-                    
+
                     if (!$currentJob) {
                         continue;
                     }
@@ -196,9 +196,9 @@ class WorkerCommandController extends Controller
         $this->out('Gracefully shutdown... ');
         if ($this->currentJobIndex > -1) {
             $currentJob = $this->currentJobList[$this->currentJobIndex]->getJob();
-            if($currentJob) {
+            if ($currentJob) {
                 JobConsumerService::resetJobToOpenByGracefullyShutdown($currentJob);
-            }            
+            }
         }
         $this->outLine('complete');
     }
@@ -217,11 +217,11 @@ class WorkerCommandController extends Controller
     }
 
     /**
-     * 
-     * @param int $signo 
-     * @param mixed $signinfo 
-     * @return void 
-     * @throws PDOException 
+     *
+     * @param int $signo
+     * @param mixed $signinfo
+     * @return void
+     * @throws PDOException
      */
     public function handleSignal(int $signo, mixed $signinfo): void
     {

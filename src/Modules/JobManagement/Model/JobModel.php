@@ -91,7 +91,7 @@ class JobModel extends DataIntegrityModel
     {
         if (is_null($this->cachedType)) {
             $result = JobTypeModel::findOneById($this->getTypeId());
-            if($result instanceof JobTypeModel) {
+            if ($result instanceof JobTypeModel) {
                 $this->cachedType = $result;
             } else {
                 throw new RuntimeException("JobType not found");

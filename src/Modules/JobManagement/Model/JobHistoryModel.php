@@ -71,7 +71,7 @@ class JobHistoryModel extends DatabaseAbstractionModel
     {
         if (is_null($this->cachedJob)) {
             $result = JobConsumerService::getJobById($this->getJobId());
-            if($result instanceof JobModel) {
+            if ($result instanceof JobModel) {
                 $this->cachedJob = $result;
             } else {
                 throw new RuntimeException("Job not found");

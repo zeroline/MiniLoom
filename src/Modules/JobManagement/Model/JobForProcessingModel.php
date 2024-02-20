@@ -44,7 +44,7 @@ class JobForProcessingModel extends DatabaseAbstractionModel
     public function getJob(): ?JobModel
     {
         $result = JobConsumerService::getJobById($this->jobId);
-        if($result instanceof JobModel) {
+        if ($result instanceof JobModel) {
             return $result;
         }
         return null;

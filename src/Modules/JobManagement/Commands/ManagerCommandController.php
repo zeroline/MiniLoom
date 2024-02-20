@@ -59,12 +59,12 @@ class ManagerCommandController extends Controller
             $jobsForProcessing = JobConsumerService::getJobsForProcessingByType($jobType, $limit);
             foreach ($jobsForProcessing as $jobForProcessing) {
                 $job = $jobForProcessing->getJob();
-                if($job) {
+                if ($job) {
                     $this->outLine(self::LINE);
                     $this->outLine($jobType->getName() . ' (' . $this->getJobStatusString($job->getStatus()) . ')');
                     $this->outLine($job->payload);
                     $this->outLine(self::LINE . PHP_EOL);
-                }                
+                }
             }
         } else {
             $this->outLine('Invalid job type');

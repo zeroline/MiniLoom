@@ -56,7 +56,7 @@ final class JobTypeService
     public static function getJobTypeById(int $id): ?JobTypeModel
     {
         $result = JobTypeModel::findOneById($id);
-        if($result instanceof JobTypeModel) {
+        if ($result instanceof JobTypeModel) {
             return $result;
         }
         return null;

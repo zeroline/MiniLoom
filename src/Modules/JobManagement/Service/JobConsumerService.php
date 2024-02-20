@@ -34,7 +34,7 @@ final class JobConsumerService
     public static function getJobById(int $id): ?JobModel
     {
         $result = JobModel::findOneById($id);
-        if($result instanceof JobModel) {
+        if ($result instanceof JobModel) {
             return $result;
         }
         return null;
