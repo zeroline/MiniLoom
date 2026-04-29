@@ -25,12 +25,12 @@ class DataIntegrityModel extends TimestampModel
     public const FIELD_ACTIVE_STATE = 'activeState';
 
     /**
-    *
-    * @param array<string, mixed>|object $data
-    * @return void
-    * @throws ReflectionException
-    * @throws RuntimeException
-    */
+     *
+     * @param array<string, mixed>|object $data
+     * @return void
+     * @throws ReflectionException
+     * @throws RuntimeException
+     */
     public function __construct(array|object $data = array())
     {
         $this->fieldsForValidation[self::FIELD_ACTIVE_STATE] = array(
@@ -61,7 +61,7 @@ class DataIntegrityModel extends TimestampModel
      */
     public function getIsActive(): bool
     {
-        return ($this->getActiveState() === EntryState::ACTIVE);
+        return $this->getActiveState() === EntryState::ACTIVE;
     }
 
     /**
@@ -71,7 +71,7 @@ class DataIntegrityModel extends TimestampModel
      */
     public function getIsInActive(): bool
     {
-        return ($this->getActiveState() === EntryState::INACITVE);
+        return $this->getActiveState() === EntryState::INACITVE;
     }
 
     /**
@@ -81,7 +81,7 @@ class DataIntegrityModel extends TimestampModel
      */
     public function getIsDeleted(): bool
     {
-        return ($this->getActiveState() === EntryState::DELETED);
+        return $this->getActiveState() === EntryState::DELETED;
     }
 
     /**
@@ -91,7 +91,7 @@ class DataIntegrityModel extends TimestampModel
      */
     public function getIsMarkedForPermanentDeletion(): bool
     {
-        return ($this->getActiveState() === EntryState::REQUEST_FOR_PERM_DELETION);
+        return $this->getActiveState() === EntryState::REQUEST_FOR_PERM_DELETION;
     }
 
     /**
