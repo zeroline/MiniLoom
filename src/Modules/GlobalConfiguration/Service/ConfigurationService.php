@@ -29,7 +29,7 @@ class ConfigurationService
      */
     private static function sectorExists(string $identifier): bool
     {
-        return (SectorModel::repository()->where('identifier', $identifier)->count() === 1);
+        return SectorModel::repository()->where('identifier', $identifier)->count() === 1;
     }
 
     /**
@@ -41,7 +41,7 @@ class ConfigurationService
      */
     private static function sectionExists(SectorModel $sector, string $identifier): bool
     {
-        return (SectionModel::repository()->where('identifier', $identifier)->where('sectorid', $sector->getId())->count() === 1);
+        return SectionModel::repository()->where('identifier', $identifier)->where('sectorid', $sector->getId())->count() === 1;
     }
 
     /**
@@ -53,7 +53,7 @@ class ConfigurationService
      */
     private static function sectionFieldExists(SectionModel $section, string $identifier): bool
     {
-        return (SectionFieldModel::repository()->where('identifier', $identifier)->where('sectionid', $section->getId())->count() === 1);
+        return SectionFieldModel::repository()->where('identifier', $identifier)->where('sectionid', $section->getId())->count() === 1;
     }
 
     /**
@@ -98,7 +98,7 @@ class ConfigurationService
      * @param string|null $schema
      * @return boolean
      */
-    public static function createSector(string $identifier, ?string $schema = null) : bool
+    public static function createSector(string $identifier, ?string $schema = null): bool
     {
         $model = new SectorModel(array(
             'identifier' => $identifier,
@@ -294,7 +294,7 @@ class ConfigurationService
      * @param string|null $fallback
      * @return string|null
      */
-    public static function getConfig(string $sectorIdentifier, string $sectionIdentifier, string $fieldIdentifier, ?string $fallback = null) : ?string
+    public static function getConfig(string $sectorIdentifier, string $sectionIdentifier, string $fieldIdentifier, ?string $fallback = null): ?string
     {
         if (self::sectorExists($sectorIdentifier)) {
             $sector = self::getSectorByIdentifier($sectorIdentifier);
