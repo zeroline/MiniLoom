@@ -19,6 +19,8 @@ use RuntimeException;
 
 class Connection
 {
+    public const ERROR_NO_CONNECTION = "No connection available.";
+
     private const LIMIT_STYLE_TOP_N = "top";
     private const LIMIT_STYLE_LIMIT = "limit";
 
@@ -53,15 +55,14 @@ class Connection
         protected ?string $username,
         protected ?string $password,
         protected ?array $options
-    ) {
-    }
+    ) {}
 
     /**
      *
      * @return void
      * @throws PDOException
      */
-    public function connect() : void
+    public function connect(): void
     {
         $connectionString = '';
         switch ($this->dbType) {
@@ -72,12 +73,12 @@ class Connection
                 break;
             default:
                 $connectionString =
-                    $this->dbType->value.
-                    ':host='.
-                    $this->host.
-                    ';port='.
-                    $this->port.
-                    ';dbname='.
+                    $this->dbType->value .
+                    ':host=' .
+                    $this->host .
+                    ';port=' .
+                    $this->port .
+                    ';dbname=' .
                     $this->databaseName;
                 if (is_null($this->options)) {
                     $this->options = array(
@@ -109,7 +110,7 @@ class Connection
     {
         $connection = $this->getConnection();
         if (is_null($connection)) {
-            throw new RuntimeException('No connection available.');
+            throw new RuntimeException(self::ERROR_NO_CONNECTION);
         }
 
         switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
@@ -137,7 +138,7 @@ class Connection
     {
         $connection = $this->getConnection();
         if (is_null($connection)) {
-            throw new RuntimeException('No connection available.');
+            throw new RuntimeException(self::ERROR_NO_CONNECTION);
         }
         switch ($connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
             case DatabaseType::SQLSRV->value:
@@ -169,7 +170,7 @@ class Connection
     {
         $connection = $this->getConnection();
         if (is_null($connection)) {
-            throw new RuntimeException('No connection available.');
+            throw new RuntimeException(self::ERROR_NO_CONNECTION);
         }
         $statement = $connection->prepare($query);
         $this->lastStatement = $statement;
@@ -184,7 +185,7 @@ class Connection
                 $type = PDO::PARAM_STR;
             }
 
-            $statement->bindParam(/*is_int($key) ? ++$key :*/ $key, $param, $type);
+            $statement->bindParam(/*is_int($key) ? ++$key :*/$key, $param, $type);
         }
 
         $q = $statement->execute();

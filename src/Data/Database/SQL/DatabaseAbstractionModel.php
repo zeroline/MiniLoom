@@ -153,7 +153,8 @@ class DatabaseAbstractionModel extends ValidationModel
         $this->mediator = Mediator::getInstance();
         if (
             $this->getFilterMode() === FilterMode::FILTER_MODE_AFTER_AFTER_FETCH ||
-            $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH) {
+            $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH
+        ) {
             $this->filter();
         }
     }
@@ -184,7 +185,7 @@ class DatabaseAbstractionModel extends ValidationModel
      *
      * @return mixed
      */
-    public function getId() : mixed
+    public function getId(): mixed
     {
         return $this->{$this->getIdColumn()};
     }
@@ -204,7 +205,7 @@ class DatabaseAbstractionModel extends ValidationModel
      * @param string $name
      * @param callable $function
      */
-    protected function addAutomaticField(string $name, callable $function) : void
+    protected function addAutomaticField(string $name, callable $function): void
     {
         $this->useStdFields[$name] = $function;
     }
@@ -212,7 +213,7 @@ class DatabaseAbstractionModel extends ValidationModel
     /**
      *
      */
-    protected function handleAutomaticFieldsOnSave() : void
+    protected function handleAutomaticFieldsOnSave(): void
     {
         if ((count($this->useStdFields) > 0)) {
             foreach ($this->useStdFields as $fieldName => $callable) {
@@ -346,26 +347,26 @@ class DatabaseAbstractionModel extends ValidationModel
                 $leftIdColumn = $connectData['leftIdColumn'];
                 $this->connectedData[$fieldName] =
                     $modelClass::repository()->readRaw(
-                        'SELECT '.
-                        $targetTableName.
-                        '.* FROM '.
-                        $targetTableName.
-                        ' JOIN ' .
-                        $connectionTableName.
-                        ' ON '.
-                        $connectionTableName.
-                        '.'.
-                        $rightIdColumn.
-                        '='.
-                        $targetTableName.
-                        '.'.
-                        $foreignFieldName.
-                        ' WHERE ' .
-                        $connectionTableName.
-                        '.'.
-                        $leftIdColumn.
-                        '='.
-                        $this->{$ownFieldName}
+                        'SELECT ' .
+                            $targetTableName .
+                            '.* FROM ' .
+                            $targetTableName .
+                            ' JOIN ' .
+                            $connectionTableName .
+                            ' ON ' .
+                            $connectionTableName .
+                            '.' .
+                            $rightIdColumn .
+                            '=' .
+                            $targetTableName .
+                            '.' .
+                            $foreignFieldName .
+                            ' WHERE ' .
+                            $connectionTableName .
+                            '.' .
+                            $leftIdColumn .
+                            '=' .
+                            $this->{$ownFieldName}
                     );
             }
         }
@@ -381,7 +382,7 @@ class DatabaseAbstractionModel extends ValidationModel
      */
     public function hasConnectedData(string $fieldName): bool
     {
-        return (count($this->connectedData[$fieldName]) > 0);
+        return count($this->connectedData[$fieldName]) > 0;
     }
 
     /**
@@ -409,7 +410,7 @@ class DatabaseAbstractionModel extends ValidationModel
         if (
             $this->getFilterMode() === FilterMode::FILTER_MODE_BEFORE_SAVE ||
             $this->getFilterMode() === FilterMode::FILTER_MODE_BOTH
-            ) {
+        ) {
             $this->filter();
         }
 
@@ -436,7 +437,8 @@ class DatabaseAbstractionModel extends ValidationModel
                     static::getEventName(self::EVENT_CHANGED),
                     new EventArgs(array(
                         'model' => $this,
-                        'dirtyFields' => array_reverse(array_reverse($this->dirtyFields))))
+                        'dirtyFields' => array_reverse(array_reverse($this->dirtyFields))
+                    ))
                 );
                 $this->clearDirtyFields();
                 return true;

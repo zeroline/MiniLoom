@@ -21,7 +21,7 @@ class ModelRepository extends BaseRepository
      *
      * @param string $name
      */
-    public function setModelClassName(string $name) : void
+    public function setModelClassName(string $name): void
     {
         $this->modelClassName = $name;
     }
@@ -41,7 +41,7 @@ class ModelRepository extends BaseRepository
      */
     public function isModelClassNameSpecified(): bool
     {
-        return (isset($this->modelClassName) && !empty($this->modelClassName));
+        return isset($this->modelClassName) && !empty($this->modelClassName);
     }
 
     /************************************************************************/
@@ -88,7 +88,7 @@ class ModelRepository extends BaseRepository
      * Same as @see read or @see readModels but returns only one row/instance
      * @return mixed
      */
-    public function readOne() : mixed
+    public function readOne(): mixed
     {
         $result = null;
         $rows = array();

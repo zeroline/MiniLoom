@@ -23,7 +23,7 @@ final class Validator
             return true;
         }
 
-        return (isset($value) && !empty($value));
+        return isset($value) && !empty($value);
     }
 
     /*****************************************************/
@@ -92,7 +92,7 @@ final class Validator
 
     public static function checkIsObjectOrArray(mixed $value): bool
     {
-        return (static::checkIsArray($value) ||  static::checkIsObject($value));
+        return static::checkIsArray($value) ||  static::checkIsObject($value);
     }
 
     /*****************************************************/
@@ -104,7 +104,7 @@ final class Validator
         if (!is_numeric($value)) {
             return false;
         }
-        return ($value >= $min);
+        return $value >= $min;
     }
 
     public static function checkNumberMaxValue(mixed $value, mixed $max): bool
@@ -112,7 +112,7 @@ final class Validator
         if (!is_numeric($value)) {
             return false;
         }
-        return ($value <= $max);
+        return $value <= $max;
     }
 
     public static function checkNumberRange(mixed $value, mixed $min, mixed $max): bool
@@ -120,7 +120,7 @@ final class Validator
         if (!is_numeric($value)) {
             return false;
         }
-        return ($value >= $min && $value <= $max);
+        return $value >= $min && $value <= $max;
     }
 
     public static function checkIntRange(mixed $value, int $min, int $max): bool
@@ -133,7 +133,7 @@ final class Validator
             return false;
             // other non-integer value or exceeds PHP_MAX_INT
         }
-        return ($value >= $min && $value <= $max);
+        return $value >= $min && $value <= $max;
     }
 
     public static function checkIntMinValue(mixed $value, int $min): bool
@@ -146,7 +146,7 @@ final class Validator
             return false;
             // other non-integer value or exceeds PHP_MAX_INT
         }
-        return ($value >= $min);
+        return $value >= $min;
     }
 
     public static function checkIntMaxValue(mixed $value, int $max): bool
@@ -159,7 +159,7 @@ final class Validator
             return false;
             // other non-integer value or exceeds PHP_MAX_INT
         }
-        return ($value <= $max);
+        return $value <= $max;
     }
 
     public static function checkFloatRange(mixed $value, float $min, float $max): bool
@@ -167,7 +167,7 @@ final class Validator
         if (!is_float($value)) {
             return false;
         }
-        return ($value >= $min && $value <= $max);
+        return $value >= $min && $value <= $max;
     }
 
     public static function checkFloatMinValue(mixed $value, float $min): bool
@@ -175,7 +175,7 @@ final class Validator
         if (!is_float($value)) {
             return false;
         }
-        return ($value >= $min);
+        return $value >= $min;
     }
 
     public static function checkFloatMaxValue(mixed $value, float $max): bool
@@ -183,7 +183,7 @@ final class Validator
         if (!is_float($value)) {
             return false;
         }
-        return ($value <= $max);
+        return $value <= $max;
     }
 
     /*****************************************************/
@@ -202,7 +202,7 @@ final class Validator
 
     public static function checkStrLengthRange(mixed $value, int $minLength, int $maxLength): bool
     {
-        return ( static::checkMinStrLength($value, $minLength) && static::checkMaxStrLength($value, $maxLength) );
+        return static::checkMinStrLength($value, $minLength) && static::checkMaxStrLength($value, $maxLength);
     }
 
     public static function checkStringBeginsWith(mixed $value, string $needle): bool
@@ -381,7 +381,8 @@ final class Validator
             'tr' => 26,
             'ae' => 23,
             'gb' => 22,
-            'vg' => 24);
+            'vg' => 24
+        );
 
         $Chars = array(
             'a' => 10,
@@ -409,7 +410,8 @@ final class Validator
             'w' => 32,
             'x' => 33,
             'y' => 34,
-            'z' => 35);
+            'z' => 35
+        );
 
         if (!array_key_exists(substr($iban, 0, 2), $Countries)) {
             return false;
