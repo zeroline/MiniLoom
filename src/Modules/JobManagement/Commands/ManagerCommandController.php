@@ -73,5 +73,6 @@ class ManagerCommandController extends Controller
 
     public function listTypes(): void
     {
+        // TODO: Do something here when remember what to do...
     }
 }
