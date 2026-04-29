@@ -24,7 +24,7 @@ class Router
     public const ERROR_OUTPUT_SIMPLE = 1;
     public const ERROR_OUTPUT_VERBOSE = 2;
 
-    private function drawLine() : string
+    private function drawLine(): string
     {
         return '----------------------------------------' . PHP_EOL;
     }
@@ -40,7 +40,7 @@ class Router
      * @param string $command
      * @return null|RegisteredCommand
      */
-    protected function getRegisteredCommand(string $command) : ?RegisteredCommand
+    protected function getRegisteredCommand(string $command): ?RegisteredCommand
     {
         if (isset($this->registeredCommands[$command])) {
             return $this->registeredCommands[$command];
@@ -52,7 +52,7 @@ class Router
      *
      * @return ParsedCommand
      */
-    protected function parseInput() : ParsedCommand
+    protected function parseInput(): ParsedCommand
     {
         $command = '';
         $arguments = array();
@@ -71,7 +71,7 @@ class Router
                     // --arg
                     if ($eqPos === false) {
                         $key = substr($arg, 2);
-                         // --arg value
+                        // --arg value
                         if ($i + 1 < $j && $argv[$i + 1][0] !== '-') {
                             $value  = $argv[$i + 1];
                             $i++;
@@ -93,9 +93,9 @@ class Router
                     } else {
                         $chars  = str_split(substr($arg, 1));
                         foreach ($chars as $char) {
-                                $key = $char;
-                                $value  = isset($arguments[$key]) ? $arguments[$key] : true;
-                                $arguments[$key]  = $value;
+                            $key = $char;
+                            $value  = isset($arguments[$key]) ? $arguments[$key] : true;
+                            $arguments[$key]  = $value;
                         }
                         // -arg value1 -abc value2
                         if ($i + 1 < $j && $argv[$i + 1][0] !== '-') {
@@ -119,7 +119,7 @@ class Router
      * @throws Exception
      * @throws RuntimeException
      */
-    public function processInput(int $errorOutputLevel = self::ERROR_OUTPUT_VERBOSE, ?callable $onErrorCallback = null) : void
+    public function processInput(int $errorOutputLevel = self::ERROR_OUTPUT_VERBOSE, ?callable $onErrorCallback = null): void
     {
         try {
             $inputCommand = $this->parseInput();
@@ -136,26 +136,27 @@ class Router
             $outputData = '';
 
             switch ($errorOutputLevel) {
-                case self::ERROR_OUTPUT_SUPRESS:
-                    break;
                 case self::ERROR_OUTPUT_SIMPLE:
                     $outputData =
-                        "\033[31mAn error occured:\033[0m".PHP_EOL.
-                        $this->drawLine().
-                        $t->getMessage().PHP_EOL.
-                        $this->drawLine().
+                        "\033[31mAn error occured:\033[0m" . PHP_EOL .
+                        $this->drawLine() .
+                        $t->getMessage() . PHP_EOL .
+                        $this->drawLine() .
                         "";
                     break;
                 case self::ERROR_OUTPUT_VERBOSE:
                     $outputData =
-                        "\033[31mAn error occured:\033[0m".PHP_EOL.
-                        $this->drawLine().
-                        $t->getMessage().PHP_EOL.
-                        $this->drawLine().
+                        "\033[31mAn error occured:\033[0m" . PHP_EOL .
+                        $this->drawLine() .
+                        $t->getMessage() . PHP_EOL .
+                        $this->drawLine() .
                         "";
                     $outputData .=
-                        $t->getTraceAsString().PHP_EOL.
+                        $t->getTraceAsString() . PHP_EOL .
                         $this->drawLine();
+                    break;
+                case self::ERROR_OUTPUT_SUPRESS:
+                default:
                     break;
             }
 
@@ -177,7 +178,7 @@ class Router
      * @param string $method
      * @return void
      */
-    public function on(string $command, string $controller, string $method) : void
+    public function on(string $command, string $controller, string $method): void
     {
         $this->registeredCommands[$command] = new RegisteredCommand($command, $controller, $method);
     }
