@@ -32,6 +32,17 @@ trait ValidatorTrait
     protected array $fieldValidationErrors = array();
 
     /**
+     * Internal helper function to create a new RuntimeException ( to be raised later )
+     * when a rule is called but missing
+     * 
+     * @param string $rule 
+     * @return RuntimeException 
+     */
+    private function ruleNotFoundException(string $rule): RuntimeException
+    {
+        return new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+    }
+    /**
      * Sets the validation fields
      *
      * @param array<string, array<string, array<mixed>>> $fieldsForValidation
@@ -46,7 +57,7 @@ trait ValidatorTrait
      *
      * @return array<array<mixed>>
      */
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->fieldValidationErrors;
     }
@@ -67,7 +78,7 @@ trait ValidatorTrait
      * @return boolean
      * @throws RuntimeException
      */
-    public function isValid(?string $scope = null) : bool
+    public function isValid(?string $scope = null): bool
     {
         $this->fieldValidationErrors = array();
         $fields = (is_null($scope) ? $this->fieldsForValidation : array_merge($this->fieldsForValidation, $this->fieldsForValidationScopes[$scope]));
@@ -94,7 +105,7 @@ trait ValidatorTrait
                         if (is_callable($callable)) {
                             $result = forward_static_call_array($callable, $arguments);
                         } else {
-                            throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+                            throw $this->ruleNotFoundException($rule);
                         }
                     } elseif (method_exists($this, $rule)) {
                         $arguments = array_merge(array($value), $arguments);
@@ -102,10 +113,10 @@ trait ValidatorTrait
                         if (is_callable($callable)) {
                             $result = call_user_func_array($callable, $arguments);
                         } else {
-                            throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+                            throw $this->ruleNotFoundException($rule);
                         }
                     } else {
-                        throw new RuntimeException('Validation rule method "' . $rule . '" cannot be found.');
+                        throw $this->ruleNotFoundException($rule);
                     }
                 }
 
