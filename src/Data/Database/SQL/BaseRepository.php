@@ -150,7 +150,7 @@ class BaseRepository
         return $this;
     }
 
-    public function connect() : void
+    public function connect(): void
     {
         $this->getConnection()->connect();
     }
@@ -445,7 +445,7 @@ class BaseRepository
     protected function encapsulate(string $name): string
     {
         $quteIdentifier = $this->getConnection()->getQuoteIdentifier();
-        return $quteIdentifier.$name.$quteIdentifier;
+        return $quteIdentifier . $name . $quteIdentifier;
     }
 
     /**
@@ -474,11 +474,11 @@ class BaseRepository
     protected function buildInsert(array $data = array()): string
     {
         $insertStr =
-            self::KEYWORD_INSERT.
-            self::EMPTY_SPACE.
-            self::KEYWORD_INTO.
-            self::EMPTY_SPACE.
-            $this->encapsulate($this->table).
+            self::KEYWORD_INSERT .
+            self::EMPTY_SPACE .
+            self::KEYWORD_INTO .
+            self::EMPTY_SPACE .
+            $this->encapsulate($this->table) .
             self::EMPTY_SPACE;
 
         $fieldsArr = array();
@@ -489,17 +489,17 @@ class BaseRepository
         }
 
         $insertStr .=
-            self::PARANTHESIS_OPEN.
-            implode(self::IMPLODE_SEPARATOR, $fieldsArr).
-            self::PARANTHESIS_CLOSE.
+            self::PARANTHESIS_OPEN .
+            implode(self::IMPLODE_SEPARATOR, $fieldsArr) .
+            self::PARANTHESIS_CLOSE .
             self::EMPTY_SPACE;
 
         $insertStr .=
-            self::KEYWORD_VALUES.
-            self::EMPTY_SPACE.
-            self::PARANTHESIS_OPEN.
-            implode(self::IMPLODE_SEPARATOR, $valueArr).
-            self::PARANTHESIS_CLOSE.
+            self::KEYWORD_VALUES .
+            self::EMPTY_SPACE .
+            self::PARANTHESIS_OPEN .
+            implode(self::IMPLODE_SEPARATOR, $valueArr) .
+            self::PARANTHESIS_CLOSE .
             self::EMPTY_SPACE;
 
         return $insertStr;
@@ -511,15 +511,15 @@ class BaseRepository
      */
     protected function buildSelectCount(): string
     {
-        $selectStr = 'SELECT COUNT(*) AS'.self::EMPTY_SPACE.self::INTERNAL_FIELD_COUNT_RESULT.self::EMPTY_SPACE;
-        $selectStr .= self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
-        $selectStr .= self::EMPTY_SPACE.$this->buildWhere();
-        $selectStr .= self::EMPTY_SPACE.$this->buildOrderBy();
+        $selectStr = 'SELECT COUNT(*) AS' . self::EMPTY_SPACE . self::INTERNAL_FIELD_COUNT_RESULT . self::EMPTY_SPACE;
+        $selectStr .= self::KEYWORD_FROM . self::EMPTY_SPACE . $this->encapsulate($this->table) . self::EMPTY_SPACE;
+        $selectStr .= self::EMPTY_SPACE . $this->buildWhere();
+        $selectStr .= self::EMPTY_SPACE . $this->buildOrderBy();
         if (!is_null($this->limit)) {
-            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_LIMIT.self::EMPTY_SPACE.$this->limit;
+            $selectStr .= self::EMPTY_SPACE . self::KEYWORD_LIMIT . self::EMPTY_SPACE . $this->limit;
         }
         if (!is_null($this->limit) && !is_null($this->offset)) {
-            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_OFFSET.self::EMPTY_SPACE.$this->limit;
+            $selectStr .= self::EMPTY_SPACE . self::KEYWORD_OFFSET . self::EMPTY_SPACE . $this->limit;
         }
 
         return $selectStr;
@@ -538,29 +538,30 @@ class BaseRepository
                     is_array($joinData) &&
                     array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_NAME, $joinData) &&
                     array_key_exists(self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME, $joinData) &&
-                    array_key_exists(self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME, $joinData)) {
+                    array_key_exists(self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME, $joinData)
+                ) {
                     $joiningTableName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_NAME];
                     $joiningTableFieldName = $joinData[self::ATTRIBUTE_KEY_JOIN_TABLE_FIELD_NAME];
                     $baseTableFieldName = $joinData[self::ATTRIBUTE_KEY_BASE_TABLE_FIELD_NAME];
                     $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
                     $joinString .=
-                        self::EMPTY_SPACE.
-                        self::KEYWORD_JOIN.
-                        self::EMPTY_SPACE.
-                        $this->encapsulate($joiningTableName).
-                        self::EMPTY_SPACE.
-                        $tablePrefix.
+                        self::EMPTY_SPACE .
+                        self::KEYWORD_JOIN .
+                        self::EMPTY_SPACE .
+                        $this->encapsulate($joiningTableName) .
+                        self::EMPTY_SPACE .
+                        $tablePrefix .
                         self::EMPTY_SPACE;
 
                     $joinString .=
-                        self::KEYWORD_ON.
-                        self::EMPTY_SPACE.
-                        self::PARANTHESIS_OPEN.
-                        $this->encapsulate($tablePrefix . self::DOT).
-                        $joiningTableFieldName.
-                        self::KEYWORD_OPERATOR_EQUAL.
-                        $baseTableFieldName.
-                        self::PARANTHESIS_CLOSE.
+                        self::KEYWORD_ON .
+                        self::EMPTY_SPACE .
+                        self::PARANTHESIS_OPEN .
+                        $this->encapsulate($tablePrefix . self::DOT) .
+                        $joiningTableFieldName .
+                        self::KEYWORD_OPERATOR_EQUAL .
+                        $baseTableFieldName .
+                        self::PARANTHESIS_CLOSE .
                         self::EMPTY_SPACE;
                 }
             }
@@ -575,11 +576,11 @@ class BaseRepository
      */
     protected function buildGeneralSelectFields(): array
     {
-        $joinSelectFields = array(spl_object_hash($this) . self::DOT.self::KEYWORD_ASTERISK);
+        $joinSelectFields = array(spl_object_hash($this) . self::DOT . self::KEYWORD_ASTERISK);
         if ($this->hasJoins()) {
             foreach ($this->joins as $joinIndex => $joinData) {
                 $tablePrefix = self::INTERNAL_JOIN_PREFIX . $joinIndex;
-                $joinSelectFields[] = $tablePrefix . self::DOT.self::KEYWORD_ASTERISK;
+                $joinSelectFields[] = $tablePrefix . self::DOT . self::KEYWORD_ASTERISK;
             }
         }
 
@@ -592,7 +593,7 @@ class BaseRepository
      */
     protected function hasJoins(): bool
     {
-        return (count($this->joins) > 0);
+        return count($this->joins) > 0;
     }
 
     /**
@@ -601,26 +602,26 @@ class BaseRepository
      */
     protected function buildSelect(): string
     {
-        $selectStr = self::KEYWORD_SELECT.self::EMPTY_SPACE;
+        $selectStr = self::KEYWORD_SELECT . self::EMPTY_SPACE;
         if (count($this->selectFields)) {
-            $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE, $this->selectFields).self::EMPTY_SPACE;
+            $selectStr .= implode(self::IMPLODE_SEPARATOR . self::EMPTY_SPACE, $this->selectFields) . self::EMPTY_SPACE;
         } elseif ($this->hasJoins()) {
-            $selectStr .= implode(self::IMPLODE_SEPARATOR.self::EMPTY_SPACE, $this->buildGeneralSelectFields());
+            $selectStr .= implode(self::IMPLODE_SEPARATOR . self::EMPTY_SPACE, $this->buildGeneralSelectFields());
         } else {
-            $selectStr .= self::KEYWORD_ASTERISK.self::EMPTY_SPACE;
+            $selectStr .= self::KEYWORD_ASTERISK . self::EMPTY_SPACE;
         }
-        $selectStr .= self::KEYWORD_FROM.self::EMPTY_SPACE.$this->encapsulate($this->table).self::EMPTY_SPACE;
+        $selectStr .= self::KEYWORD_FROM . self::EMPTY_SPACE . $this->encapsulate($this->table) . self::EMPTY_SPACE;
         // Join
-        $selectStr .= self::EMPTY_SPACE.$this->buildJoin();
+        $selectStr .= self::EMPTY_SPACE . $this->buildJoin();
         // Where
-        $selectStr .= self::EMPTY_SPACE.$this->buildWhere();
+        $selectStr .= self::EMPTY_SPACE . $this->buildWhere();
         // Order
-        $selectStr .= self::EMPTY_SPACE.$this->buildOrderBy();
+        $selectStr .= self::EMPTY_SPACE . $this->buildOrderBy();
         if (!is_null($this->limit)) {
-            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_LIMIT.self::EMPTY_SPACE.$this->limit;
+            $selectStr .= self::EMPTY_SPACE . self::KEYWORD_LIMIT . self::EMPTY_SPACE . $this->limit;
         }
         if (!is_null($this->limit) && !is_null($this->offset)) {
-            $selectStr .= self::EMPTY_SPACE.self::KEYWORD_OFFSET.self::EMPTY_SPACE.$this->offset;
+            $selectStr .= self::EMPTY_SPACE . self::KEYWORD_OFFSET . self::EMPTY_SPACE . $this->offset;
         }
 
         return $selectStr;
@@ -633,10 +634,10 @@ class BaseRepository
      */
     protected function buildUpdate(array $data = array()): string
     {
-        $updateStr = self::KEYWORD_UPDATE.self::EMPTY_SPACE.$this->encapsulate($this->table).self::KEYWORD_SET.self::EMPTY_SPACE;
+        $updateStr = self::KEYWORD_UPDATE . self::EMPTY_SPACE . $this->encapsulate($this->table) . self::KEYWORD_SET . self::EMPTY_SPACE;
         $updateArr = array();
         foreach ($data as $k => $v) {
-            $updateArr[] = $k.self::EMPTY_SPACE .self::KEYWORD_OPERATOR_EQUAL.self::EMPTY_SPACE.$this->encapsulatePlaceholder($k, $v);
+            $updateArr[] = $k . self::EMPTY_SPACE . self::KEYWORD_OPERATOR_EQUAL . self::EMPTY_SPACE . $this->encapsulatePlaceholder($k, $v);
         }
         $updateStr .= implode(self::IMPLODE_SEPARATOR, $updateArr) . self::EMPTY_SPACE;
         $updateStr .= $this->buildWhere() . self::EMPTY_SPACE;
@@ -650,15 +651,15 @@ class BaseRepository
     protected function buildDelete(): string
     {
         $deleteStr =
-            self::KEYWORD_DELETE.
-            self::EMPTY_SPACE.
-            self::KEYWORD_FROM.
-            self::EMPTY_SPACE.
-            $this->encapsulate($this->table).
+            self::KEYWORD_DELETE .
+            self::EMPTY_SPACE .
+            self::KEYWORD_FROM .
+            self::EMPTY_SPACE .
+            $this->encapsulate($this->table) .
             self::EMPTY_SPACE;
 
         $deleteStr .=
-            $this->buildWhere().
+            $this->buildWhere() .
             self::EMPTY_SPACE;
 
         return $deleteStr;
@@ -669,9 +670,9 @@ class BaseRepository
      * @param string $combineWith
      * @return string
      */
-    protected function buildWhere(string $combineWith = self::EMPTY_SPACE.self::KEYWORD_AND.self::EMPTY_SPACE): string
+    protected function buildWhere(string $combineWith = self::EMPTY_SPACE . self::KEYWORD_AND . self::EMPTY_SPACE): string
     {
-        $whereStr = self::KEYWORD_WHERE.self::EMPTY_SPACE;
+        $whereStr = self::KEYWORD_WHERE . self::EMPTY_SPACE;
         $whereArr = array();
         foreach ($this->where as $where) {
             switch ($where->operator) {
@@ -679,10 +680,10 @@ class BaseRepository
                 case self::KEYWORD_NOT_IN:
                     if (count($where->value) > 0) {
                         $tmpStr =
-                            $this->encapsulate($where->name).
-                            self::EMPTY_SPACE.
-                            $where->operator.
-                            self::EMPTY_SPACE.
+                            $this->encapsulate($where->name) .
+                            self::EMPTY_SPACE .
+                            $where->operator .
+                            self::EMPTY_SPACE .
                             self::PARANTHESIS_OPEN;
 
                         $tmpArr = array();
@@ -700,17 +701,17 @@ class BaseRepository
                 case self::KEYWORD_IS_NULL:
                 case self::KEYWORD_IS_NOT_NULL:
                     $whereArr[] =
-                        $this->encapsulate($where->name).
-                        self::EMPTY_SPACE.
+                        $this->encapsulate($where->name) .
+                        self::EMPTY_SPACE .
                         $where->operator;
 
                     break;
                 default:
                     $whereArr[] =
-                        $this->encapsulate($where->name).
-                        self::EMPTY_SPACE.
-                        $where->operator.
-                        self::EMPTY_SPACE.
+                        $this->encapsulate($where->name) .
+                        self::EMPTY_SPACE .
+                        $where->operator .
+                        self::EMPTY_SPACE .
                         $this->encapsulatePlaceholder($where->name, $where->value);
 
                     break;
@@ -718,7 +719,7 @@ class BaseRepository
         }
 
         $whereStr .= implode($combineWith, $whereArr);
-        if ($whereStr == self::KEYWORD_WHERE.self::EMPTY_SPACE) {
+        if ($whereStr == self::KEYWORD_WHERE . self::EMPTY_SPACE) {
             return self::EMPTY_STRING;
         }
 
@@ -731,14 +732,14 @@ class BaseRepository
      */
     protected function buildOrderBy(): string
     {
-        $orderByStr = self::KEYWORD_ORDER_BY.self::EMPTY_SPACE;
+        $orderByStr = self::KEYWORD_ORDER_BY . self::EMPTY_SPACE;
         $orderByArr = array();
         foreach ($this->order as $order) {
-            $orderByArr[] = $order->name.self::EMPTY_SPACE.$order->direction;
+            $orderByArr[] = $order->name . self::EMPTY_SPACE . $order->direction;
         }
 
         $orderByStr .= implode(self::IMPLODE_SEPARATOR, $orderByArr);
-        if ($orderByStr == self::KEYWORD_ORDER_BY.self::EMPTY_SPACE) {
+        if ($orderByStr == self::KEYWORD_ORDER_BY . self::EMPTY_SPACE) {
             return self::EMPTY_STRING;
         }
 
@@ -752,7 +753,7 @@ class BaseRepository
     /**
      * Clears all conditions
      */
-    public function clearConditions() : void
+    public function clearConditions(): void
     {
         $this->limit = null;
         $this->offset = null;
@@ -769,7 +770,7 @@ class BaseRepository
      * @return string|bool
      * @throws PDOException
      */
-    public function create(array $data = array()) : string|bool
+    public function create(array $data = array()): string|bool
     {
         $query = $this->buildInsert($data);
         $result = false;
@@ -820,7 +821,7 @@ class BaseRepository
      * Same as @see read or @see readModels but returns only one row
      * @return mixed
      */
-    public function readOne() : mixed
+    public function readOne(): mixed
     {
         $result = null;
         $rows = array();
