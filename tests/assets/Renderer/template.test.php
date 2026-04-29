@@ -8,5 +8,5 @@
 * Test case for Renderer
 */
 ?>
-
-<html><body><h1>Test Template</h1><p>Test case for Renderer</p><?php echo isset($test) ? $test : ''; ?></body></html>
+<!DOCTYPE html>
+<html lang="en"><head><title>Test case for Renderer</title><body><h1>Test Template</h1><p>Test case for Renderer</p><?php echo isset($test) ? $test : ''; ?></body></html>
