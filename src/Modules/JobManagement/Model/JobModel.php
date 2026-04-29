@@ -180,7 +180,7 @@ class JobModel extends DataIntegrityModel
      */
     public function hasAttemptsLeft(): bool
     {
-        return ( $this->getAttempt() < $this->getType()->getMaxRetries() );
+        return $this->getAttempt() < $this->getType()->getMaxRetries();
     }
 
     /**
