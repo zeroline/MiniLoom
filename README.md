@@ -1,22 +1,43 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/) ![Build and test workflow](https://github.com/zeroline/MiniLoom/actions/workflows/php.yml/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=zeroline_MiniLoom&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=zeroline_MiniLoom)
 
-# MiniLoom: A Swift and Efficient PHP Library
+# MiniLoom
 
-Discover the power of MiniLoom, a versatile PHP library meticulously crafted to accelerate your development journey. Born from years of passion for PHP and a commitment to continuous learning, MiniLoom is more than just a library; it's a culmination of experiences, lessons, and a deep exploration of various PHP concepts.
+MiniLoom is a small PHP library I originally started years ago while learning and experimenting with PHP.
 
-# The Origin Story
-MiniLoom was conceived as a personal project, a journey of self-improvement and exploration. Developed over the years, it served as a testing ground for honing skills in ORM, routing, HTTP, JWT, PHP CLI, and database access and abstraction. The result is a library designed to empower developers in prototyping projects with speed and efficiency.
+It’s not a framework and doesn’t try to be one. Instead, it’s a collection of pieces that grew over time while I explored different concepts like database access, simple ORM patterns, routing, HTTP handling, JWT, and CLI tooling.
 
-Whether you're a seasoned developer or just embarking on your PHP adventure, MiniLoom is your companion, offering simplicity without compromise. Dive into the world of MiniLoom and witness the harmony of knowledge, efficiency, and PHP craftsmanship.
+The main goal was (and still is) to have something I understand end-to-end and can use to prototype ideas quickly without pulling in a full stack of dependencies.
+
+# Why it exists
+
+This project started as a way for me to learn PHP beyond just using existing frameworks. Instead of treating things like ORM, routing, or HTTP as black boxes, I wanted to understand how they actually work.
+
+Over time, MiniLoom became my personal toolbox — something I can use to spin up prototypes quickly, test ideas, or just build small projects without overengineering them.
 
 But remember! MiniLoom does not want or wanted to replace the astonishing PHP frameworks out there. It was built to be a solution for specific tasks in a specific way. Neither does it feature a full production ready framework experience nor does it cover current state of the art concepts.
 
-If you want to build a scalable and modern PHP application then seek out to the best of the best out there.
+# What it includes
 
-# Key Features
+MiniLoom bundles a few practical building blocks:
 
-- ORM : MiniLoom embraces the elegance of Object-Relational Mapping (ORM), providing a seamless bridge between your PHP application and the database.
-- Effortless Routing: Navigate the intricacies of HTTP with MiniLoom's intuitive routing system, simplifying the way you handle web requests.
-- Secure Authentication: Harness the power of JWT for robust and secure authentication, ensuring your projects are safeguarded against unauthorized access.
-- Command Line Prowess: Seamlessly transition between web and command line interfaces with MiniLoom's PHP CLI functionalities, enhancing the versatility of your projects.
-- Efficient Database Abstraction: MiniLoom streamlines database access and abstraction, allowing you to focus on your project's core logic without getting bogged down by complex database interactions.
+- basic database access and abstraction
+- a lightweight ORM-style approach (nothing fancy, just enough to work with data comfortably)
+- simple routing for HTTP-based projects
+- helpers for working with requests and responses
+- JWT handling for authentication experiments
+- some CLI utilities for running scripts and small tools
+- general helpers that accumulated over time
+
+# What it includes
+
+MiniLoom is:
+
+- simple
+- opinionated in places
+- easy to modify if you know PHP
+
+MiniLoom is not:
+
+- a full-featured framework
+- production-hardened in every corner
+- trying to compete with established ecosystems
