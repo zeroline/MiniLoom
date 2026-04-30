@@ -15,6 +15,7 @@ use zeroline\MiniLoom\Routing\HTTP\RegisteredRoute as RegisteredRoute;
 use zeroline\MiniLoom\Routing\HTTP\HTTPVerb as HTTPVerb;
 use zeroline\MiniLoom\Routing\HTTP\ParsedRoute as ParsedRoute;
 use zeroline\MiniLoom\Helper\XMLConverter as XMLConverter;
+use zeroline\MiniLoom\Controlling\HTTP\PredefinedContentTypeHeaders as PredefinedContentTypeHeaders;
 
 use Exception;
 use RuntimeException;
@@ -34,7 +35,7 @@ class Router
      * @param string $route
      * @return null|RegisteredRoute
      */
-    protected function getRegisteredRoute(HTTPVerb $httpVerb, string $route) : ?RegisteredRoute
+    protected function getRegisteredRoute(HTTPVerb $httpVerb, string $route): ?RegisteredRoute
     {
         $index = $this->calculateIndex($httpVerb, $route);
         if (isset($this->routeMappings[$index])) {
@@ -49,9 +50,9 @@ class Router
      * @param string $route
      * @return string
      */
-    private function calculateIndex(HTTPVerb $httpVerb, string $route) : string
+    private function calculateIndex(HTTPVerb $httpVerb, string $route): string
     {
-        return hash("crc32b", strtoupper($httpVerb->name).$route);
+        return hash("crc32b", strtoupper($httpVerb->name) . $route);
     }
 
     /**
@@ -62,7 +63,7 @@ class Router
      * @return string
      * @throws Exception
      */
-    private function prepareErrorResponse(int $statusCode, string $errorMessage, string $acceptHeader) : string
+    private function prepareErrorResponse(int $statusCode, string $errorMessage, string $acceptHeader): string
     {
         $response = [
             'error' => [
@@ -71,36 +72,38 @@ class Router
             ]
         ];
 
-        $contentType = 'application/json'; // Default to JSON
+        $contentType = PredefinedContentTypeHeaders::JSON; // Default to JSON
 
         // Check if XML is requested
-        if (strpos($acceptHeader, 'application/xml') !== false) {
-            $contentType = 'application/xml';
-        } elseif (strpos($acceptHeader, 'application/json') !== false) {
-            $contentType = 'application/json';
-        } elseif (strpos($acceptHeader, 'text/plain') !== false) {
-            $contentType = 'text/plain';
-        } elseif (strpos($acceptHeader, 'text/html') !== false) {
-            $contentType = 'text/html';
+        if (strpos($acceptHeader, PredefinedContentTypeHeaders::XML) !== false) {
+            $contentType = PredefinedContentTypeHeaders::XML;
+        } elseif (strpos($acceptHeader, PredefinedContentTypeHeaders::JSON) !== false) {
+            $contentType = PredefinedContentTypeHeaders::JSON;
+        } elseif (strpos($acceptHeader, PredefinedContentTypeHeaders::TEXT_PLAIN) !== false) {
+            $contentType = PredefinedContentTypeHeaders::TEXT_PLAIN;
+        } elseif (strpos($acceptHeader, PredefinedContentTypeHeaders::HTML) !== false) {
+            $contentType = PredefinedContentTypeHeaders::HTML;
         }
 
         // Set response headers
-        header("Content-Type: $contentType", true, $statusCode);
+        PredefinedContentTypeHeaders::setContentHeader($contentType);
+        http_response_code($statusCode);
 
         switch ($contentType) {
-            case 'application/json':
+            case PredefinedContentTypeHeaders::JSON:
                 $responseJson = json_encode($response);
                 if ($responseJson === false) {
                     throw new RuntimeException("Failed to encode response to JSON");
                 } else {
                     return $responseJson;
                 }
-            case 'application/xml':
+            case PredefinedContentTypeHeaders::XML:
                 return XMLConverter::toXML($response);
-            case 'text/plain':
+            case PredefinedContentTypeHeaders::HTML:
+                return '<h1>' . $response['error']['message'] . '</h1>';
+            case PredefinedContentTypeHeaders::TEXT_PLAIN:
+            default:
                 return $response['error']['message'];
-            case 'text/html':
-                return '<h1>'.$response['error']['message'].'</h1>';
         }
     }
 
@@ -108,7 +111,7 @@ class Router
      *
      * @return ParsedRoute
      */
-    protected function parseRequest() : ParsedRoute
+    protected function parseRequest(): ParsedRoute
     {
         $uri = $_SERVER['REQUEST_URI'];
         $path = parse_url($uri, PHP_URL_PATH);
@@ -140,7 +143,7 @@ class Router
      * @return void
      * @throws Exception
      */
-    public function processRequest(bool $silentError = true) : void
+    public function processRequest(bool $silentError = true): void
     {
         try {
             $parsedRoute = $this->parseRequest();
@@ -150,7 +153,7 @@ class Router
                     http_response_code(404);
                     return;
                 } else {
-                    throw new RuntimeException("No route registered for ".$parsedRoute->httpVerb->name." ".$parsedRoute->route, 404);
+                    throw new RuntimeException("No route registered for " . $parsedRoute->httpVerb->name . " " . $parsedRoute->route, 404);
                 }
             }
 
