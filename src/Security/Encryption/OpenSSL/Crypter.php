@@ -6,7 +6,7 @@
  * @package MiniLoom
  * @subpackage Security
  *
- * The HMAC class provides a simple way to sign messages with a key.
+ * OpenSSL Crypter class for easy use to en- and decrypt strings.
  */
 
 namespace zeroline\MiniLoom\Security\Encryption\OpenSSL;
@@ -26,8 +26,8 @@ namespace zeroline\MiniLoom\Security\Encryption\OpenSSL;
  * the cipher text.
  */
 
- use Exception;
- use stdClass;
+use Exception;
+use stdClass;
 
 final class Crypter
 {
@@ -212,7 +212,7 @@ final class Crypter
     public static function decrypt(string $cipherText, string $password, string $cipher = self::PREFERRED_CIPHER): string|bool
     {
         if (!in_array($cipher, openssl_get_cipher_methods())) {
-            throw new \Exception('Cipher "' . $cipher . '" is not supported.');
+            throw new Exception('Cipher "' . $cipher . '" is not supported.');
         }
 
         $cipherElements = static::unpackCipherElementsFromString($cipherText);
