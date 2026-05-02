@@ -448,6 +448,7 @@ class BaseRepository
         return $quteIdentifier . $name . $quteIdentifier;
     }
 
+    // TODO: rework the encapsulation and collision avoidance
     /**
      * Generates placeholder name for values and uses standard quotes used in
      * the specified engine
