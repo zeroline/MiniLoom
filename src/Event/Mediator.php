@@ -30,7 +30,7 @@ class Mediator
      * @param EventArgs $args
      * @return void
      */
-    public function trigger(string $eventName, EventArgs $args = null): void
+    public function trigger(string $eventName, ?EventArgs $args = null): void
     {
         if (is_null($args)) {
             $args = EventArgs::empty();
@@ -38,7 +38,7 @@ class Mediator
 
         if (array_key_exists($eventName, $this->events)) {
             foreach ($this->events[$eventName] as $eventHandler) {
-            //$eventHandler($args);
+                //$eventHandler($args);
                 call_user_func_array($eventHandler, array($args));
             }
         } else {

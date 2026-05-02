@@ -41,7 +41,7 @@ class ModelRepository extends BaseRepository
      */
     public function isModelClassNameSpecified(): bool
     {
-        return isset($this->modelClassName) && !empty($this->modelClassName);
+        return !empty($this->modelClassName);
     }
 
     /************************************************************************/

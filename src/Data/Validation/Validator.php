@@ -11,6 +11,8 @@
 
 namespace zeroline\MiniLoom\Data\Validation;
 
+use RuntimeException;
+
 final class Validator
 {
     /*****************************************************/
@@ -129,7 +131,7 @@ final class Validator
             return false;
             // contains non digit characters
         }
-        if (!is_int((int) $value)) {
+        if (!is_int($value)) {
             return false;
             // other non-integer value or exceeds PHP_MAX_INT
         }
@@ -142,7 +144,7 @@ final class Validator
             return false;
             // contains non digit characters
         }
-        if (!is_int((int) $value)) {
+        if (!is_int($value)) {
             return false;
             // other non-integer value or exceeds PHP_MAX_INT
         }
@@ -155,7 +157,7 @@ final class Validator
             return false;
             // contains non digit characters
         }
-        if (!is_int((int) $value)) {
+        if (!is_int($value)) {
             return false;
             // other non-integer value or exceeds PHP_MAX_INT
         }
@@ -431,7 +433,8 @@ final class Validator
             if (function_exists("bcmod")) {
                 return bcmod($NewString, '97') == 1;
             } else {
-                $x = $NewString;
+                throw new RuntimeException("Function bcmod is missing.");
+                /*$x = $NewString;
                 $y = "97";
                 $take = 5;
                 $mod = "";
@@ -440,7 +443,7 @@ final class Validator
                     $x = substr($x, $take);
                     $mod = $a % $y;
                 } while (strlen($x));
-                return (int)$mod == 1;
+                return (int)$mod == 1;*/
             }
         }
         return false;

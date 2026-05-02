@@ -33,7 +33,7 @@ final class AnnotationParser
      * @param string $comment
      * @return array<int|string, array<int, bool|string>|string|true|null>
      */
-    private static function resolveParamterFromDocComment(string $comment) : array
+    private static function resolveParamterFromDocComment(string $comment): array
     {
         $keyPattern = "[A-z0-9\_\-]+";
         $endPattern = "[ ]*(?:@|\r\n|\n)";
@@ -42,7 +42,8 @@ final class AnnotationParser
         preg_match_all($pattern, $comment, $matches);
         foreach ($matches[1] as $rowMatch) {
             if (preg_match("/^(" . $keyPattern . ") (.*)$/", $rowMatch, $match)) {
-                $parsedValue = isset($match[2]) ? $match[2] : null;
+                //$parsedValue = isset($match[2]) ? $match[2] : null;
+                $parsedValue = $match[2];
                 if (isset($foundParameter[$match[1]])) {
                     $foundParameter[$match[1]] = array_merge((array)$foundParameter[$match[1]], (array)$parsedValue);
                 } else {
@@ -63,7 +64,7 @@ final class AnnotationParser
      * @param string $comment
      * @return bool
      */
-    private static function hasParameter(string $name, string $comment) : bool
+    private static function hasParameter(string $name, string $comment): bool
     {
         $parameter = static::resolveParamterFromDocComment($comment);
         return array_key_exists($name, $parameter);
@@ -75,7 +76,7 @@ final class AnnotationParser
      * @param string $comment
      * @return mixed
      */
-    private static function resolveParamterValueFromDocComment(string $parameter, string $comment) : mixed
+    private static function resolveParamterValueFromDocComment(string $parameter, string $comment): mixed
     {
         if (static::hasParameter($parameter, $comment)) {
             return static::resolveParamterFromDocComment($comment)[$parameter];
@@ -88,7 +89,7 @@ final class AnnotationParser
      * @param ReflectionObject $ref
      * @return array<ReflectionProperty>
      */
-    private static function getClassProperties(ReflectionObject $ref) : array
+    private static function getClassProperties(ReflectionObject $ref): array
     {
         $props = $ref->getProperties();
         $props_arr = array();
@@ -115,7 +116,7 @@ final class AnnotationParser
      * @return void
      * @throws ReflectionException
      */
-    public static function injectClassesAndComponentsIntoObject(mixed $object) : void
+    public static function injectClassesAndComponentsIntoObject(mixed $object): void
     {
         $reflection = new ReflectionObject($object);
         $properties = static::getClassProperties($reflection);
@@ -134,7 +135,7 @@ final class AnnotationParser
             $options = array();
             if (static::hasParameter(self::INJECTION_PARAMETER_OPTIONS, $comment)) {
                 $optionString = static::resolveParamterValueFromDocComment(self::INJECTION_PARAMETER_OPTIONS, $comment);
-                $options = explode(',', trim(str_replace(array('(',')'), array('',''), $optionString)));
+                $options = explode(',', trim(str_replace(array('(', ')'), array('', ''), $optionString)));
             }
 
             if (static::hasParameter(self::INJECTION_PARAMETER, $comment)) {

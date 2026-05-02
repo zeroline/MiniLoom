@@ -31,7 +31,7 @@ final class HMAC
      */
     public static function isAlgorithmSupported(string $algorithm): bool
     {
-        return in_array($algorithm, array_values(hash_hmac_algos()));
+        return in_array($algorithm, hash_hmac_algos());
     }
 
     /**

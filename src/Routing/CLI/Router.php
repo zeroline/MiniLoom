@@ -98,7 +98,7 @@ class Router
                             $arguments[$key]  = $value;
                         }
                         // -arg value1 -abc value2
-                        if ($i + 1 < $j && $argv[$i + 1][0] !== '-') {
+                        if ($key && $i + 1 < $j && $argv[$i + 1][0] !== '-') {
                             $arguments[$key]  = $argv[$i + 1];
                             $i++;
                         }

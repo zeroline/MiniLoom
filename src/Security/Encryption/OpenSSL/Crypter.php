@@ -173,9 +173,10 @@ final class Crypter
      * @param string $plainText
      * @param string $password
      * @param string $cipher
+     * @param string $tag
      * @return string
      */
-    public static function encrypt(string $plainText, string $password, string $cipher = self::PREFERRED_CIPHER): string
+    public static function encrypt(string $plainText, string $password, string $cipher = self::PREFERRED_CIPHER, string $tag = ""): string
     {
         if (!in_array($cipher, openssl_get_cipher_methods())) {
             throw new Exception('Cipher "' . $cipher . '" is not supported.');
@@ -192,6 +193,7 @@ final class Crypter
         if ($cipherText === false) {
             throw new Exception('Could not encrypt text.');
         }
+        $tag = is_null($tag) ? "" : $tag;
         return static::packCipherElementsToString($cipherText, $iv, $keySalt, $tag);
     }
 
