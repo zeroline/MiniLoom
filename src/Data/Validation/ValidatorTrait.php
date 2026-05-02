@@ -34,9 +34,9 @@ trait ValidatorTrait
     /**
      * Internal helper function to create a new RuntimeException ( to be raised later )
      * when a rule is called but missing
-     * 
-     * @param string $rule 
-     * @return RuntimeException 
+     *
+     * @param string $rule
+     * @return RuntimeException
      */
     private function ruleNotFoundException(string $rule): RuntimeException
     {

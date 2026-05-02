@@ -25,11 +25,11 @@ class PredefinedContentTypeHeaders
 
     /**
      * Internal helper function to set a header
-     * 
-     * @param string $header 
-     * @param string $value 
-     * @param bool $replace 
-     * @return void 
+     *
+     * @param string $header
+     * @param string $value
+     * @param bool $replace
+     * @return void
      */
     protected static function setCustomHeader(string $header, string $value, bool $replace = true): void
     {
@@ -38,10 +38,10 @@ class PredefinedContentTypeHeaders
 
     /**
      * Helper function to set the content header
-     * 
-     * @param string $contentType 
-     * @param bool $replace 
-     * @return void 
+     *
+     * @param string $contentType
+     * @param bool $replace
+     * @return void
      */
     public static function setContentHeader(string $contentType, bool $replace = true): void
     {
@@ -50,7 +50,7 @@ class PredefinedContentTypeHeaders
 
     /**
      * Simply set the header content type to HTML
-     * @return void 
+     * @return void
      */
     public static function setHTMLHeader(): void
     {
@@ -59,7 +59,7 @@ class PredefinedContentTypeHeaders
 
     /**
      * Simply set the header content type to JSON
-     * @return void 
+     * @return void
      */
     public static function setJSONHeader(): void
     {
@@ -68,7 +68,7 @@ class PredefinedContentTypeHeaders
 
     /**
      * Simply set the header content type to plain TEXT
-     * @return void 
+     * @return void
      */
     public static function setPlainTextHeader(): void
     {
@@ -77,7 +77,7 @@ class PredefinedContentTypeHeaders
 
     /**
      * Simply set the header content type to XML
-     * @return void 
+     * @return void
      */
     public static function setXMLHeader(): void
     {
@@ -87,7 +87,7 @@ class PredefinedContentTypeHeaders
     /**
      * Simply set the header content type to plain TEXT and
      * additionaly set the content transfer to base64
-     * @return void 
+     * @return void
      */
     public static function setJWTPlainHeader(): void
     {
